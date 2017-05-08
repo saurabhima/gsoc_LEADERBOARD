@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Talk Nicer Donor LeaderBoard</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Bootstrap -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+
+
+    <script src="../static/js/bootstrap.min.js"></script>
+
+
+
+</head>
+<body>
+<div class="container"><h1 style="text-align: center"><u>Talk Nicer Donor LeaderBoard</u></h1><br><br></div>
+<div class="container">
+
+    <form class="well form-horizontal" action="/process_donor_form" method="post"  id="donor_registration_form" name="donor_registration_form">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend align="center">New Donor Registration</legend>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Donor Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input  name="donor_name" placeholder="Donor Name" class="form-control"  type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label">Donor Organisation</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                        <input name="donor_org" placeholder="Donor Organization" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Donated Amount</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                        <input name="donated_amount" placeholder="Donated Amount" class="form-control"  type="text">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Text input-->
+
+
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Donor Contact</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                        <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-warning" >Register <span class="glyphicon glyphicon-send"></span></button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+</div>
+
+</body>
+</html>
