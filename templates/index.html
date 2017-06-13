@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<!--
+Template Name: Jovaphile
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html lang="">
+<!-- To declare your language - read more here: https://www.w3.org/International/questions/qa-html-language-declarations -->
+<head>
+    <title>SphinxCapt.org</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="../static/css/layout.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body id="top">
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row0">
+    <nav id="mainav" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <ul class="clear">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a class="drop" href="#">Donor Management</a>
+                <ul>
+                    <li><a href="/register_new_donor">Add New Donor</a></li>
+                    <li><a href="pages/full-width.html">Update Donor Contact</a></li>
+                    <li><a href="pages/sidebar-left.html">Donor Phone Contact</a></li>
+                    <li><a href="pages/sidebar-right.html">Donor Mail Contact</a></li>
+                    <li><a href="pages/basic-grid.html">Add Donoation</a></li>
+                </ul>
+            </li>
+            {% if session['login_status']=='True' and session['logged_user_type']=='Administrator' %}
+                <li><a class="drop" href="#">Administration</a>
+                    <ul>
+                        <li><a href="#">Level 2</a></li>
+                        <li><a class="drop" href="#">Level 2 + Drop</a>
+                            <ul>
+                                <li><a href="#">Level 3</a></li>
+                                <li><a href="#">Level 3</a></li>
+                                <li><a href="#">Level 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Level 2</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+            <li><a href="\donorleaderboard">Donor Leaderboard</a></li>
+            <li><a href="#">Link Text</a></li>
+            <li><a href="/user_login">Login</a></li>
+            <li><a href="/user_register">Register</a></li>
+
+        </ul>
+        <!-- ################################################################################################ -->
+    </nav>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row1">
+    <header id="header" class="hoc clear">
+        <!-- ################################################################################################ -->
+        {#      <h1><a href="index.html"><u>SphinxCapt Donor Leaderboard</u></a></h1>#}
+        {#    <br>#}
+        {#      <h5><font color="#8a2be2">Donor Tracking and Management</font></h5>#}
+        {#      <hr>#}
+        {% if session['login_status']=='True' %}
+            <h6 style="text-align: left"><font size="3">Welcome {{ session['logged_user_full_name'] }}<a href="\logout">(Logoff)</a></font>
+            </h6>
+        {% endif %}
+        <!-- ################################################################################################ -->
+    </header>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper bgded overlay light" style="background-image:url('images/demo/backgrounds/01.png');">
+    <div id="pageintro" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <article>
+            <h3 class="heading">SPHINXCAPT</h3>
+            <p>making better pronounciation free & accessible</p>
+            <footer>
+                <ul class="nospace inline pushright">
+                    <li><a class="btn" href="#">About Us</a></li>
+                    <li><a class="btn inverse" href="#">How it works</a></li>
+                </ul>
+            </footer>
+        </article>
+        <!-- ################################################################################################ -->
+    </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row3">
+    <main class="hoc container clear">
+        <!-- main body -->
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h6 class="heading">Ultrices suspendisse</h6>
+        </div>
+        <ul class="nospace group">
+            <li class="one_third first btmspace-50">
+                <article>
+                    <h6 class="heading font-x1"><i class="fa fa-2x fa-dashcube"></i> <a href="#">Rhoncus nulla</a></h6>
+                    <p>Lectus pretium pharetra aenean non turpis sit amet nisl pulvinar aliquet sit amet et ex duis
+                        imperdiet massa vel [&hellip;]</p>
+                </article>
+            </li>
+            <li class="one_third btmspace-50">
+                <article>
+                    <h6 class="heading font-x1"><i class="fa fa-2x fa-language"></i> <a href="#">Fringilla molestie</a>
+                    </h6>
+                    <p>Donec iaculis massa egestas blandit venenatis dui ante gravida urna ut pharetra felis velit sed
+                        nunc in molestie [&hellip;]</p>
+                </article>
+            </li>
+            <li class="one_third btmspace-50">
+                <article>
+                    <h6 class="heading font-x1"><i class="fa fa-2x fa-database"></i> <a href="#">Molestie rhoncus</a>
+                    </h6>
+                    <p>Elit vitae arcu tincidunt blandit porta ante ultricies curabitur finibus felis nec augue semper
+                        aliquam aliquam [&hellip;]</p>
+                </article>
+            </li>
+            <li class="one_third first">
+                <article>
+                    <h6 class="heading font-x1"><i class="fa fa-2x fa-diamond"></i> <a href="#">Eleifend cras sit</a>
+                    </h6>
+                    <p>Commodo laoreet tortor praesent tincidunt vestibulum diam at dapibus sed id tempor lectus vivamus
+                        non ullamcorper [&hellip;]</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article>
+                    <h6 class="heading font-x1"><i class="fa fa-2x fa-sliders"></i> <a href="#">Phasellus amet</a></h6>
+                    <p>Leo cras sed accumsan eros donec leo dolor accumsan posuere odio cursus sollicitudin blandit
+                        tortor integer sed [&hellip;]</p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article>
+                    <h6 class="heading font-x1"><i class="fa fa-2x fa-slack"></i> <a href="#">Tincidunt posuere</a></h6>
+                    <p>Elementum nibh at imperdiet nisl cras sit amet tortor elementum ligula vitae pretium lorem mauris
+                        feugiat risus et [&hellip;]</p>
+                </article>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+        <!-- / main body -->
+        <div class="clear"></div>
+    </main>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row2">
+    <section class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h6 class="heading">Pharetra viverra</h6>
+        </div>
+        <ul class="nospace group services">
+            <li class="one_quarter first">
+                <article><a href="#"><i class="fa fa-3x fa-slideshare"></i></a>
+                    <h6 class="heading font-x1"><a href="#">Suscipit</a></h6>
+                    <p>Bibendum ac risus sit amet venenatis mauris a tortor porta ligula</p>
+                </article>
+            </li>
+            <li class="one_quarter">
+                <article><a href="#"><i class="fa fa-3x fa-eercast"></i></a>
+                    <h6 class="heading font-x1"><a href="#">Convallis</a></h6>
+                    <p>Mi integer sagittis urna id tempor interdum donec vitae est ut</p>
+                </article>
+            </li>
+            <li class="one_quarter">
+                <article><a href="#"><i class="fa fa-3x fa-steam"></i></a>
+                    <h6 class="heading font-x1"><a href="#">Tincidunt</a></h6>
+                    <p>Lorem vehicula vel nec tortor dignissim nec arcu quis ornare</p>
+                </article>
+            </li>
+            <li class="one_quarter">
+                <article><a href="#"><i class="fa fa-3x fa-automobile"></i></a>
+                    <h6 class="heading font-x1"><a href="#">Malesuada</a></h6>
+                    <p>Nulla et metus hendrerit elit rutrum tristique ut nec ligula</p>
+                </article>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+    </section>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper bgded overlay" style="background-image:url('images/demo/backgrounds/02.png');">
+    <div class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <ul id="stats" class="nospace group">
+            <li class="one_quarter first"><a href="#"><i class="fa fa-3x fa-meetup"></i></a>
+                <p>Vestibulum</p>
+                <p>12345</p>
+            </li>
+            <li class="one_quarter"><a href="#"><i class="fa fa-3x fa-support"></i></a>
+                <p>Pulvinar</p>
+                <p>12345</p>
+            </li>
+            <li class="one_quarter"><a href="#"><i class="fa fa-3x fa-mortar-board"></i></a>
+                <p>Volutpat</p>
+                <p>12345</p>
+            </li>
+            <li class="one_quarter"><a href="#"><i class="fa fa-3x fa-pagelines"></i></a>
+                <p>Accumsan</p>
+                <p>12345</p>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+    </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row2">
+    <section class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h6 class="heading">Lectus nulla facilisi</h6>
+        </div>
+        <div class="group">
+            <figure class="one_quarter first">
+                <ul class="nospace pricelist">
+                    <li>&pound;<strong>80</strong> <em>pcm</em></li>
+                    <li>Vulputate</li>
+                    <li>Sed at odio ligula</li>
+                    <li>Nisi lacus aliquam</li>
+                    <li>Turpis feugiat ornare</li>
+                    <li>Gravida ultricies</li>
+                    <li class="last">Ipsum magna vivamus</li>
+                    <li>
+                        <p>(Save 50%)</p>
+                        <p><a class="btn" href="#">Condimentum</a></p>
+                    </li>
+                </ul>
+            </figure>
+            <figure class="one_quarter">
+                <ul class="nospace pricelist bargain">
+                    <li>&pound;<strong>100</strong> <em>pcm</em></li>
+                    <li>Suspendisse</li>
+                    <li>Quis varius justo</li>
+                    <li>Enim ac risus maecenas</li>
+                    <li>A maximus ipsum</li>
+                    <li>Nec eleifend velit</li>
+                    <li class="last">Nullam in dolor</li>
+                    <li>
+                        <p>(Save 50%)</p>
+                        <p><a class="btn" href="#">Condimentum</a></p>
+                    </li>
+                </ul>
+            </figure>
+            <figure class="one_quarter">
+                <ul class="nospace pricelist">
+                    <li>&pound;<strong>125</strong> <em>pcm</em></li>
+                    <li>Tincidunt</li>
+                    <li>Sit amet lacus</li>
+                    <li>Lacinia vestibulum</li>
+                    <li>At vestibulum orci</li>
+                    <li>Sed elementum a</li>
+                    <li class="last">Augue non consequat</li>
+                    <li>
+                        <p>(Save 50%)</p>
+                        <p><a class="btn" href="#">Condimentum</a></p>
+                    </li>
+                </ul>
+            </figure>
+            <figure class="one_quarter">
+                <ul class="nospace pricelist">
+                    <li>&pound;<strong>150</strong> <em>pcm</em></li>
+                    <li>Condimentum</li>
+                    <li>Vivamus et luctus</li>
+                    <li>Enim aliquam nec</li>
+                    <li>Arcu consectetur lacinia</li>
+                    <li>Nisi id interdum</li>
+                    <li class="last">Dui sed tellus</li>
+                    <li>
+                        <p>(Save 50%)</p>
+                        <p><a class="btn" href="#">Condimentum</a></p>
+                    </li>
+                </ul>
+            </figure>
+        </div>
+        <!-- ################################################################################################ -->
+    </section>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row3">
+    <section class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h6 class="heading">Consectetur placerat</h6>
+        </div>
+        <div class="group team">
+            <figure class="one_quarter first"><a class="imgover" href="#"><img src="images/demo/320x320.png" alt=""></a>
+                <figcaption>
+                    <h6 class="heading">A. Doe</h6>
+                    <em>Eu urna pretium</em>
+                    <footer>
+                        <ul class="faico clear">
+                            <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
+                        </ul>
+                    </footer>
+                </figcaption>
+            </figure>
+            <figure class="one_quarter"><a class="imgover" href="#"><img src="images/demo/320x320.png" alt=""></a>
+                <figcaption>
+                    <h6 class="heading">B. Doe</h6>
+                    <em>Ullamcorper aliquam</em>
+                    <footer>
+                        <ul class="faico clear">
+                            <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
+                        </ul>
+                    </footer>
+                </figcaption>
+            </figure>
+            <figure class="one_quarter"><a class="imgover" href="#"><img src="images/demo/320x320.png" alt=""></a>
+                <figcaption>
+                    <h6 class="heading">C. Doe</h6>
+                    <em>Id dolor in est</em>
+                    <footer>
+                        <ul class="faico clear">
+                            <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
+                        </ul>
+                    </footer>
+                </figcaption>
+            </figure>
+            <figure class="one_quarter"><a class="imgover" href="#"><img src="images/demo/320x320.png" alt=""></a>
+                <figcaption>
+                    <h6 class="heading">D. Doe</h6>
+                    <em>Dignissim tempus</em>
+                    <footer>
+                        <ul class="faico clear">
+                            <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
+                        </ul>
+                    </footer>
+                </figcaption>
+            </figure>
+        </div>
+        <!-- ################################################################################################ -->
+    </section>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper bgded overlay" style="background-image:url('images/demo/backgrounds/03.png');">
+    <div class="hoc container testimonials clear">
+        <!-- ################################################################################################ -->
+        <article><img src="images/demo/100x100.png" alt="">
+            <blockquote>In eu tortor nisi curabitur quis dui nam bibendum lectus diam dictum tincidunt ullamcorper dui
+                et ante venenatis euismod aenean quis vulputate velit elit dolor eget.
+            </blockquote>
+            <h6 class="heading font-x1">E. Doe</h6>
+            <em>Nulla sed imperdiet</em></article>
+        <!-- ################################################################################################ -->
+    </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row3">
+    <div class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h6 class="heading">Auctor risus integer</h6>
+        </div>
+        <ul class="nospace group latest">
+            <li class="one_third first">
+                <article>
+                    <figure><a class="imgover" href="#"><img src="images/demo/320x220.png" alt=""></a></figure>
+                    <div class="txtwrap">
+                        <h4 class="heading"><a href="#">Vulputate curabitur</a></h4>
+                        <ul class="nospace meta">
+                            <li><i class="fa fa-user"></i> <a href="#">Admin</a></li>
+                            <li><i class="fa fa-tag"></i> <a href="#">Category Name</a></li>
+                        </ul>
+                        <p>Ut est elit donec tempor est id cursus auctor quisque bibendum orci a lectus lacinia feugiat
+                            vestibulum ante ipsum [&hellip;]</p>
+                    </div>
+                </article>
+            </li>
+            <li class="one_third">
+                <article>
+                    <figure><a class="imgover" href="#"><img src="images/demo/320x220.png" alt=""></a></figure>
+                    <div class="txtwrap">
+                        <h4 class="heading"><a href="#">Mattis leo condimentum</a></h4>
+                        <ul class="nospace meta">
+                            <li><i class="fa fa-user"></i> <a href="#">Admin</a></li>
+                            <li><i class="fa fa-tag"></i> <a href="#">Category Name</a></li>
+                        </ul>
+                        <p>Primis in faucibus orci luctus et ultrices posuere cubilia curae curabitur porttitor turpis
+                            quis posuere pulvinar nisl [&hellip;]</p>
+                    </div>
+                </article>
+            </li>
+            <li class="one_third">
+                <article>
+                    <figure><a class="imgover" href="#"><img src="images/demo/320x220.png" alt=""></a></figure>
+                    <div class="txtwrap">
+                        <h4 class="heading"><a href="#">Scelerisque maecenas</a></h4>
+                        <ul class="nospace meta">
+                            <li><i class="fa fa-user"></i> <a href="#">Admin</a></li>
+                            <li><i class="fa fa-tag"></i> <a href="#">Category Name</a></li>
+                        </ul>
+                        <p>Erat scelerisque arcu malesuada feugiat eros dui a magna proin quis tortor fringilla eleifend
+                            sem non scelerisque eros [&hellip;]</p>
+                    </div>
+                </article>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+    </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row2">
+    <article class="hoc container cta clear">
+        <!-- ################################################################################################ -->
+        <h3 class="heading">Suspendisse facilisis</h3>
+        <p>Tellus ut accumsan curabitur commodo.</p>
+        <footer><a class="btn" href="#">Dignissim tincidunt</a></footer>
+        <!-- ################################################################################################ -->
+    </article>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row4">
+    <footer id="footer" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <div class="one_third first">
+            <h6 class="heading">Luctus turpis interdum</h6>
+            <ul class="nospace btmspace-30 linklist contact">
+                <li><i class="fa fa-map-marker"></i>
+                    <address>
+                        Street Name &amp; Number, Town, Postcode/Zip
+                    </address>
+                </li>
+                <li><i class="fa fa-phone"></i> +00 (123) 456 7890</li>
+                <li><i class="fa fa-envelope-o"></i> info@domain.com</li>
+            </ul>
+            <ul class="faico clear">
+                <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
+            </ul>
+        </div>
+        <div class="one_third">
+            <h6 class="heading">Facilisis morbi interdum</h6>
+            <ul class="nospace linklist">
+                <li>
+                    <article>
+                        <h2 class="nospace font-x1"><a href="#">volutpat maximus vel</a></h2>
+                        <time class="font-xs block btmspace-10" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045
+                        </time>
+                        <p class="nospace">Primis in faucibus nam dictum malesuada dictum maecenas in magna arcu [&hellip;]</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <h2 class="nospace font-x1"><a href="#">et malesuada fames ante</a></h2>
+                        <time class="font-xs block btmspace-10" datetime="2045-04-05">Thursday, 5<sup>th</sup> April
+                            2045
+                        </time>
+                        <p class="nospace">Nullam tortor ligula lobortis pharetra leo vel malesuada auctor odio nunc [&hellip;]</p>
+                    </article>
+                </li>
+            </ul>
+        </div>
+        <div class="one_third">
+            <h6 class="heading">Justo condimentum tortor</h6>
+            <p class="nospace btmspace-30">Non condimentum lectus proin consequat eleifend elementum quisque nulla.</p>
+            <form method="post" action="#">
+                <fieldset>
+                    <legend>Newsletter:</legend>
+                    <input class="btmspace-15" type="text" value="" placeholder="Name">
+                    <input class="btmspace-15" type="text" value="" placeholder="Email">
+                    <button type="submit" value="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+        <!-- ################################################################################################ -->
+    </footer>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row5">
+    <div id="copyright" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <p class="fl_left">Copyright &copy; 2017 - All Rights Reserved - <a href="#">Domain Name</a></p>
+        <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/"
+                                           title="Free Website Templates">OS Templates</a></p>
+        <!-- ################################################################################################ -->
+    </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+<!-- JAVASCRIPTS -->
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/js/jquery.backtotop.js"></script>
+<script src="../static/js/jquery.mobilemenu.js"></script>
+</body>
+</html>
