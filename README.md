@@ -32,6 +32,9 @@ The Donor Management workflow System has the following sub modules which are acc
     * Donor Mailing
     * Donation Commit and Reciept
     * Accounts
+### Directory Structure
+The project follows the standard Flask Directory Structure as given below.
+
 ### Task List
     
  - [x] Index Page and Menu Items
@@ -45,3 +48,8 @@ The Donor Management workflow System has the following sub modules which are acc
  - [ ] Commit Donation and Receipt
  - [ ] Accounting
  - [ ] Logging
+
+### About the Author
+This project is sponsored by Google Summer of Code 2017 and maintained by [Saurabh Singh](mailto:saurabhima@gmail.com) under the mentorship of James Salsman and Tom Hartung with support from the whole CMU Sphinx Team.
+
+### Notes

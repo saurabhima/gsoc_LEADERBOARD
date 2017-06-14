@@ -1,7 +1,7 @@
-import flask
-from flask import Flask, request, redirect, url_for, get_flashed_messages, flash, session
+from flask import Flask, request, redirect, url_for, flash, session
 from flask.templating import render_template
-import config, sub_process
+import config
+import sub_process
 import pickle
 import os
 import datetime
@@ -34,7 +34,7 @@ def donor_leaderboard():
     return render_template('donor_leaderboard.html', donor_list=pickle_obj)
 
 
-########## User Management Sub Modules #########
+# User Management Sub Modules
 
 # New User Registration
 @app.route('/user_register')
@@ -45,7 +45,6 @@ def user_register():
 @app.route('/process_new_user_register', methods=['POST'])
 def process_new_user_register():
     print 'hello'
-
     name = request.form['user_full_name']
     email = request.form['user_email']
     user_contact = request.form['user_contact']
@@ -55,15 +54,11 @@ def process_new_user_register():
     print (name, email, user_contact, username, password, user_type)
     user_list = []
     user_details_pickle_filename = config.USER_DETAILS_PICKLE_FILE
-
     if os.path.exists(user_details_pickle_filename):
         with open(user_details_pickle_filename, 'rb') as rfp:
             user_list = pickle.load(rfp)
-
     user = {}
-
     user['name'] = name
-
     user['phone'] = user_contact
     user['email'] = email
     user['username'] = username
@@ -72,11 +67,9 @@ def process_new_user_register():
     user['register_date'] = datetime.datetime.now().date().strftime("%m-%d-%Y")
     user['account_status'] = 'Pending'
     user_list.append(user)
-
     with open(user_details_pickle_filename, 'wb') as wfp:
         pickle.dump(user_list, wfp)
-
-    log_str = 'New User Register:Username#' + username + '***Name#' + name + '***Account_Type#' + user_type + '***Date_of_Registration#' + datetime.datetime.now().date().strftime(
+    log_str = 'New User Register:Username#' + username + '***Name#' + name + '***Account_Type#' + user_type + '***Register_Date#' + datetime.datetime.now().date().strftime(
         "%Y-%m-%d")
     sub_process.write_user_log(log_str)
     flash('Your User Credentials have been sent for verification to Administrator')
@@ -97,7 +90,7 @@ def user_login_process():
     print (username, password)
     logged_user_status, logged_user_type, user_fullname = sub_process.authenticate(username, password)
     print (logged_user_type, logged_user_status, user_fullname)
-    if logged_user_status == False:
+    if logged_user_status is False:
         return render_template('default_testing.html')
     else:
         session['logged_username'] = username
@@ -143,20 +136,22 @@ def approve_new_user_process():
         return redirect(url_for('approve_new_user'))
 
 
-########## Donor Management Sub Modules #########
+# Donor Management Sub Modules
 
 # Register New Donor to Database
 @app.route('/register_new_donor')
 def register_new_donor():
     try:
         if session['login_status'] == 'True' and (
-            session['logged_user_type'] == 'Administrator' or session['logged_user_type'] == 'Supervisor'):
+                        session['logged_user_type'] == 'Administrator' or session['logged_user_type'] == 'Supervisor'):
             return render_template('register_new_donor.html')
         else:
             return render_template('invalid_login.html')
     except:
 
         return render_template('invalid_login.html')
+
+
 @app.route('/process_donor_form', methods=['POST'])
 def process_add_donors():
     title = request.form['donor_title']
@@ -169,13 +164,11 @@ def process_add_donors():
     anonymous_select = request.form['anonymous_select']
     donor_list = []
     donor_pickle_filename = 'donor_details.pickle'
-
     donor_list_len = 0
     if os.path.exists(donor_pickle_filename):
         with open(donor_pickle_filename, 'rb') as rfp:
             donor_list = pickle.load(rfp)
             donor_list_len = len(donor_list)
-
     donor = {}
     donor['id'] = donor_list_len + 1
     donor['title'] = title
@@ -188,10 +181,8 @@ def process_add_donors():
     donor['anonymous_select'] = anonymous_select
     donor['donor_status'] = 'New'
     donor_list.append(donor)
-
     with open(donor_pickle_filename, 'wb') as wfp:
         pickle.dump(donor_list, wfp)
-
     return redirect(url_for('index'))
 
 
@@ -235,5 +226,8 @@ def donor_phone_log_process():
     donor_log['remarks'] = remarks
     sub_process.add_donor_log(donor_log)
     return redirect(url_for('donor_phone_contact'))
+
+
+# Main Function Call
 if __name__ == '__main__':
     app.run()
