@@ -134,3 +134,22 @@ def add_donor_log(donor_log):
     contact_logs.append(donor_log)
     with open(donor_contact_log_file, 'wb') as wfp:
         pickle.dump(contact_logs, wfp)
+
+
+def update_donor_contact(donor_id, phone, email):
+    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
+    donor_list = []
+    pickle_obj = None
+    if os.path.exists(donor_details_file):
+        fh = open(donor_details_file, 'rb')
+        pickle_obj = pickle.load(fh)
+        obj_len = len(pickle_obj)
+        for i in range(0, obj_len):
+            if int(pickle_obj[i]['id']) != int(donor_id):
+                donor_list.append(pickle_obj[i])
+            else:
+                pickle_obj[i]['phone'] = phone
+                pickle_obj[i]['email'] = email
+                donor_list.append(pickle_obj[i])
+    with open(donor_details_file, 'wb') as wfp:
+        pickle.dump(donor_list, wfp)

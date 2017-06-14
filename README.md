@@ -41,7 +41,7 @@ The project follows the standard Flask Directory Structure as given below.
  - [x] User Login Module
  - [x] User Registration Module
  - [x] Prospective Donor Registration
- - [ ] Update Donor Contacts
+ - [x] Update Donor Contacts
  - [x] Phone Contact Logging
  - [ ] Email Contact
  - [ ] Track Donor Communication

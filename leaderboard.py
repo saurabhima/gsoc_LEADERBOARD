@@ -186,6 +186,33 @@ def process_add_donors():
     return redirect(url_for('index'))
 
 
+# Update Donor Contacts
+@app.route('/donor_contact_update')
+def donor_contact_update():
+    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
+    pickle_obj = None
+    if os.path.exists(donor_details_file):
+        fh = open(donor_details_file, 'rb')
+        pickle_obj = pickle.load(fh)
+    return render_template('donor_contact_update.html', donor_list=pickle_obj)
+
+
+@app.route('/donor_contact_update_process', methods=['POST'])
+def donor_contact_update_process():
+    donor_id = request.form['submit']
+    donor_obj = sub_process.donor_details_byid(donor_id)
+    return render_template('donor_contact_update_form.html', donor_obj=donor_obj)
+
+
+@app.route('/donor_contact_update_form_process', methods=['POST'])
+def donor_contact_update_form_process():
+    donor_id = request.form['donor_id']
+    phone = request.form['donor_contact']
+    email = request.form['donor_email']
+    sub_process.update_donor_contact(donor_id=donor_id, phone=phone, email=email)
+    return redirect(url_for('donor_contact_update'))
+
+
 # Donor Phone Contact
 @app.route('/donor_phone_contact')
 def donor_phone_contact():
