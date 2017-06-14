@@ -39,7 +39,7 @@ The Donor Management workflow System has the following sub modules which are acc
  - [x] User Registration Module
  - [x] Prospective Donor Registration
  - [ ] Update Donor Contacts
- - [ ] Phone Contact Logging
+ - [x] Phone Contact Logging
  - [ ] Email Contact
  - [ ] Track Donor Communication
  - [ ] Commit Donation and Receipt
