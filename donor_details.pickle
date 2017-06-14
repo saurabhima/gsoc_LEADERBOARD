@@ -8,52 +8,74 @@ sS'title'
 p4
 VMr
 p5
-sS'phone'
+sS'donor_status'
 p6
-V9788554478
+S'New'
 p7
-sS'org'
-p8
-VMehta Enterprises
-p9
-sS'contact_person'
-p10
-VSaurabh Singh
-p11
-sS'contact_date'
-p12
-V06/05/2017
-p13
-sS'email'
-p14
-V
-p15
-sa(dp16
-S'name'
-p17
-VTimy Perskin
-p18
-sS'title'
-p19
-VMrs
-p20
 sS'phone'
-p21
-V67236237
-p22
-sS'org'
-p23
-VHotels Umlimited
-p24
-sS'contact_person'
-p25
-VSaurabh Singh
-p26
-sS'contact_date'
-p27
-V06/02/2017
-p28
+p8
+V9788554478
+p9
 sS'email'
+p10
+V
+p11
+sS'org'
+p12
+VMehta Enterprises
+p13
+sS'contact_person'
+p14
+VSaurabh Singh
+p15
+sS'contact_date'
+p16
+V06/02/2017
+p17
+sS'id'
+p18
+I1
+sS'anonymous_select'
+p19
+VNo
+p20
+sa(dp21
+S'name'
+p22
+VTimy Perskin
+p23
+sS'title'
+p24
+VMrs
+p25
+sS'id'
+p26
+I2
+sS'phone'
+p27
+V67236237
+p28
+sS'donor_status'
 p29
-g15
+S'New'
+p30
+sS'org'
+p31
+VHotels Umlimited
+p32
+sS'contact_person'
+p33
+VSaurabh Singh
+p34
+sS'contact_date'
+p35
+V06/03/2017
+p36
+sS'email'
+p37
+g11
+sS'anonymous_select'
+p38
+VYes
+p39
 sa.

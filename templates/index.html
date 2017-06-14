@@ -13,6 +13,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="../static/css/layout.css" rel="stylesheet" type="text/css" media="all">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body id="top">
 <!-- ################################################################################################ -->
@@ -22,12 +23,12 @@ Licence URI: http://www.os-templates.com/template-terms
     <nav id="mainav" class="hoc clear">
         <!-- ################################################################################################ -->
         <ul class="clear">
-            <li class="active"><a href="index.html">Home</a></li>
+            <li class="active"><a href="/">Home</a></li>
             <li><a class="drop" href="#">Donor Management</a>
                 <ul>
                     <li><a href="/register_new_donor">Add New Donor</a></li>
                     <li><a href="pages/full-width.html">Update Donor Contact</a></li>
-                    <li><a href="pages/sidebar-left.html">Donor Phone Contact</a></li>
+                    <li><a href="/donor_phone_contact">Donor Phone Contact</a></li>
                     <li><a href="pages/sidebar-right.html">Donor Mail Contact</a></li>
                     <li><a href="pages/basic-grid.html">Add Donoation</a></li>
                 </ul>
@@ -35,7 +36,7 @@ Licence URI: http://www.os-templates.com/template-terms
             {% if session['login_status']=='True' and session['logged_user_type']=='Administrator' %}
                 <li><a class="drop" href="#">Administration</a>
                     <ul>
-                        <li><a href="#">Approve User</a></li>
+                        <li><a href="/approve_new_user">Approve User</a></li>
                         <li><a href="#">Delete User</a></li>
                         <li><a class="drop" href="#">Level 2 + Drop</a>
                             <ul>
@@ -454,7 +455,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <footer id="footer" class="hoc clear">
         <!-- ################################################################################################ -->
         <div class="one_third first">
-            <h6 class="heading">Luctus turpis interdum</h6>
+            <h6 class="heading">Reach us the old way</h6>
             <ul class="nospace btmspace-30 linklist contact">
                 <li><i class="fa fa-map-marker"></i>
                     <address>
@@ -462,7 +463,7 @@ Licence URI: http://www.os-templates.com/template-terms
                     </address>
                 </li>
                 <li><i class="fa fa-phone"></i> +00 (123) 456 7890</li>
-                <li><i class="fa fa-envelope-o"></i> info@domain.com</li>
+                <li><i class="fa fa-envelope-o"></i> help@sphinxcapt.org</li>
             </ul>
             <ul class="faico clear">
                 <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
@@ -474,7 +475,7 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
         </div>
         <div class="one_third">
-            <h6 class="heading">Facilisis morbi interdum</h6>
+            <h6 class="heading">SphinxCAPT in News</h6>
             <ul class="nospace linklist">
                 <li>
                     <article>
@@ -496,8 +497,8 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
         </div>
         <div class="one_third">
-            <h6 class="heading">Justo condimentum tortor</h6>
-            <p class="nospace btmspace-30">Non condimentum lectus proin consequat eleifend elementum quisque nulla.</p>
+            <h6 class="heading">Get back on Mail</h6>
+            <p class="nospace btmspace-30">Please Provide us your Email and we will contact you right back.</p>
             <form method="post" action="#">
                 <fieldset>
                     <legend>Newsletter:</legend>
@@ -516,7 +517,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="wrapper row5">
     <div id="copyright" class="hoc clear">
         <!-- ################################################################################################ -->
-        <p class="fl_left">Copyright &copy; 2017 - All Rights Reserved - <a href="#">Domain Name</a></p>
+        <p class="fl_left">Copyright &copy; 2017 - All Rights Reserved - <a href="#">SphinxCAPT.org</a></p>
         <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/"
                                            title="Free Website Templates">OS Templates</a></p>
         <!-- ################################################################################################ -->
