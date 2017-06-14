@@ -1,0 +1,60 @@
+(lp0
+(dp1
+S'contact_time'
+p2
+V15:39
+p3
+sS'contact_mode'
+p4
+S'Phone'
+p5
+sS'details_shared'
+p6
+VBasic Concepts and working of the project
+p7
+sS'donor_id'
+p8
+V1
+p9
+sS'remarks'
+p10
+VDonor looks positive and wants more information about the project.
+p11
+sS'contact_person'
+p12
+VSaurabh Singh
+p13
+sS'contact_date'
+p14
+V06-14-2017
+p15
+sa(dp16
+S'contact_time'
+p17
+V15:56
+p18
+sS'contact_mode'
+p19
+S'Phone'
+p20
+sS'remarks'
+p21
+VDonor agreed to freeze donation through Paypal.
+p22
+sS'donor_id'
+p23
+V1
+p24
+sS'details_shared'
+p25
+VDetails of requirement of donation amount and utilization shared.
+p26
+sS'contact_person'
+p27
+VSaurabh Singh
+p28
+sS'contact_date'
+p29
+V06-14-2017
+p30
+sa.
