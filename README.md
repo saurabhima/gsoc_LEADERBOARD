@@ -10,6 +10,9 @@ The app is based on the REST design with inherent security infrastructure. This 
 * **Frontend**
     * Web Browser with HTML5
     * Javascript
+![Installation Logo](./static/images/Pwb_icon.svg.png)
+### Installation
+
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
 ### User Types
