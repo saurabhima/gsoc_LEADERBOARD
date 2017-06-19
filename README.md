@@ -12,7 +12,10 @@ The app is based on the REST design with inherent security infrastructure. This 
     * Javascript
 
 ### Installation
-
+* Install Python 2.7 - In case Python 2.7 is not already installed on your computer you need to install it. You can refer to these tutorial videos for help.
+    * Windows Install [![Python 2.7 Windows Install](https://img.youtube.com/vi/QYUBz4mrnFU/0.jpg)](https://www.youtube.com/watch?v=QYUBz4mrnFU)
+    * Ubuntu Install
+    
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
 ### User Types
