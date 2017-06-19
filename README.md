@@ -13,7 +13,8 @@ The app is based on the REST design with inherent security infrastructure. This 
 
 ### Installation
 * Install Python 2.7 - In case Python 2.7 is not already installed on your computer you need to install it. You can refer to these tutorial videos for help.
-    * Windows Install [![Python 2.7 Windows Install](https://img.youtube.com/vi/QYUBz4mrnFU/0.jpg)](https://www.youtube.com/watch?v=QYUBz4mrnFU)
+    * Windows Install 
+    [![Python 2.7 Windows Install](https://img.youtube.com/vi/QYUBz4mrnFU/0.jpg)](https://www.youtube.com/watch?v=QYUBz4mrnFU)
     * Ubuntu Install
     
 ## Donor Management Workflow
