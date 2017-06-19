@@ -18,9 +18,12 @@ The app is based on the REST design with inherent security infrastructure. This 
     [![Python 2.7 Windows Install](https://img.youtube.com/vi/QYUBz4mrnFU/0.jpg)](https://www.youtube.com/watch?v=QYUBz4mrnFU)
     
     * Ubuntu Install
-    Python 2.7 is install by default in case of Ubuntu. If you are using some other flavour of Debian or a minimal install version then you need to install Python 2.7 seperately. You can also confirm the default Python version using the following command
-    > python -V
     
+        Python 2.7 is install by default in case of Ubuntu. If you are using some other flavour of Debian or a minimal install version then you need to install Python 2.7 seperately. You can also confirm the default Python version using the following command
+        > python -V
+       
+       In case you cannot find Python 2.7 on your PC, you can use the following video tutorial to install.
+       [![Python 2.7 Ubuntu Install](https://img.youtube.com/vi/MH4anq35I4o/0.jpg)](https://www.youtube.com/watch?v=MH4anq35I4o)
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
 ### User Types
