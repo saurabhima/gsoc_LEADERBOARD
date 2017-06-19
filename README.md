@@ -12,19 +12,28 @@ The app is based on the REST design with inherent security infrastructure. This 
     * Javascript
 
 ### Installation
-* Install Python 2.7 - In case Python 2.7 is not already installed on your computer you need to install it. You can refer to these tutorial videos for help.
+* **Install Python 2.7** - In case Python 2.7 is not already installed on your computer you need to install it. You can refer to these tutorial videos for help.
     * Windows Install 
     
     [![Python 2.7 Windows Install](https://img.youtube.com/vi/QYUBz4mrnFU/0.jpg)](https://www.youtube.com/watch?v=QYUBz4mrnFU)
     
     * Ubuntu Install
     
-        Python 2.7 is install by default in case of Ubuntu. If you are using some other flavour of Debian or a minimal install version then you need to install Python 2.7 seperately. You can also confirm the default Python version using the following command
+        Python 2.7 is installed by default in case of Ubuntu. If you are using some other flavour of Debian or a minimal install version then you need to install Python 2.7 seperately. You can also confirm the default Python version using the following command
         > python -V
        
        In case you cannot find Python 2.7 on your PC, you can use the following video tutorial to install.
        
        [![Python 2.7 Ubuntu Install](https://img.youtube.com/vi/MH4anq35I4o/0.jpg)](https://www.youtube.com/watch?v=MH4anq35I4o)
+    * Virtual Environment Install - In case you wish to execute the code in a Python Virtual Environment (VirtualEnv) you can use the tutorial below.
+     
+        [Python Virtual Environment Tutorial](http://python-guide-pt-br.readthedocs.io/en/latest/dev/virtualenvs/)
+* **Package Install** - The required Python packages can be installed using the following commands
+    > pip install -r requirements.txt
+### Execution
+The Donor Management Workflow Flask application can be executed by the following command
+ > python leaderboard.py
+ 
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
 ### User Types
