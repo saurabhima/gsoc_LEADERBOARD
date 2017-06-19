@@ -10,7 +10,7 @@ The app is based on the REST design with inherent security infrastructure. This 
 * **Frontend**
     * Web Browser with HTML5
     * Javascript
-![Installation Logo](./static/images/Pwb_icon.svg.png)
+
 ### Installation
 
 ## Donor Management Workflow
