@@ -23,6 +23,7 @@ The app is based on the REST design with inherent security infrastructure. This 
         > python -V
        
        In case you cannot find Python 2.7 on your PC, you can use the following video tutorial to install.
+       
        [![Python 2.7 Ubuntu Install](https://img.youtube.com/vi/MH4anq35I4o/0.jpg)](https://www.youtube.com/watch?v=MH4anq35I4o)
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
