@@ -2,6 +2,8 @@
 ### Overview
 In this project we are designing a FLASK based Web App to maintain Leaderboards for [SphinxCAPT.org](http://SphinxCAPT.org).
 The app is based on the REST design with inherent security infrastructure. This project is being maintained as part of the Google Summer of Code 2017.
+### Background
+This project was envisaged in order to provide developers and volunteers with a one-stop- solution for managing and tracking donations and details of prospective donors for the SphinxCapt project at CMU. The project included a leaderboard of Donor, which is our special way of thanking donors who are supporting the project. The project also provides a workflow to the project members and volunteers to log telephonic and email correspondence with all donors. 
 ### Requirements
 * **Backend**
     * Python 3
@@ -33,7 +35,8 @@ The app is based on the REST design with inherent security infrastructure. This 
 ### Execution
 The Donor Management Workflow Flask application can be executed by the following command
  > python leaderboard.py
- 
+## Donor Leaderboard
+ The Donor Leaderboard gives the details of all donors who have helped support this project through donations. These donations are used to buy Amazon Mechanical Turk Credits for the project. The Donor Leaderboard lists donors as per their donated amount. It also provides the facility to maintain anonymity of donors (if they wish to) as well as search for donors using various search criteria. In future we wish to make this leaderboard more interesting.
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
 ### User Types
