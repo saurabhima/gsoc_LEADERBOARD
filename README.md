@@ -67,7 +67,7 @@ The Donor Management workflow System has the following sub modules which are acc
     * Donation Commit and Reciept
     * Accounts
 ### Directory Structure
-The project follows the standard Flask Directory Structure as given below.
+The project follows the standard Flask Directory Structure. The detailed directory structure is being updated and would be posted soon.
 ### Database
 This project is currently using Pickle files to store data related to both donors as well as workflow users. The name of the files are mentioned in the config.py file under the following variables
 
@@ -96,7 +96,11 @@ The database would be migarted to a conventional SQL DBMS platform in the future
     * __/register_new_donor__ - This endpoint is used by authorized users to add details of prospective donors to the ___Donor Details Database___ which would be further used in the workflow during the whole donor management process
     * __/process_donor_form__ - This endpoint collects the POST response from  ___/register_new_donor___ endpoint and extracts Donor user credentials like email address, phone, name, organisation etc and stores it in the Donor Details Database
     * __/donor_contact_update__ - This endpoint launches ___donor_contact_update.html___ and used to update contact details of registered donors. The user can choose the specific donor by searching for the donor from the list and update the contact information
-    * __
+    * __/donor_contact_update_process__ - This endpoint extract the ___Donor ID___ selected by the user for updating contact information in the ___/donor_contact_update___ endpoint and passes this ID to ___donor_contact_update_form.html___ where it is read by Jinja for displaying the available contact info about the donor
+    * __/donor_contact_update_form_process__ - This endpoint collects the POST response from  ___/donor_contact_update_process___ endpoint and extracts the updated Donor contact info like email address and phone and updates it in the Donor Details Database
+    * __/donor_phone_contact__ - This endpoint lauches ___donor_phone_contact.html___ which is used to select the donor with whom the user wants to log the telephonic conversation. The user can select the target donor from the Donor List and using form submission this information is passed to the ___/donor_phone_contact_process___ endpoint
+    * __/donor_phone_contact_process__ - This endpoint collects the POST response from  ___/donor_phone_contact___ endpoint and extracts Donor ID. Then is searches the Donor ID in the Donor Details Database to extract other credential of the user. Details of previous conversations with the donor are also retrieved. The endpoint further passes this information to ___donor_phone_contact_logging.html___
+    * __/donor_phone_log_process__ - This endpoint collects POST response from ___donor_phone_contact_logging.html___. These details include summary of the telephonic conversartion with the donor as well as details shared with the donor. These details are updated in the __DONOR_CONTACT_LOGS_FILE___ 
 ### Task List
     
  - [x] Index Page and Menu Items
