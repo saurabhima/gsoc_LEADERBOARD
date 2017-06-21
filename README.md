@@ -35,6 +35,13 @@ This project was envisaged in order to provide developers and volunteers with a 
 ### Execution
 The Donor Management Workflow Flask application can be executed by the following command
  > python leaderboard.py
+
+The python interpreter will respond with the IP and Port on which the Flask app is running
+
+Eg
+> Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+
+The user can then use this web address to open the default page or index.html
 ## Donor Leaderboard
  The Donor Leaderboard gives the details of all donors who have helped support this project through donations. These donations are used to buy Amazon Mechanical Turk Credits for the project. The Donor Leaderboard lists donors as per their donated amount. It also provides the facility to maintain anonymity of donors (if they wish to) as well as search for donors using various search criteria. In future we wish to make this leaderboard more interesting.
 ## Donor Management Workflow
@@ -68,7 +75,20 @@ This project is currently using Pickle files to store data related to both donor
 * Donor Details Database - DONOR_DETAILS_PICKLE_FILE
 
 The database would be migarted to a conventional SQL DBMS platform in the future.
+### Flask Endpoint Description
+  This section provides an overview of all the endpoints available to users in the Donor Management Workflow
+  * __/__ - This module will launch index.html and give the default view of the application
+  * __/default__ - This endpoint is only for testing purpose to check redirecting of webpages
+  * __/donorleaderboard__ - This endpoint will launch the __donor_leaderboard.html__ webpage which displays the current Donor Leaderboard to all users
+  * __User Management Endpoints__
     
+    * __/user_register__ - This endpoint is used for registering new users and launches __register_new_user.html__
+    * __/process_new_user_register__ - This endpoint collects the POST response from  __/user_register__ endpoint and extracts user credentials like email address, phone, name, username, password etc and stores it in the User Account Database. After this the user is redirected to __index.html__
+    * __/user_login__ - This endpoint is used for logging existing and approved users and launches __user_login.html__
+    * __/user_login_process__ - This endpoint collects the POST response from  __/user_login__ endpoint and extracts user credentials like username and password and matches it with credentials stored in the User Account Database. On matching the user status is changed to __Logged__ and user is redirected to __index.html__. In case of failed login the user is directed to the __Login Error Page__ i.e. __invalid_login.html__
+    * __/logout__ - This endpoint deletes the user login session variables and updates the status to Not Logged. The user is then redirected to __index.html__
+    * __/approve_new_user__ - This endpoint is only available to __Administrator__ User Group and allows these users to approve pending users who have freshly registered. This endpoint launches __approve_user.html__. In case these is no user account pending for approval, the user is redirected to __index.html__
+    * __/approve_new_user_process__ - This endpoint collects the POST response from  __/user_register__ endpoint and extracts user credentials like email address, phone, name, username, password etc and stores it in the User Account Database. After this the user is redirected to __index.html__
 ### Task List
     
  - [x] Index Page and Menu Items
