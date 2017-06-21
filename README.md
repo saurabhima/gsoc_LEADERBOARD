@@ -79,16 +79,24 @@ The database would be migarted to a conventional SQL DBMS platform in the future
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
   * __/default__ - This endpoint is only for testing purpose to check redirecting of webpages
-  * __/donorleaderboard__ - This endpoint will launch the __donor_leaderboard.html__ webpage which displays the current Donor Leaderboard to all users
+  * __/donorleaderboard__ - This endpoint will launch the ___donor_leaderboard.html___ webpage which displays the current Donor Leaderboard to all users
+  
   * __User Management Endpoints__
     
-    * __/user_register__ - This endpoint is used for registering new users and launches __register_new_user.html__
-    * __/process_new_user_register__ - This endpoint collects the POST response from  __/user_register__ endpoint and extracts user credentials like email address, phone, name, username, password etc and stores it in the User Account Database. After this the user is redirected to __index.html__
-    * __/user_login__ - This endpoint is used for logging existing and approved users and launches __user_login.html__
-    * __/user_login_process__ - This endpoint collects the POST response from  __/user_login__ endpoint and extracts user credentials like username and password and matches it with credentials stored in the User Account Database. On matching the user status is changed to __Logged__ and user is redirected to __index.html__. In case of failed login the user is directed to the __Login Error Page__ i.e. __invalid_login.html__
-    * __/logout__ - This endpoint deletes the user login session variables and updates the status to Not Logged. The user is then redirected to __index.html__
-    * __/approve_new_user__ - This endpoint is only available to __Administrator__ User Group and allows these users to approve pending users who have freshly registered. This endpoint launches __approve_user.html__. In case these is no user account pending for approval, the user is redirected to __index.html__
-    * __/approve_new_user_process__ - This endpoint collects the POST response from  __/user_register__ endpoint and extracts user credentials like email address, phone, name, username, password etc and stores it in the User Account Database. After this the user is redirected to __index.html__
+    * __/user_register__ - This endpoint is used for registering new users and launches ___register_new_user.html___
+    * __/process_new_user_register__ - This endpoint collects the POST response from  ___/user_register___ endpoint and extracts user credentials like email address, phone, name, username, password etc and stores it in the User Account Database. After this the user is redirected to ___index.html___
+    * __/user_login__ - This endpoint is used for logging existing and approved users and launches ___user_login.html___
+    * __/user_login_process__ - This endpoint collects the POST response from  ___/user_login___ endpoint and extracts user credentials like username and password and matches it with credentials stored in the User Account Database. On matching the user status is changed to ___Logged___ and user is redirected to ___index.html___. In case of failed login the user is directed to the ___Login Error Page___ i.e. ___invalid_login.html___
+    * __/logout__ - This endpoint deletes the user login session variables and updates the status to Not Logged. The user is then redirected to ___index.html___
+    * __/approve_new_user__ - This endpoint is only available to ___Administrator___ User Group and allows these users to approve pending users who have freshly registered. This endpoint launches ___approve_user.html___. In case these is no user account pending for approval, the user is redirected to ___index.html___
+    * __/approve_new_user_process__ - This endpoint collects the POST response from  ___/approve_new_user___ endpoint and extracts user credentials like email address, phone, name, username etc. In case the user is approved by the Administrator the account status is changed to ___Active___. In case the administrator rejects the user account, the same is removed from the list of pending users.
+  
+  * __Donor Management Endpoints__
+    
+    * __/register_new_donor__ - This endpoint is used by authorized users to add details of prospective donors to the ___Donor Details Database___ which would be further used in the workflow during the whole donor management process
+    * __/process_donor_form__ - This endpoint collects the POST response from  ___/register_new_donor___ endpoint and extracts Donor user credentials like email address, phone, name, organisation etc and stores it in the Donor Details Database
+    * __/donor_contact_update__ - This endpoint launches ___donor_contact_update.html___ and used to update contact details of registered donors. The user can choose the specific donor by searching for the donor from the list and update the contact information
+    * __
 ### Task List
     
  - [x] Index Page and Menu Items
