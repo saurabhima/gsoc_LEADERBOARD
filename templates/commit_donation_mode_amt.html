@@ -124,12 +124,12 @@
 
 <div class="container">
     <br><br>
-    <form class="well form-horizontal" action="/donor_phone_log_process" method="post" id="donor_registration_form"
+    <form class="well form-horizontal" action="/commit_donation_amt_process" method="post" id="donor_registration_form"
           name="donor_registration_form">
         <fieldset>
 
             <!-- Form Name -->
-            <legend align="center" style="font-size: 25px"><u>Current Phone Log</u></legend>
+            <legend align="center" style="font-size: 25px"><u>Commit Donation Amount</u></legend>
             <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
             <!-- Text input-->
             <div class="form-group">
@@ -148,7 +148,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <input name="contact_date" placeholder="Contact Date" class="form-control" type="text" readonly
+                        <input name="commit_date" placeholder="Contact Date" class="form-control" type="text" readonly
                                value="{{ current_date }}">
                     </div>
                 </div>
@@ -158,21 +158,50 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <input name="contact_time" placeholder="Contact Date" class="form-control" type="text" readonly
+                        <input name="commit_time" placeholder="Contact Date" class="form-control" type="text" readonly
                                value="{{ current_time }}">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">Details Shared</label>
+                <label class="col-md-4 control-label">Committed Amount</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <textarea name="details_shared" id="details_shared" rows="6" placeholder="Details Shared"
-                                  class="form-control"></textarea>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                        <input name="committed_amt" placeholder="Committed Amount" class="form-control" type="text">
                     </div>
                 </div>
             </div>
+             <div class="form-group">
+                <label class="col-md-4 control-label">Currency</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                        <select name="currency" placeholder="Currency" class="form-control">
+                             <option selected value="usd">US Dollar</option>
+                             <option value="euro">Euro</option>
+                             <option value="gbp">British Pound</option>
+                             <option value="bitcoin">Bitcoin</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Payment Mode</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                        <select name="payment_mode" placeholder="Mode of Payment" class="form-control">
+                             <option selected value="bank_transfer">Bank Transfer</option>
+                             <option value="paypal">Paypal</option>
+                             <option value="crypto">Crypto Currency</option>
+                             <option value="creditcard">Credit Card</option>
+                             <option value="cheque">Cheque</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-md-4 control-label">Remarks</label>
                 <div class="col-md-4 inputGroupContainer">
@@ -187,7 +216,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning">Log Conversation<span
+                    <button type="submit" class="btn btn-warning">Commit Donation<span
                             class="glyphicon glyphicon-send"></span></button>
                 </div>
             </div>

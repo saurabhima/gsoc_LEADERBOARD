@@ -19,7 +19,7 @@
 
 </head>
 <body>
-<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Phone Contact</u></h1><br><br></div>
+<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Commit Donation</u></h1><br><br></div>
 <div class="container"><h5 style="text-align: left"><a href="\">Home</a></h5></div>
 <div class="container">
     <table class="display" width="100%" cellspacing="0" id="donor-details-table">
@@ -53,9 +53,9 @@
                     <td>{{ line['contact_date'] }}</td>
                     <td>{{ line['donor_status'] }}</td>
                     <td>
-                        <form name="phone" action="/donor_phone_contact_process" method="post">
+                        <form name="phone" action="/commit_donation_process" method="post">
                             <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}"><span
-                                    class="glyphicon glyphicon-earphone"></span></button>
+                                    class="glyphicon glyphicon-usd"></span></button>
                         </form>
                     </td>
                 </tr>

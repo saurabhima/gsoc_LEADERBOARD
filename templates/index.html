@@ -28,9 +28,10 @@ Licence URI: http://www.os-templates.com/template-terms
                 <ul>
                     <li><a href="/register_new_donor">Add New Donor</a></li>
                     <li><a href="/donor_contact_update">Update Donor Contact</a></li>
-                    <li><a href="/donor_phone_contact">Donor Phone Contact</a></li>
-                    <li><a href="pages/sidebar-right.html">Donor Mail Contact</a></li>
-                    <li><a href="pages/basic-grid.html">Add Donoation</a></li>
+                    <li><a href="/donor_phone_contact">Donor Phone Conversation Log</a></li>
+                    <li><a href="/donor_email_contact">Donor Email Log</a></li>
+                    <li><a href="/commit_donation">Commit Donation</a></li>
+                    <li><a href="/allot_volunteer">Allot Donor to Volunteer</a></li>
                 </ul>
             </li>
             {% if session['login_status']=='True' and session['logged_user_type']=='Administrator' %}
@@ -38,14 +39,15 @@ Licence URI: http://www.os-templates.com/template-terms
                     <ul>
                         <li><a href="/approve_new_user">Approve User</a></li>
                         <li><a href="#">Delete User</a></li>
-                        <li><a class="drop" href="#">Level 2 + Drop</a>
+                        <li><a class="drop" href="#">Email Setup</a>
                             <ul>
-                                <li><a href="#">Level 3</a></li>
-                                <li><a href="#">Level 3</a></li>
-                                <li><a href="#">Level 3</a></li>
+                                <li><a href="#">Add Email template</a></li>
+                                <li><a href="#">Edit Email Template</a></li>
+                                <li><a href="#">Delete Email Template</a></li>
+                                 <li><a href="#">Email Server Settings</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Level 2</a></li>
+                        <li><a href="#">Allot Volunteer</a></li>
                     </ul>
                 </li>
             {% endif %}
