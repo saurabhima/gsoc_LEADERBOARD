@@ -45,7 +45,10 @@ The user can then use this web address to open the default page or index.html
 ## Donor Leaderboard
  The Donor Leaderboard gives the details of all donors who have helped support this project through donations. These donations are used to buy Amazon Mechanical Turk Credits for the project. The Donor Leaderboard lists donors as per their donated amount. It also provides the facility to maintain anonymity of donors (if they wish to) as well as search for donors using various search criteria. In future we wish to make this leaderboard more interesting.
 ## Donor Management Workflow
-This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. The various stages are mentioned in details below.
+This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. 
+The Workflow diagram below gives the gist of the whole process.
+
+The various stages are mentioned in details below.
 ### User Types
  * **Administrator** - This type of user is basically for overall management of the user group and the backend functionality. The Administration module of the index page is only visible to this kind of user
  * **Supervisor** - This type of user has rights to add and modify donor details and contacts and also freeze the donation amount and payment method and generate reciept for the same. Additional funcionalities can be added at a later stage.
@@ -64,7 +67,7 @@ The Donor Management workflow System has the following sub modules which are acc
     * Update Donor Contact
     * Donor Phone Contact Logging
     * Donor Mailing
-    * Donation Commit and Reciept
+    * Donation Commit and Receipt
     * Accounts
 ### Directory Structure
 The project follows the standard Flask Directory Structure. The detailed directory structure is being updated and would be posted soon.
