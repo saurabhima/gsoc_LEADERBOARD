@@ -57,4 +57,62 @@ sS'contact_date'
 p29
 V06-14-2017
 p30
+sa(dp31
+S'contact_time'
+p32
+V00:34
+p33
+sS'contact_mode'
+p34
+S'Phone'
+p35
+sS'details_shared'
+p36
+VDetails of the project and use of the donation amount
+p37
+sS'donor_id'
+p38
+V2
+p39
+sS'remarks'
+p40
+VLooks Good
+p41
+sS'contact_person'
+p42
+VSaurabh Singh
+p43
+sS'contact_date'
+p44
+V06-26-2017
+p45
+sa(dp46
+S'contact_time'
+p47
+V10:10
+p48
+sS'contact_mode'
+p49
+S'Phone'
+p50
+sS'remarks'
+p51
+VHi there
+p52
+sS'donor_id'
+p53
+V1008
+p54
+sS'details_shared'
+p55
+VCheck This Out Buddy
+p56
+sS'contact_person'
+p57
+VSaurabh Singh
+p58
+sS'contact_date'
+p59
+V07-02-2017
+p60
 sa.

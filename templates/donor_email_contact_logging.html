@@ -70,8 +70,8 @@
         </thead>
 
         <tbody style="text-align: center">
-        {% if contact_log!=None %}
-            {% for line in contact_log %}
+        {% if phone_log!=None %}
+            {% for line in phone_log %}
                 <tr style="text-align: center">
                     <td>{{ line['contact_person'] }}</td>
                     <td>{{ line['contact_date'] }}</td>
@@ -86,15 +86,50 @@
         </tbody>
     </table>
 </div>
+<hr>
+<div class="container">
+    <h3 style="text-align: center"><font color="#a52a2a"><u>Previous Email Logs</u></font></h3>
+</div>
+<div class="container">
+    <table class="table-bordered" width="100%" cellspacing="0" id="donor-details-table" style="font-size: 14px">
+
+        <thead style="text-align: center">
+        <th>Contact Person</th>
+        <th>Contact Date</th>
+        <th>Contact Time</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Content</th>
+
+
+        </thead>
+
+        <tbody style="text-align: center">
+        {% if email_log!=None %}
+            {% for line in email_log %}
+                <tr style="text-align: center">
+                    <td>{{ line['contact_person'] }}</td>
+                    <td>{{ line['contact_date'] }}</td>
+                    <td>{{ line['contact_time'] }}</td>
+                    <td>{{ line['from'] }}</td>
+                    <td>{{ line['to'] }}</td>
+                    <td>{{ line['content'] }}</td>
+
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+</div>
 
 <div class="container">
     <br><br>
-    <form class="well form-horizontal" action="/donor_email_log_process" method="post" id="donor_registration_form"
+    <form class="well form-horizontal" action="/donor_phone_log_process" method="post" id="donor_registration_form"
           name="donor_registration_form">
         <fieldset>
 
             <!-- Form Name -->
-            <legend align="center" style="font-size: 25px"><u>Current Phone Log</u></legend>
+            <legend align="center" style="font-size: 25px"><u>Current Email Log</u></legend>
             <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
             <!-- Text input-->
             <div class="form-group">

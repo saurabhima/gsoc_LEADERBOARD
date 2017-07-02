@@ -5,6 +5,7 @@ import sub_process
 import pickle
 import os
 import datetime
+
 from leaderboard import app
 
 
@@ -40,35 +41,41 @@ def user_register():
 
 @app.route('/process_new_user_register', methods=['POST'])
 def process_new_user_register():
-    print 'hello'
     name = request.form['user_full_name']
     email = request.form['user_email']
     user_contact = request.form['user_contact']
     username = request.form['username']
     password = request.form['user_password']
     user_type = request.form['user_type']
-    print (name, email, user_contact, username, password, user_type)
-    user_list = []
-    user_details_pickle_filename = config.USER_DETAILS_PICKLE_FILE
-    if os.path.exists(user_details_pickle_filename):
-        with open(user_details_pickle_filename, 'rb') as rfp:
-            user_list = pickle.load(rfp)
-    user = {}
-    user['name'] = name
-    user['phone'] = user_contact
-    user['email'] = email
-    user['username'] = username
-    user['password'] = password
-    user['user_type'] = user_type
-    user['register_date'] = datetime.datetime.now().date().strftime("%m-%d-%Y")
-    user['account_status'] = 'Pending'
-    user_list.append(user)
-    with open(user_details_pickle_filename, 'wb') as wfp:
-        pickle.dump(user_list, wfp)
-    log_str = 'New User Register:Username#' + username + '***Name#' + name + '***Account_Type#' + user_type + '***Register_Date#' + datetime.datetime.now().date().strftime(
-        "%Y-%m-%d")
-    sub_process.write_user_log(log_str)
-    flash('Your User Credentials have been sent for verification to Administrator')
+    # print (name, email, user_contact, username, password, user_type)
+    if name and email and username and password and user_type:
+        sub_process.add_user_details_db(name=name,email=email,user_contact=user_contact,username=username,password=password,user_type=user_type)
+
+
+    #Module for Storing in Pickle File
+    # user_list = []
+    # user_details_pickle_filename = config.USER_DETAILS_PICKLE_FILE
+    # if os.path.exists(user_details_pickle_filename):
+    #     with open(user_details_pickle_filename, 'rb') as rfp:
+    #         user_list = pickle.load(rfp)
+    # user = {}
+    # user['name'] = name
+    # user['phone'] = user_contact
+    # user['email'] = email
+    # user['username'] = username
+    # user['password'] = password
+    # user['user_type'] = user_type
+    # user['register_date'] = datetime.datetime.now().date().strftime("%m-%d-%Y")
+    # user['account_status'] = 'Pending'
+    # user_list.append(user)
+    # with open(user_details_pickle_filename, 'wb') as wfp:
+    #     pickle.dump(user_list, wfp)
+    # log_str = 'New User Register:Username#' + username + '***Name#' +
+    # name + '***Account_Type#' + user_type + '***Register_Date#' +
+    #  datetime.datetime.now().date().strftime(
+    #     "%Y-%m-%d")
+    # sub_process.write_user_log(log_str)
+    # flash('Your User Credentials have been sent for verification to Administrator')
     return redirect(url_for('index'))
 
 
@@ -83,7 +90,7 @@ def user_login_process():
     print 'user login process module'
     username = request.form['username']
     password = request.form['user_password']
-    print (username, password)
+    # print (username, password)
     logged_user_status, logged_user_type, user_fullname = sub_process.authenticate(username, password)
     print (logged_user_type, logged_user_status, user_fullname)
     if logged_user_status is False:
@@ -113,7 +120,10 @@ def logout():
 def approve_new_user():
     user_list = sub_process.get_pending_user_list()
     if len(user_list) > 0:
-        return render_template('approve_user.html', user=user_list[0])
+        user=user_list[0]
+        user.user_type=str(list(user.user_type)[0])
+        user.phone=int(user.phone)
+        return render_template('approve_user.html', user=user)
     else:
         return redirect(url_for('index'))
 
@@ -157,40 +167,19 @@ def process_add_donors():
     donor_contact = request.form['donor_contact']
     contact_person = request.form['contact_person']
     contact_date = request.form['contact_date']
+    contact_date = datetime.datetime.strptime(contact_date, '%m/%d/%Y')
     anonymous_select = request.form['anonymous_select']
-    donor_list = []
-    donor_pickle_filename = 'donor_details.pickle'
-    donor_list_len = 0
-    if os.path.exists(donor_pickle_filename):
-        with open(donor_pickle_filename, 'rb') as rfp:
-            donor_list = pickle.load(rfp)
-            donor_list_len = len(donor_list)
-    donor = {}
-    donor['id'] = donor_list_len + 1
-    donor['title'] = title
-    donor['name'] = name
-    donor['org'] = org
-    donor['phone'] = donor_contact
-    donor['email'] = email
-    donor['contact_person'] = contact_person
-    donor['contact_date'] = contact_date
-    donor['anonymous_select'] = anonymous_select
-    donor['donor_status'] = 'New'
-    donor_list.append(donor)
-    with open(donor_pickle_filename, 'wb') as wfp:
-        pickle.dump(donor_list, wfp)
+    sub_process.register_new_donor(title=title,name=name,org=org,email=email,
+                                   donor_contact=donor_contact,contact_person=contact_person,
+                                   contact_date=contact_date,anonymous_select=anonymous_select)
     return redirect(url_for('index'))
 
 
 # Update Donor Contacts
 @app.route('/donor_contact_update')
 def donor_contact_update():
-    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
-    pickle_obj = None
-    if os.path.exists(donor_details_file):
-        fh = open(donor_details_file, 'rb')
-        pickle_obj = pickle.load(fh)
-    return render_template('donor_contact_update.html', donor_list=pickle_obj)
+    donor_list=sub_process.get_donor_list()
+    return render_template('donor_contact_update.html', donor_list=donor_list)
 
 
 @app.route('/donor_contact_update_process', methods=['POST'])
@@ -212,20 +201,16 @@ def donor_contact_update_form_process():
 # Donor Phone Contact
 @app.route('/donor_phone_contact')
 def donor_phone_contact():
-    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
-    pickle_obj = None
-    if os.path.exists(donor_details_file):
-        fh = open(donor_details_file, 'rb')
-        pickle_obj = pickle.load(fh)
-    print pickle_obj
-    return render_template('donor_phone_contact.html', donor_list=pickle_obj)
+    donor_list = sub_process.get_donor_list()
+    return render_template('donor_phone_contact.html', donor_list=donor_list)
 
 
 @app.route('/donor_phone_contact_process', methods=['POST'])
 def donor_phone_contact_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_previous_phone_logs = sub_process.donor_contact_logs_byid(donor_id)
+    donor_obj.donor_status = str(list(donor_obj.donor_status)[0])
+    donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
@@ -239,18 +224,14 @@ def donor_phone_log_process():
     contact_person = request.form['contact_person']
     donor_id = request.form['donor_id']
     contact_date = request.form['contact_date']
+    print contact_date
+    contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
     contact_time = request.form['contact_time']
     details_shared = request.form['details_shared']
     remarks = request.form['remarks']
-    donor_log = {}
-    donor_log['donor_id'] = donor_id
-    donor_log['contact_person'] = contact_person
-    donor_log['contact_date'] = contact_date
-    donor_log['contact_time'] = contact_time
-    donor_log['contact_mode'] = 'Phone'
-    donor_log['details_shared'] = details_shared
-    donor_log['remarks'] = remarks
-    sub_process.add_donor_log(donor_log)
+    sub_process.add_donor_phone_log(donor_id=donor_id,contact_person=contact_person,contact_date=contact_date,
+                                     contact_time=contact_time,details_shared=details_shared,remarks=remarks)
+
     return redirect(url_for('donor_phone_contact'))
 
 
@@ -268,10 +249,12 @@ def donor_email_contact():
 def donor_email_contact_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_previous_logs = sub_process.donor_contact_logs_byid(donor_id)
+    donor_previous_phone_logs = sub_process.donor_contact_logs_byid(donor_id)
+    donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
-    return render_template('donor_email_contact_logging.html', donor_obj=donor_obj, contact_log=donor_previous_logs,
+    return render_template('donor_email_contact_logging.html', donor_obj=donor_obj, phone_log=donor_previous_phone_logs,
+                           email_log=donor_previous_email_logs,
                            current_date=current_date, current_time=current_time)
 
 
