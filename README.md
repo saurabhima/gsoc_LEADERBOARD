@@ -69,12 +69,15 @@ The Donor Management workflow System has the following sub modules which are acc
 ### Directory Structure
 The project follows the standard Flask Directory Structure. The detailed directory structure is being updated and would be posted soon.
 ### Database
-This project is currently using Pickle files to store data related to both donors as well as workflow users. The name of the files are mentioned in the config.py file under the following variables
+~~This project is currently using Pickle files to store data related to both donors as well as workflow users. The name of the files are mentioned in the config.py file under the following variables
 
-* User Account Database - USER_DETAILS_PICKLE_FILE
-* Donor Details Database - DONOR_DETAILS_PICKLE_FILE
+* ~~User Account Database - USER_DETAILS_PICKLE_FILE
+* ~~Donor Details Database - DONOR_DETAILS_PICKLE_FILE
+* ~~Donor Phone Conversation Logs - DONOR_CONTACT_LOGS_FILE
 
-The database would be migarted to a conventional SQL DBMS platform in the future.
+~~The database would be migarted to a conventional SQL DBMS platform in the future.
+This project was originally designed with Pickle files to store the data of Workflow users as well as donors. However now the database has been migrated to MySQL with the following Schema
+![Database Schema](https://raw.githubusercontent.com/saurabhima/gsoc_LEADERBOARD/Change_DB_MYSQL/Schema.png)
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
