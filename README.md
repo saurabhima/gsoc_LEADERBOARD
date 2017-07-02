@@ -75,9 +75,11 @@ The project follows the standard Flask Directory Structure. The detailed directo
 * ~~Donor Details Database - DONOR_DETAILS_PICKLE_FILE~~
 
 ~~The database would be migarted to a conventional SQL DBMS platform in the future.~~
+
 The database has been migrated from a pickle file storage system to a MySQL Database. The Schema for the database is given below for reference.
 ![alt text](https://raw.githubusercontent.com/saurabhima/gsoc_LEADERBOARD/Change_DB_MYSQL/Schema.png)
 
+__Database Name:__ donorworkflow
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
