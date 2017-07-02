@@ -47,7 +47,7 @@ The user can then use this web address to open the default page or index.html
 ## Donor Management Workflow
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. 
 The Workflow diagram below gives the gist of the whole process.
-
+![Workflow](https://raw.githubusercontent.com/saurabhima/gsoc_LEADERBOARD/Change_DB_MYSQL/Basic-Workflow.png)
 The various stages are mentioned in details below.
 ### User Types
  * **Administrator** - This type of user is basically for overall management of the user group and the backend functionality. The Administration module of the index page is only visible to this kind of user
