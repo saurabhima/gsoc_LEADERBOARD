@@ -48,7 +48,7 @@ The user can then use this web address to open the default page or index.html
 This module will provide the various types of users to access sub modules which will help them in managing donors across various stages of the donation process. 
 The Workflow diagram below gives the gist of the whole process.
 
-![Workflow](https://raw.githubusercontent.com/saurabhima/gsoc_LEADERBOARD/Change_DB_MYSQL/BasicWorkflow.png)
+![Workflow](https://raw.githubusercontent.com/saurabhima/gsoc_LEADERBOARD/Change_DB_MYSQL/BasicWorkflow.jpeg)
 
 The various stages are mentioned in details below.
 ### User Types
