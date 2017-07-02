@@ -80,6 +80,8 @@ The database has been migrated from a pickle file storage system to a MySQL Data
 ![alt text](https://raw.githubusercontent.com/saurabhima/gsoc_LEADERBOARD/Change_DB_MYSQL/Schema.png)
 
 __Database Name:__ donorworkflow
+
+However the function reference as well as pickle files from the previous database implementation have been kept intact for backward compatibility in commented mode. The name of called methods remain same for both types of database implementation.
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
