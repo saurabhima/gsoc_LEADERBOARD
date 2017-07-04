@@ -45,7 +45,7 @@ class Donor(db.Model):
     contact_person = db.Column(VARCHAR(80), nullable=False)
     contact_date = db.Column(DATE, nullable=False)
     anonymous_select = db.Column(SET("Yes", "No"), default="No")
-    volunteer_name = db.Column(VARCHAR(80), nullable=False)
+    volunteer_name = db.Column(VARCHAR(80), nullable=True)
 
     def __init__(self, title=None, name=None, email=None, phone=None, donor_status=None,
                  org=None, contact_person=None, contact_date=None, anonymous_select=None,
