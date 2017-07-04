@@ -9,12 +9,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # else it returns a None object
 # Return function is views.user_login_process()
 def authenticate(username, password):
+    print 'Authentication Module'
     login_status = False
     user_account_type = None
     user_full_name = None
     query_result = User.query.filter_by(username=username).first()
     if query_result is not None:
-
+        print query_result
         query_passwd = query_result.passwd
         passwd_check = check_password_hash(query_passwd, password)
         if passwd_check is True:
