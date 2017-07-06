@@ -249,7 +249,7 @@ def donor_email_contact():
 def donor_email_contact_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_previous_phone_logs = sub_process.donor_contact_logs_byid(donor_id)
+    donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")

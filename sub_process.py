@@ -341,65 +341,74 @@ def donor_email_logs_byid(donor_id):
 
 
 def get_new_donor_list():
-    donor_detail_file = config.DONOR_DETAILS_PICKLE_FILE
-    new_donor_list = []
-    if os.path.exists(donor_detail_file):
-        fh = open(donor_detail_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        for i in range(0, obj_len):
-            if pickle_obj[i]['donor_status'] == 'New':
-                new_donor_list.append(pickle_obj[i])
+    new_donor_list = Donor.query.filter_by(donor_status='New').all()
+
+    # donor_detail_file = config.DONOR_DETAILS_PICKLE_FILE
+    # new_donor_list = []
+    # if os.path.exists(donor_detail_file):
+    #     fh = open(donor_detail_file, 'rb')
+    #     pickle_obj = pickle.load(fh)
+    #     obj_len = len(pickle_obj)
+    #     for i in range(0, obj_len):
+    #         if pickle_obj[i]['donor_status'] == 'New':
+    #             new_donor_list.append(pickle_obj[i])
 
     return new_donor_list
 
 
 def get_volunteer_list():
-    user_account_file = config.USER_DETAILS_PICKLE_FILE
-    volunteer_list = []
-    if os.path.exists(user_account_file):
-        fh = open(user_account_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        for i in range(0, obj_len):
-            if pickle_obj[i]['user_type'] == 'Volunteer' and pickle_obj[i]['account_status'] == 'Active':
-                volunteer_list.append(pickle_obj[i])
+    volunteer_list = User.query.filter_by(user_type='Volunteer').filter_by(account_status='Active').all()
+    # user_account_file = config.USER_DETAILS_PICKLE_FILE
+    #volunteer_list = []
+    #if os.path.exists(user_account_file):
+    #    fh = open(user_account_file, 'rb')
+    #    pickle_obj = pickle.load(fh)
+    #    obj_len = len(pickle_obj)
+    #    for i in range(0, obj_len):
+    #        if pickle_obj[i]['user_type'] == 'Volunteer' and pickle_obj[i]['account_status'] == 'Active':
+    #            volunteer_list.append(pickle_obj[i])
 
     return volunteer_list
 
 
 def allot_volunteer(donor_id, volunteer_name):
-    donor_file = config.DONOR_DETAILS_PICKLE_FILE
-    donor_list = []
-    if os.path.exists(donor_file):
-        fh = open(donor_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        for i in range(0, obj_len):
-            if int(pickle_obj[i]['id']) != int(donor_id):
-                donor_list.append(pickle_obj[i])
-            else:
-                pickle_obj[i]['volunteer_name'] = volunteer_name
-                pickle_obj[i]['donor_status'] = 'Allotted'
-                donor_list.append(pickle_obj[i])
-    with open(donor_file, 'wb') as wfp:
-        pickle.dump(donor_list, wfp)
+    donor = Donor.query.get(donor_id)
+    donor.volunteer_name = volunteer_name
+    donor.donor_status = 'Allotted'
+    db.session.commit()
+    # donor_file = config.DONOR_DETAILS_PICKLE_FILE
+    # donor_list = []
+    # if os.path.exists(donor_file):
+    #     fh = open(donor_file, 'rb')
+    #     pickle_obj = pickle.load(fh)
+    #     obj_len = len(pickle_obj)
+    #     for i in range(0, obj_len):
+    #         if int(pickle_obj[i]['id']) != int(donor_id):
+    #             donor_list.append(pickle_obj[i])
+    #         else:
+    #             pickle_obj[i]['volunteer_name'] = volunteer_name
+    #             pickle_obj[i]['donor_status'] = 'Allotted'
+    #             donor_list.append(pickle_obj[i])
+    # with open(donor_file, 'wb') as wfp:
+    #     pickle.dump(donor_list, wfp)
 
 
 def alotted_donors_byid(username):
-    print username
-    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
-    alotted_donor_list = []
-    if os.path.exists(donor_details_file):
-        fh = open(donor_details_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        for i in range(0, obj_len):
-            if 'volunteer_name' in pickle_obj[i]:
-                if pickle_obj[i]['volunteer_name'] == username:
-                    alotted_donor_list.append(pickle_obj[i])
+    allotted_donor_list = Donors.query.filter_by(volunteer_name=username).all()
+    return allotted_donor_list
+    # print username
+    # donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
+    # alotted_donor_list = []
+    # if os.path.exists(donor_details_file):
+    #     fh = open(donor_details_file, 'rb')
+    #     pickle_obj = pickle.load(fh)
+    #     obj_len = len(pickle_obj)
+    #     for i in range(0, obj_len):
+    #         if 'volunteer_name' in pickle_obj[i]:
+    #             if pickle_obj[i]['volunteer_name'] == username:
+    #                 alotted_donor_list.append(pickle_obj[i])
 
-    return alotted_donor_list
+    # return alotted_donor_list
 
 
 def commit_donation(donation_details):
