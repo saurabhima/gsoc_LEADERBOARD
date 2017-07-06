@@ -100,7 +100,6 @@ def user_login_process():
         session['logged_user_type'] = logged_user_type
         session['logged_user_status'] = logged_user_status
         session['logged_user_full_name'] = user_fullname
-        session['login_status'] = 'True'
         return redirect(url_for('index'))
 
 
@@ -111,7 +110,6 @@ def logout():
     session.pop('logged_user_type', None)
     session.pop('logged_user_status', None)
     session.pop('logged_user_full_name', None)
-    session['login_status'] = 'False'
     return redirect(url_for('index'))
 
 
@@ -119,10 +117,10 @@ def logout():
 @app.route('/approve_new_user')
 def approve_new_user():
     user_list = sub_process.get_pending_user_list()
-    if len(user_list) > 0:
-        user=user_list[0]
-        user.user_type=str(list(user.user_type)[0])
-        user.phone=int(user.phone)
+    if user_list:
+        user = user_list[0]
+        user.user_type = str(list(user.user_type)[0])
+        user.phone = int(user.phone)
         return render_template('approve_user.html', user=user)
     else:
         return redirect(url_for('index'))
@@ -147,16 +145,10 @@ def approve_new_user_process():
 # Register New Donor to Database
 @app.route('/register_new_donor')
 def register_new_donor():
-    try:
-        if session['login_status'] == 'True' and (
-                        session['logged_user_type'] == 'Administrator' or session['logged_user_type'] == 'Supervisor'):
-            return render_template('register_new_donor.html')
-        else:
-            return render_template('invalid_login.html')
-    except:
-
+    if 'logged_user_type' in session and session['logged_user_type'] in ['Administrator', 'Supervisor']:
+        return render_template('register_new_donor.html')
+    else:
         return render_template('invalid_login.html')
-
 
 @app.route('/process_donor_form', methods=['POST'])
 def process_add_donors():
@@ -178,7 +170,7 @@ def process_add_donors():
 # Update Donor Contacts
 @app.route('/donor_contact_update')
 def donor_contact_update():
-    donor_list=sub_process.get_donor_list()
+    donor_list = sub_process.get_donor_list()
     return render_template('donor_contact_update.html', donor_list=donor_list)
 
 
@@ -289,7 +281,7 @@ def commit_donation():
 def commit_donation_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_previous_phone_logs = sub_process.donor_contact_logs_byid(donor_id)
+    donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")

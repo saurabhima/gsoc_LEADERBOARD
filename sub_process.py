@@ -176,9 +176,8 @@ def register_new_donor(title, name, org, email, donor_contact, contact_person,
     db.session.add(Donor(title=title, name=name, email=email, phone=donor_contact,
                          donor_status='New', org=org, contact_person=contact_person,
                          contact_date=contact_date, anonymous_select=anonymous_select,
-                         voluneer_name=None))
+                         volunteer_name=None))
     db.session.commit()
-    return None
 
 
 # This method add the records of a new donor to the DONOR DETAILS pickle file.
@@ -236,6 +235,7 @@ def donor_details_byid(donor_id):
 # Disabled Currently due to migration to MySQL Database
 def donor_phone_logs_byid(donor_id):
     phone_logs = DonorPhoneLog.query.filter_by(donor_id=donor_id).all()
+    return phone_logs
 
 
 # This method return the phone conversation log with a Donor based on his donor_id
@@ -394,7 +394,7 @@ def allot_volunteer(donor_id, volunteer_name):
 
 
 def alotted_donors_byid(username):
-    allotted_donor_list = Donors.query.filter_by(volunteer_name=username).all()
+    allotted_donor_list = Donor.query.filter_by(volunteer_name=username).all()
     return allotted_donor_list
     # print username
     # donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
@@ -457,4 +457,3 @@ def add_user_details_db(name, email, user_contact, username, password, user_type
     db.session.add(User(username=username, full_name=name, email=email, phone=user_contact, user_type=user_type,
                         register_date=register_date, account_status=account_status, passwd=hashed_passwd))
     db.session.commit()
-    return None
