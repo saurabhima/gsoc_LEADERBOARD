@@ -88,7 +88,6 @@ def approve_new_user():
     user_list = sub_process.get_pending_user_list()
     if user_list:
         user = user_list[0]
-        user.user_type = str(list(user.user_type)[0])
         user.phone = int(user.phone)
         return render_template('approve_user.html', user=user)
     else:
@@ -171,7 +170,6 @@ def donor_phone_contact():
 def donor_phone_contact_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_obj.donor_status = str(list(donor_obj.donor_status)[0])
     donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")

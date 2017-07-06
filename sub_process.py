@@ -36,10 +36,6 @@ def write_user_log(str):
 # This method returns the list of all existing donors in the donor_details table in the donorworkflow database
 def get_donor_list():
     query_result = Donor.query.all()
-    query_length = len(query_result)
-    for index in range(0, query_length):
-        query_result[index].donor_status = list(query_result[index].donor_status)[0]
-
     return query_result
 
 

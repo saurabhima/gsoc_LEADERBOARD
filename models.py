@@ -1,4 +1,4 @@
-from sqlalchemy.dialects.mysql import INTEGER, VARCHAR, SET, DOUBLE, DATE, TIME, LONGBLOB
+from sqlalchemy.dialects.mysql import INTEGER, VARCHAR, ENUM, DOUBLE, DATE, TIME, LONGBLOB
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from leaderboard import db
@@ -14,9 +14,9 @@ class User(db.Model):
     email = db.Column(VARCHAR(100), unique=True, nullable=False)
     phone = db.Column(DOUBLE)
     passwd = db.Column(VARCHAR(100), nullable=False)
-    user_type = db.Column(SET("Administrator", "Supervisor", "Volunteer"), nullable=False)
+    user_type = db.Column(ENUM("Administrator", "Supervisor", "Volunteer"), nullable=False)
     register_date = db.Column(DATE, nullable=False)
-    account_status = db.Column(SET("Active", "Pending"), nullable=False)
+    account_status = db.Column(ENUM("Active", "Pending"), nullable=False)
 
     def __init__(self, username=None, full_name=None, email=None, phone=None, user_type=None,
                  register_date=None, account_status=None, passwd=None):
@@ -38,13 +38,13 @@ class Donor(db.Model):
     id = db.Column(INTEGER, primary_key=True, autoincrement=True)
     title = db.Column(VARCHAR(15))
     name = db.Column(VARCHAR(80), nullable=False)
-    donor_status = db.Column(SET("New", "Allotted", "Committed", "Transferred"), nullable=False)
+    donor_status = db.Column(ENUM("New", "Allotted", "Committed", "Transferred"), nullable=False)
     phone = db.Column(VARCHAR(12))
     email = db.Column(VARCHAR(100), unique=True, nullable=False)
     org = db.Column(VARCHAR(200))
     contact_person = db.Column(VARCHAR(80), nullable=False)
     contact_date = db.Column(DATE, nullable=False)
-    anonymous_select = db.Column(SET("Yes", "No"), default="No")
+    anonymous_select = db.Column(ENUM("Yes", "No"), default="No")
     volunteer_name = db.Column(VARCHAR(80), nullable=True)
 
     def __init__(self, title=None, name=None, email=None, phone=None, donor_status=None,
@@ -72,8 +72,8 @@ class DonorPhoneLog(db.Model):
     contact_time = db.Column(TIME, nullable=False)
     contact_person = db.Column(VARCHAR(80), nullable=False)
     donor_id = db.Column(INTEGER, nullable=False)
-    remarks = db.Column(LONGBLOB)
-    details_shared = db.Column(LONGBLOB)
+    remarks = db.Column(VARCHAR(255))
+    details_shared = db.Column(VARCHAR(255))
 
     def __init__(self,contact_date=None, contact_time=None,
                  contact_person=None, donor_id=None, remarks=None, details_shared=None):
