@@ -236,11 +236,8 @@ def allot_volunteer_process():
 
 @app.route('/commit_donation')
 def commit_donation():
-    donor_list = sub_process.alotted_donors_byid(session['logged_user_full_name'])
-    if len(donor_list) > 0:
-        return render_template('commit_donation.html', donor_list=donor_list)
-    else:
-        return render_template('commit_donation.html')
+    donor_list = sub_process.allotted_donors_byid(session['logged_user_full_name'])
+    return render_template('commit_donation.html', donor_list=donor_list)
 
 
 @app.route('/commit_donation_process', methods=['POST'])

@@ -148,7 +148,7 @@ def allot_volunteer(donor_id, volunteer_name):
     db.session.commit()
 
 
-def alotted_donors_byid(username):
+def allotted_donors_byid(username):
     allotted_donor_list = Donor.query.filter_by(volunteer_name=username).all()
     return allotted_donor_list
 
@@ -170,27 +170,9 @@ def commit_donation(donation_details):
 
     donor_id = donation_details['donor_id']
     print ('Donor ID:', donor_id)
-    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
-    donor_details = []
-    if os.path.exists(donor_details_file):
-        fh = open(donor_details_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        fh.close()
-
-        for i in range(0, obj_len):
-
-            if int(pickle_obj[i]['id']) != int(donor_id):
-                donor_details.append(pickle_obj[i])
-            else:
-                print pickle_obj[i]
-                pickle_obj[i]['donor_status'] = 'Committed'
-                donor_details.append(pickle_obj[i])
-
-    print donor_details
-    with open(donor_details_file, 'wb') as wfp:
-        pickle.dump(donor_details, wfp)
-
+    donor = Donor.query.get(donor_id)
+    donor.donor_status = 'Committed'
+    db.session.commit()
 
 def add_user_details_db(name, email, user_contact, username, password, user_type):
     hashed_passwd = generate_password_hash(password)
