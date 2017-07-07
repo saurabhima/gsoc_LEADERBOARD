@@ -49,7 +49,7 @@ class Donor(db.Model):
 
     def __init__(self, title=None, name=None, email=None, phone=None, donor_status=None,
                  org=None, contact_person=None, contact_date=None, anonymous_select=None,
-                 voluneer_name=None):
+                 volunteer_name=None):
         self.title = title
         self.name = name
         self.email = email
@@ -59,7 +59,7 @@ class Donor(db.Model):
         self.contact_date = contact_date
         self.contact_person = contact_person
         self.anonymous_select = anonymous_select
-        self.volunteer_name = voluneer_name
+        self.volunteer_name = volunteer_name
 
     def __repr__(self):
         return '<Donor%r>' % (self.name)
@@ -72,8 +72,8 @@ class DonorPhoneLog(db.Model):
     contact_time = db.Column(TIME, nullable=False)
     contact_person = db.Column(VARCHAR(80), nullable=False)
     donor_id = db.Column(INTEGER, nullable=False)
-    remarks = db.Column(LONGBLOB)
-    details_shared = db.Column(LONGBLOB)
+    remarks = db.Column(VARCHAR(255))
+    details_shared = db.Column(VARCHAR(255))
 
     def __init__(self, contact_date=None, contact_time=None,
                  contact_person=None, donor_id=None, remarks=None, details_shared=None):

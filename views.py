@@ -22,13 +22,8 @@ def default():
 #  Donor Leader Board Page
 @app.route('/donorleaderboard')
 def donor_leaderboard():
-    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
-    pickle_obj = None
-    if os.path.exists(donor_details_file):
-        fh = open(donor_details_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        print(pickle_obj)
-    return render_template('donor_leaderboard.html', donor_list=pickle_obj)
+    donors = sub_process.get_donor_list()
+    return render_template('donor_leaderboard.html', donor_list=donors)
 
 
 # User Management Sub Modules
@@ -50,32 +45,6 @@ def process_new_user_register():
     # print (name, email, user_contact, username, password, user_type)
     if name and email and username and password and user_type:
         sub_process.add_user_details_db(name=name,email=email,user_contact=user_contact,username=username,password=password,user_type=user_type)
-
-
-    #Module for Storing in Pickle File
-    # user_list = []
-    # user_details_pickle_filename = config.USER_DETAILS_PICKLE_FILE
-    # if os.path.exists(user_details_pickle_filename):
-    #     with open(user_details_pickle_filename, 'rb') as rfp:
-    #         user_list = pickle.load(rfp)
-    # user = {}
-    # user['name'] = name
-    # user['phone'] = user_contact
-    # user['email'] = email
-    # user['username'] = username
-    # user['password'] = password
-    # user['user_type'] = user_type
-    # user['register_date'] = datetime.datetime.now().date().strftime("%m-%d-%Y")
-    # user['account_status'] = 'Pending'
-    # user_list.append(user)
-    # with open(user_details_pickle_filename, 'wb') as wfp:
-    #     pickle.dump(user_list, wfp)
-    # log_str = 'New User Register:Username#' + username + '***Name#' +
-    # name + '***Account_Type#' + user_type + '***Register_Date#' +
-    #  datetime.datetime.now().date().strftime(
-    #     "%Y-%m-%d")
-    # sub_process.write_user_log(log_str)
-    # flash('Your User Credentials have been sent for verification to Administrator')
     return redirect(url_for('index'))
 
 
@@ -100,7 +69,6 @@ def user_login_process():
         session['logged_user_type'] = logged_user_type
         session['logged_user_status'] = logged_user_status
         session['logged_user_full_name'] = user_fullname
-        session['login_status'] = 'True'
         return redirect(url_for('index'))
 
 
@@ -111,7 +79,6 @@ def logout():
     session.pop('logged_user_type', None)
     session.pop('logged_user_status', None)
     session.pop('logged_user_full_name', None)
-    session['login_status'] = 'False'
     return redirect(url_for('index'))
 
 
@@ -147,14 +114,9 @@ def approve_new_user_process():
 # Register New Donor to Database
 @app.route('/register_new_donor')
 def register_new_donor():
-    try:
-        if session['login_status'] == 'True' and (
-                        session['logged_user_type'] == 'Administrator' or session['logged_user_type'] == 'Supervisor'):
-            return render_template('register_new_donor.html')
-        else:
-            return render_template('invalid_login.html')
-    except:
-
+    if 'logged_user_type' in session and session['logged_user_type'] in ['Administrator', 'Supervisor']:
+        return render_template('register_new_donor.html')
+    else:
         return render_template('invalid_login.html')
 
 
@@ -178,7 +140,7 @@ def process_add_donors():
 # Update Donor Contacts
 @app.route('/donor_contact_update')
 def donor_contact_update():
-    donor_list=sub_process.get_donor_list()
+    donor_list = sub_process.get_donor_list()
     return render_template('donor_contact_update.html', donor_list=donor_list)
 
 
@@ -275,11 +237,8 @@ def allot_volunteer_process():
 
 @app.route('/commit_donation')
 def commit_donation():
-    donor_list = sub_process.alotted_donors_byid(session['logged_user_full_name'])
-    if len(donor_list) > 0:
-        return render_template('commit_donation.html', donor_list=donor_list)
-    else:
-        return render_template('commit_donation.html')
+    donor_list = sub_process.allotted_donors_byid(session['logged_user_full_name'])
+    return render_template('commit_donation.html', donor_list=donor_list)
 
 
 @app.route('/commit_donation_process', methods=['POST'])
