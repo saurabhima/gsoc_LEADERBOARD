@@ -28,26 +28,27 @@ Licence URI: http://www.os-templates.com/template-terms
                 <ul>
                     <li><a href="/register_new_donor">Add New Donor</a></li>
                     <li><a href="/donor_contact_update">Update Donor Contact</a></li>
-                    <li><a href="/donor_phone_contact">Donor Phone Conversation Log</a></li>
-                    <li><a href="/donor_email_contact">Donor Email Log</a></li>
+                    <li><a href="/donor_phone_contact">Log Donor Phone Conversation </a></li>
+                    <li><a href="/send_email_indl_donor">Send Email to Donor</a></li>
+                    <li><a href="#"><font color="#dc143c">Send Bulk Email to Donors</font></a></li>
                     <li><a href="/commit_donation">Commit Donation</a></li>
-                    <li><a href="/allot_volunteer">Allot Donor to Volunteer</a></li>
+
                 </ul>
             </li>
             {% if session['login_status']=='True' and session['logged_user_type']=='Administrator' %}
                 <li><a class="drop" href="#">Administration</a>
                     <ul>
                         <li><a href="/approve_new_user">Approve User</a></li>
-                        <li><a href="#">Delete User</a></li>
+                        <li><a href="#"><font color="#dc143c">Delete User</font></a></li>
                         <li><a class="drop" href="#">Email Setup</a>
                             <ul>
-                                <li><a href="#">Add Email template</a></li>
-                                <li><a href="#">Edit Email Template</a></li>
-                                <li><a href="#">Delete Email Template</a></li>
-                                 <li><a href="#">Email Server Settings</a></li>
+                                <li><a href="/create_new_emailtemplate">Add Email template</a></li>
+                                <li><a href="#"><font color="#dc143c">Edit Email Template</font></a></li>
+                                <li><a href="#"><font color="#dc143c">Delete Email Template</font></a></li>
+                                <li><a href="#"><font color="#dc143c">Email Server Settings</font></a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Allot Volunteer</a></li>
+                        <li><a href="/allot_volunteer">Allot Volunteer to Donor</a></li>
                     </ul>
                 </li>
             {% endif %}

@@ -8,7 +8,7 @@ app.secret_key = 'abc1234'
 app.config['DEBUG'] = True
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@{}/{}'.format(
-    config.DBUSERNAME, config.DBPASSWORD, config.DBHOSTNAME, config.DBNAME)
+config.DBUSERNAME, config.DBPASSWORD, config.DBHOSTNAME, config.DBNAME)
 db = SQLAlchemy(app)
 
 from views import *

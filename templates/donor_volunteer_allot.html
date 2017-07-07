@@ -117,7 +117,7 @@
                         <select name="volunteer_name" placeholder="Volunteer Name" class="form-control">
                            {% if volunteers!=None %}
                                 {% for line in volunteers %}
-                                     <option>{{ line['name'] }}</option>
+                                     <option>{{ line['full_name'] }}</option>
 
                                 {% endfor %}
                             {% endif %}

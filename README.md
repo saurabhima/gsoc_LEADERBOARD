@@ -121,13 +121,15 @@ However the function reference as well as pickle files from the previous databas
  - [x] Prospective Donor Registration
  - [x] Update Donor Contacts
  - [x] Phone Contact Logging
- - [ ] Email Contact
+ - [ ] Email to Individual Donor
+ - [ ] Bulk Email to Donors
+ - [x] Add Email Template
  - [ ] Track Donor Communication
- - [ ] Commit Donation and Receipt
- - [ ] Accounting
+ - [x] Commit Donation 
+ - [ ] Accounting and Receipt
  - [ ] Logging
 
 ### About the Author
-This project is sponsored by Google Summer of Code 2017 and maintained by [Saurabh Singh](mailto:saurabhima@gmail.com) under the mentorship of James Salsman and Tom Hartung with support from the whole CMU Sphinx Team.
+This project is sponsored by Google Summer of Code 2017 and maintained by [Saurabh Singh](http://cse.iitkgp.ac.in/~saurabh.singh/) under the mentorship of James Salsman and Tom Hartung with support from the whole CMU Sphinx Team.
 
 ### Notes

@@ -129,7 +129,7 @@
         <fieldset>
 
             <!-- Form Name -->
-            <legend align="center" style="font-size: 25px"><u>Current Email Log</u></legend>
+            <legend align="center" style="font-size: 25px"><u>Send Email to Donor</u></legend>
             <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
             <!-- Text input-->
             <div class="form-group">
@@ -164,22 +164,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">Details Shared</label>
+                <label class="col-md-4 control-label">Template Name</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <textarea name="details_shared" id="details_shared" rows="6" placeholder="Details Shared"
-                                  class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Remarks</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <textarea name="remarks" id="remarks" rows="6" placeholder="Remarks"
-                                  class="form-control"></textarea>
+                        <select name="user_type" placeholder="User Type" class="form-control">
+                            {% for templates in email_template_list %}
+                                <option>{{ templates['template_name'] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
             </div>

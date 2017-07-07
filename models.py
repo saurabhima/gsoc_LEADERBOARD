@@ -1,4 +1,4 @@
-from sqlalchemy.dialects.mysql import INTEGER, VARCHAR, ENUM, DOUBLE, DATE, TIME, LONGBLOB
+from sqlalchemy.dialects.mysql import INTEGER, VARCHAR, DOUBLE, DATE, TIME, LONGBLOB, ENUM
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from leaderboard import db
@@ -14,9 +14,9 @@ class User(db.Model):
     email = db.Column(VARCHAR(100), unique=True, nullable=False)
     phone = db.Column(DOUBLE)
     passwd = db.Column(VARCHAR(100), nullable=False)
-    user_type = db.Column(ENUM("Administrator", "Supervisor", "Volunteer"), nullable=False)
+    user_type = db.Column(db.Enum("Administrator", "Supervisor", "Volunteer"), nullable=False)
     register_date = db.Column(DATE, nullable=False)
-    account_status = db.Column(ENUM("Active", "Pending"), nullable=False)
+    account_status = db.Column(db.Enum("Active", "Pending"), nullable=False)
 
     def __init__(self, username=None, full_name=None, email=None, phone=None, user_type=None,
                  register_date=None, account_status=None, passwd=None):
@@ -75,9 +75,8 @@ class DonorPhoneLog(db.Model):
     remarks = db.Column(VARCHAR(255))
     details_shared = db.Column(VARCHAR(255))
 
-    def __init__(self,contact_date=None, contact_time=None,
+    def __init__(self, contact_date=None, contact_time=None,
                  contact_person=None, donor_id=None, remarks=None, details_shared=None):
-
         self.contact_date = contact_date
         self.contact_time = contact_time
         self.contact_person = contact_person
@@ -87,3 +86,49 @@ class DonorPhoneLog(db.Model):
 
     def __repr__(self):
         return '<LogID%r>' % (self.log_id)
+
+
+class CommittedDonation(db.Model):
+    __tablename__ = 'committed_donation_details'
+    donation_commit_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
+    donor_id=db.Column(INTEGER, nullable=False)
+    commit_date = db.Column(DATE, nullable=False)
+    commit_time = db.Column(TIME, nullable=False)
+    commit_amt = db.Column(INTEGER, nullable=False)
+    currency= db.Column(db.Enum('USD', 'GBP', 'EUR', 'BITCOIN'), nullable=False)
+    payment_mode=db.Column(db.Enum('Paypal', 'Online Bank', 'CreditCard', 'Crypto', 'Cheque'), nullable=False)
+    remarks = db.Column(LONGBLOB)
+
+
+    def __init__(self,donor_id=donor_id,commit_date=commit_date,commit_time=commit_time,
+                 commit_amt=commit_amt,currency=currency,payment_mode=payment_mode,remarks=remarks):
+        self.donor_id = donor_id
+        self.commit_date = commit_date
+        self.commit_time = commit_time
+        self.commit_amt=commit_amt
+        self.currency=currency
+        self.payment_mode=payment_mode
+        self.remarks = remarks
+
+    def __repr__(self):
+        return '<DonationCommitID%r>' % (self.donation_commit_id)
+
+class EmailTemplate(db.Model):
+    __tablename__ = 'email_templates'
+    template_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
+    template_name=db.Column(VARCHAR(50), nullable=False,unique=True)
+    salutation=db.Column(VARCHAR(80), nullable=False)
+    main_body=db.Column(LONGBLOB, nullable=False)
+    closing=db.Column(VARCHAR(100), nullable=False)
+    signature_block=db.Column(VARCHAR(150), nullable=False)
+
+    def __init__(self,template_name=template_name,salutation=salutation,main_body=main_body,
+                 closing=closing,signature_block=signature_block):
+        self.template_name = template_name
+        self.salutation = salutation
+        self.main_body = main_body
+        self.closing=closing
+        self.signature_block=signature_block
+
+    def __repr__(self):
+        return '<TemplateID%r>' % (self.template_id)

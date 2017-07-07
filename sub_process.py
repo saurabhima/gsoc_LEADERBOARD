@@ -1,6 +1,6 @@
 import config, os, pickle, datetime
 from leaderboard import *
-from models import User, Donor, DonorPhoneLog
+from models import User, Donor, DonorPhoneLog,CommittedDonation,EmailTemplate
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -20,7 +20,7 @@ def authenticate(username, password):
         passwd_check = check_password_hash(query_passwd, password)
         if passwd_check is True:
             login_status = True
-            user_account_type = str(list(query_result.user_type)[0])
+            user_account_type = query_result.user_type
             user_full_name = str(query_result.full_name)
     return (login_status, user_account_type, user_full_name)
 
@@ -36,6 +36,7 @@ def write_user_log(str):
 # This method returns the list of all existing donors in the donor_details table in the donorworkflow database
 def get_donor_list():
     query_result = Donor.query.all()
+    query_length = len(query_result)
     return query_result
 
 
@@ -91,6 +92,23 @@ def donor_phone_logs_byid(donor_id):
     phone_logs = DonorPhoneLog.query.filter_by(donor_id=donor_id).all()
     return phone_logs
 
+# This method return the phone conversation log with a Donor based on his donor_id
+# from the DONOR_CONTACT_LOGS pickle file.
+# The details are returned to views.donor_phone_contact_process()
+# Disabled Currently due to migration to MySQL Database
+# def donor_phone_logs_byid(donor_id):
+#     donor_contact_log_file = config.DONOR_CONTACT_LOGS_FILE
+#     pickle_obj = None
+#     contact_logs = []
+#     if os.path.exists(donor_contact_log_file):
+#         fh = open(donor_contact_log_file, 'rb')
+#         pickle_obj = pickle.load(fh)
+#         obj_len = len(pickle_obj)
+#         for i in range(0, obj_len):
+#             if int(pickle_obj[i]['donor_id']) == int(donor_id):
+#                 contact_logs.append(pickle_obj[i])
+#     return contact_logs
+
 
 # This method updates the donor_phone_logs table in the donorworkflow database with the details of the latest
 # telephonic conversation with the Donor
@@ -134,6 +152,17 @@ def get_new_donor_list():
 
 def get_volunteer_list():
     volunteer_list = User.query.filter_by(user_type='Volunteer').filter_by(account_status='Active').all()
+    print volunteer_list
+    # user_account_file = config.USER_DETAILS_PICKLE_FILE
+    #volunteer_list = []
+    #if os.path.exists(user_account_file):
+    #    fh = open(user_account_file, 'rb')
+    #    pickle_obj = pickle.load(fh)
+    #    obj_len = len(pickle_obj)
+    #    for i in range(0, obj_len):
+    #        if pickle_obj[i]['user_type'] == 'Volunteer' and pickle_obj[i]['account_status'] == 'Active':
+    #            volunteer_list.append(pickle_obj[i])
+
     return volunteer_list
 
 
@@ -142,6 +171,37 @@ def allot_volunteer(donor_id, volunteer_name):
     donor.volunteer_name = volunteer_name
     donor.donor_status = 'Allotted'
     db.session.commit()
+    # donor_file = config.DONOR_DETAILS_PICKLE_FILE
+    # donor_list = []
+    # if os.path.exists(donor_file):
+    #     fh = open(donor_file, 'rb')
+    #     pickle_obj = pickle.load(fh)
+    #     obj_len = len(pickle_obj)
+    #     for i in range(0, obj_len):
+    #         if int(pickle_obj[i]['id']) != int(donor_id):
+    #             donor_list.append(pickle_obj[i])
+    #         else:
+    #             pickle_obj[i]['volunteer_name'] = volunteer_name
+    #             pickle_obj[i]['donor_status'] = 'Allotted'
+    #             donor_list.append(pickle_obj[i])
+    # with open(donor_file, 'wb') as wfp:
+    #     pickle.dump(donor_list, wfp)
+
+
+def alotted_donors_byid(username):
+    allotted_donor_list = Donor.query.filter_by(volunteer_name=username).all()
+    return allotted_donor_list
+    # print username
+    # donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
+    # alotted_donor_list = []
+    # if os.path.exists(donor_details_file):
+    #     fh = open(donor_details_file, 'rb')
+    #     pickle_obj = pickle.load(fh)
+    #     obj_len = len(pickle_obj)
+    #     for i in range(0, obj_len):
+    #         if 'volunteer_name' in pickle_obj[i]:
+    #             if pickle_obj[i]['volunteer_name'] == username:
+    #                 alotted_donor_list.append(pickle_obj[i])
 
 
 def allotted_donors_byid(username):
@@ -149,26 +209,54 @@ def allotted_donors_byid(username):
     return allotted_donor_list
 
 
-def commit_donation(donation_details):
-    print donation_details
-    donation_file = config.DONATION_AMT_FILE
-    donation_list = []
-    if os.path.exists(donation_file):
-        fh = open(donation_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        fh.close()
-        for i in range(0, obj_len):
-            donation_list.append(pickle_obj[i])
-    donation_list.append(donation_details)
-    with open(donation_file, 'wb') as wfp:
-        pickle.dump(donation_list, wfp)
+# def commit_donation(donation_details):
+#     print donation_details
+#     donation_file = config.DONATION_AMT_FILE
+#     donation_list = []
+#     if os.path.exists(donation_file):
+#         fh = open(donation_file, 'rb')
+#         pickle_obj = pickle.load(fh)
+#         obj_len = len(pickle_obj)
+#         fh.close()
+#         for i in range(0, obj_len):
+#             donation_list.append(pickle_obj[i])
+#     donation_list.append(donation_details)
+#     with open(donation_file, 'wb') as wfp:
+#         pickle.dump(donation_list, wfp)
+#
+#     donor_id = donation_details['donor_id']
+#     print ('Donor ID:', donor_id)
+#     donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
+#     donor_details = []
+#     if os.path.exists(donor_details_file):
+#         fh = open(donor_details_file, 'rb')
+#         pickle_obj = pickle.load(fh)
+#         obj_len = len(pickle_obj)
+#         fh.close()
+#
+#         for i in range(0, obj_len):
+#
+#             if int(pickle_obj[i]['id']) != int(donor_id):
+#                 donor_details.append(pickle_obj[i])
+#             else:
+#                 print pickle_obj[i]
+#                 pickle_obj[i]['donor_status'] = 'Committed'
+#                 donor_details.append(pickle_obj[i])
+#
+#     print donor_details
+#     with open(donor_details_file, 'wb') as wfp:
+#         pickle.dump(donor_details, wfp)
 
-    donor_id = donation_details['donor_id']
-    print ('Donor ID:', donor_id)
+def commit_donation(donor_id,commit_date,commit_time,commit_amt,currency,
+                    payment_mode,remarks):
+    print 'Currency:'+currency
+    db.session.add(CommittedDonation(donor_id=donor_id,commit_date=commit_date,commit_time=commit_time,
+                                     commit_amt=commit_amt,currency=currency,payment_mode=payment_mode,remarks=remarks))
     donor = Donor.query.get(donor_id)
     donor.donor_status = 'Committed'
     db.session.commit()
+
+    return None
 
 def add_user_details_db(name, email, user_contact, username, password, user_type):
     hashed_passwd = generate_password_hash(password)
@@ -177,3 +265,15 @@ def add_user_details_db(name, email, user_contact, username, password, user_type
     db.session.add(User(username=username, full_name=name, email=email, phone=user_contact, user_type=user_type,
                         register_date=register_date, account_status=account_status, passwd=hashed_passwd))
     db.session.commit()
+    return None
+
+def add_new_emailtemplate(template_name,salutation,main_body,closing,
+                          signature_block):
+    db.session.add(EmailTemplate(template_name=template_name,salutation=salutation,main_body=main_body,
+                                 closing=closing,signature_block=signature_block))
+    db.session.commit()
+    return None
+
+def get_email_template_list():
+    email_template_list = EmailTemplate.query.all()
+    return email_template_list
