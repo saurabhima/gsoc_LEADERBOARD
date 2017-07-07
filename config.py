@@ -1,6 +1,7 @@
 DBUSERNAME = 'dbadmin'
 DBPASSWORD = 'dbadministrator'
 DBNAME = 'donorworkflow'
+DBHOSTNAME='localhost'
 USER_DETAILS_TABLE = 'workflow_users'
 USER_DETAILS_PICKLE_FILE = 'user_details.pickle'
 DONOR_DETAILS_PICKLE_FILE = 'donor_details.pickle'

@@ -90,7 +90,7 @@ def user_login_process():
     print 'user login process module'
     username = request.form['username']
     password = request.form['user_password']
-    # print (username, password)
+    print (username, password)
     logged_user_status, logged_user_type, user_fullname = sub_process.authenticate(username, password)
     print (logged_user_type, logged_user_status, user_fullname)
     if logged_user_status is False:
@@ -121,7 +121,7 @@ def approve_new_user():
     user_list = sub_process.get_pending_user_list()
     if len(user_list) > 0:
         user=user_list[0]
-        user.user_type=str(list(user.user_type)[0])
+        user.user_type=user.user_type
         user.phone=int(user.phone)
         return render_template('approve_user.html', user=user)
     else:
@@ -209,7 +209,7 @@ def donor_phone_contact():
 def donor_phone_contact_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_obj.donor_status = str(list(donor_obj.donor_status)[0])
+    donor_obj.donor_status = donor_obj.donor_status
     donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
@@ -235,27 +235,24 @@ def donor_phone_log_process():
     return redirect(url_for('donor_phone_contact'))
 
 
-@app.route('/donor_email_contact')
-def donor_email_contact():
-    donor_details_file = config.DONOR_DETAILS_PICKLE_FILE
-    pickle_obj = None
-    if os.path.exists(donor_details_file):
-        fh = open(donor_details_file, 'rb')
-        pickle_obj = pickle.load(fh)
-    return render_template('donor_email_contact.html', donor_list=pickle_obj)
+@app.route('/send_email_indl_donor')
+def send_email_indl_donor():
+    donor_list=sub_process.get_donor_list()
+    return render_template('send_email_indl_donor.html', donor_list=donor_list)
 
 
-@app.route('/donor_email_contact_process', methods=['POST'])
-def donor_email_contact_process():
+@app.route('/send_email_indl_donor_process', methods=['POST'])
+def send_email_indl_donor_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
     donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
-    return render_template('donor_email_contact_logging.html', donor_obj=donor_obj, phone_log=donor_previous_phone_logs,
+    email_template_list=sub_process.get_email_template_list()
+    return render_template('send_email_indl_donor_logging.html', donor_obj=donor_obj, phone_log=donor_previous_phone_logs,
                            email_log=donor_previous_email_logs,
-                           current_date=current_date, current_time=current_time)
+                           current_date=current_date, current_time=current_time,email_template_list=email_template_list)
 
 
 @app.route('/allot_volunteer')
@@ -289,7 +286,7 @@ def commit_donation():
 def commit_donation_process():
     donor_id = request.form['submit']
     donor_obj = sub_process.donor_details_byid(donor_id)
-    donor_previous_phone_logs = sub_process.donor_contact_logs_byid(donor_id)
+    donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
@@ -302,18 +299,28 @@ def commit_donation_process():
 def commit_donation_amt_process():
     donor_id = request.form['donor_id']
     commit_date = request.form['commit_date']
+    commit_date=datetime.datetime.strptime(commit_date, '%m-%d-%Y')
+    commit_date=commit_date.strftime("%Y-%m-%d")
     commit_time = request.form['commit_time']
     commit_amt = request.form['committed_amt']
     currency = request.form['currency']
+    print currency
     payment_mode = request.form['payment_mode']
     remarks = request.form['remarks']
-    donation_details = {}
-    donation_details['donor_id'] = donor_id
-    donation_details['commit_date'] = commit_date
-    donation_details['commit_time'] = commit_time
-    donation_details['commit_amt'] = commit_amt
-    donation_details['currency'] = currency
-    donation_details['payment_mode'] = payment_mode
-    donation_details['remarks'] = remarks
-    sub_process.commit_donation(donation_details)
+    sub_process.commit_donation(donor_id=donor_id,commit_date=commit_date,commit_time=commit_time,commit_amt=commit_amt,currency=currency,payment_mode=payment_mode,remarks=remarks)
+    return redirect(url_for('index'))
+
+@app.route('/create_new_emailtemplate')
+def create_new_emailtemplate():
+    return render_template('create_new_emailtemplate.html')
+
+@app.route('/new_emailtemplate_process',methods=['POST'])
+def new_emailtemplate_process():
+    template_name=request.form['template_name']
+    salutation=request.form['salutation']
+    main_body=request.form['main_body']
+    closing=request.form['closing']
+    signature_block=request.form['signature_block']
+    sub_process.add_new_emailtemplate(template_name=template_name,salutation=salutation,main_body=main_body,
+                                      closing=closing,signature_block=signature_block)
     return redirect(url_for('index'))

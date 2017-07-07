@@ -121,10 +121,12 @@ However the function reference as well as pickle files from the previous databas
  - [x] Prospective Donor Registration
  - [x] Update Donor Contacts
  - [x] Phone Contact Logging
- - [ ] Email Contact
+ - [ ] Email to Individual Donor
+ - [ ] Bulk Email to Donors
+ - [x] Add Email Template
  - [ ] Track Donor Communication
- - [ ] Commit Donation and Receipt
- - [ ] Accounting
+ - [x] Commit Donation 
+ - [ ] Accounting and Receipt
  - [ ] Logging
 
 ### About the Author
