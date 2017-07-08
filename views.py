@@ -7,7 +7,7 @@ import os
 import datetime
 
 from leaderboard import app
-
+from forms import UserRegistrationForm
 
 @app.route('/')
 def index():
@@ -41,16 +41,23 @@ def user_register():
 
 @app.route('/process_new_user_register', methods=['POST'])
 def process_new_user_register():
-    name = request.form['user_full_name']
-    email = request.form['user_email']
-    user_contact = request.form['user_contact']
-    username = request.form['username']
-    password = request.form['user_password']
-    user_type = request.form['user_type']
-    # print (name, email, user_contact, username, password, user_type)
-    if name and email and username and password and user_type:
-        sub_process.add_user_details_db(name=name,email=email,user_contact=user_contact,username=username,password=password,user_type=user_type)
+    form = UserRegistrationForm(request.form)
 
+    if not form.validate():
+        return redirect(url_for('user_register'))
+
+    name = form.user_full_name.data
+    email = form.user_email.data
+    user_contact = form.user_contact.data
+    username = form.username.data
+    password = form.user_password.data
+    user_type = form.user_type.data
+
+    user_exists = sub_process.find_user_by_email(email) is not None or sub_process.find_user_by_username(username) is not None
+    if user_exists:
+        return redirect(url_for('user_register'))
+
+    sub_process.add_user_details_db(name=name,email=email,user_contact=user_contact,username=username,password=password,user_type=user_type)
 
     #Module for Storing in Pickle File
     # user_list = []

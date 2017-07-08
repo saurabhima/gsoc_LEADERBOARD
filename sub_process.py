@@ -458,6 +458,7 @@ def commit_donation(donor_id,commit_date,commit_time,commit_amt,currency,
 
     return None
 
+
 def add_user_details_db(name, email, user_contact, username, password, user_type):
     hashed_passwd = generate_password_hash(password)
     register_date = datetime.datetime.now().date().strftime("%Y-%m-%d")
@@ -467,12 +468,22 @@ def add_user_details_db(name, email, user_contact, username, password, user_type
     db.session.commit()
     return None
 
+
+def find_user_by_username(username):
+    return User.query.get(username)
+
+
+def find_user_by_email(email):
+    return User.query.get(email)
+
+
 def add_new_emailtemplate(template_name,salutation,main_body,closing,
                           signature_block):
     db.session.add(EmailTemplate(template_name=template_name,salutation=salutation,main_body=main_body,
                                  closing=closing,signature_block=signature_block))
     db.session.commit()
     return None
+
 
 def get_email_template_list():
     email_template_list = EmailTemplate.query.all()
