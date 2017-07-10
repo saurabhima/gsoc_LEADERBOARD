@@ -469,6 +469,10 @@ def add_user_details_db(name, email, user_contact, username, password, user_type
     return None
 
 
+def find_donor(donor_id):
+    return Donor.query.get(donor_id)
+
+
 def find_user_by_username(username):
     return User.query.get(username)
 

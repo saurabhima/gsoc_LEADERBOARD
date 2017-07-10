@@ -7,7 +7,7 @@ import os
 import datetime
 
 from leaderboard import app
-from forms import UserRegistrationForm
+from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm
 
 @app.route('/')
 def index():
@@ -167,15 +167,21 @@ def register_new_donor():
 
 @app.route('/process_donor_form', methods=['POST'])
 def process_add_donors():
-    title = request.form['donor_title']
-    name = request.form['donor_name']
-    org = request.form['donor_org']
-    email = request.form['donor_email']
-    donor_contact = request.form['donor_contact']
-    contact_person = request.form['contact_person']
-    contact_date = request.form['contact_date']
-    contact_date = datetime.datetime.strptime(contact_date, '%m/%d/%Y')
-    anonymous_select = request.form['anonymous_select']
+    form = DonorAddForm(request.form)
+    
+    if not form.validate():
+        print form.errors
+        return redirect(url_for('register_new_donor'))
+
+    title = form.donor_title.data
+    name = form.donor_name.data
+    org = form.donor_org.data
+    email = form.donor_email.data
+    donor_contact = form.donor_contact.data
+    contact_person = form.contact_person.data
+    contact_date = form.contact_date.data
+    anonymous_select = form.anonymous_select.data
+
     sub_process.register_new_donor(title=title,name=name,org=org,email=email,
                                    donor_contact=donor_contact,contact_person=contact_person,
                                    contact_date=contact_date,anonymous_select=anonymous_select)
@@ -198,9 +204,14 @@ def donor_contact_update_process():
 
 @app.route('/donor_contact_update_form_process', methods=['POST'])
 def donor_contact_update_form_process():
+    form = DonorContactUpdateForm(request.form)
     donor_id = request.form['donor_id']
-    phone = request.form['donor_contact']
-    email = request.form['donor_email']
+    phone = form.donor_contact.data
+    email = form.donor_email.data
+
+    if not form.validate() or not sub_process.find_donor(donor_id):
+        return redirect(url_for('donor_contact_update'))
+
     sub_process.update_donor_contact(donor_id=donor_id, phone=phone, email=email)
     return redirect(url_for('donor_contact_update'))
 
