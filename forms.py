@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, validators, SelectField, DateField
+from wtforms import Form, StringField, validators, SelectField, DateField, IntegerField
 
 
 class UserRegistrationForm(Form):
@@ -30,3 +30,23 @@ class DonorAddForm(Form):
 class DonorContactUpdateForm(Form):
     donor_contact = StringField(u'Donor Contact Number', validators=[validators.optional()])
     donor_email = StringField(u'Donor Email Address', validators=[validators.required(), validators.email()])
+
+
+class DonationCommitForm(Form):
+    commit_date = DateField(u'Commit Date', format='%m-%d-%Y', validators=[validators.required()])
+    commit_time = StringField(u'Commit Time', validators=[validators.required()])
+    committed_amt = IntegerField(u'Committed Amount', validators=[validators.required(), validators.NumberRange(min=1)])
+    currency = SelectField(u'Currency', validators=[validators.required()], choices=[
+        ('USD', 'US Dollar'),
+        ('EUR', 'Euro'),
+        ('GBP', 'British Pound'),
+        ('BITCOIN', 'Bitcoin')
+    ])
+    payment_mode = SelectField(u'Payment Mode', validators=[validators.required()], choices=[
+        ('Online Bank', 'Bank Transfer'),
+        ('Paypal', 'Paypal'),
+        ('Crypto', 'Crypto Currency'),
+        ('CreditCard', 'Credit Card'),
+        ('Cheque', 'Cheque')
+    ])
+    remarks = StringField(u'Remarks', validators=[validators.optional()])

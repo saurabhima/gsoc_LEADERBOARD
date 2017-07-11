@@ -7,7 +7,7 @@ import os
 import datetime
 
 from leaderboard import app
-from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm
+from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm
 
 @app.route('/')
 def index():
@@ -315,16 +315,19 @@ def commit_donation_process():
 
 @app.route('/commit_donation_amt_process', methods=['POST'])
 def commit_donation_amt_process():
+    form = DonationCommitForm(request.form)
     donor_id = request.form['donor_id']
-    commit_date = request.form['commit_date']
-    commit_date=datetime.datetime.strptime(commit_date, '%m-%d-%Y')
-    commit_date=commit_date.strftime("%Y-%m-%d")
-    commit_time = request.form['commit_time']
-    commit_amt = request.form['committed_amt']
-    currency = request.form['currency']
+    if not form.validate() or not sub_process.find_donor(donor_id):
+        print(form.errors)
+        return redirect(url_for('commit_donation'))
+    commit_date = form.commit_date.data
+    commit_date = commit_date.strftime("%Y-%m-%d")
+    commit_time = form.commit_time.data
+    commit_amt = form.committed_amt.data
+    currency = form.currency.data
     print currency
-    payment_mode = request.form['payment_mode']
-    remarks = request.form['remarks']
+    payment_mode = form.payment_mode.data
+    remarks = form.remarks.data
     sub_process.commit_donation(donor_id=donor_id,commit_date=commit_date,commit_time=commit_time,commit_amt=commit_amt,currency=currency,payment_mode=payment_mode,remarks=remarks)
     return redirect(url_for('index'))
 
