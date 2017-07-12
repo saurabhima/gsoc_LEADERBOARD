@@ -254,6 +254,35 @@ def send_email_indl_donor_process():
                            email_log=donor_previous_email_logs,
                            current_date=current_date, current_time=current_time,email_template_list=email_template_list)
 
+@app.route('/send_email_indl_donor_compose', methods=['POST'])
+def send_email_indl_donor_compose():
+   template_name=request.form['template_name']
+   donor_id=request.form['donor_id']
+   donor_obj = sub_process.donor_details_byid(donor_id)
+   donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
+   donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
+   current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
+   current_time = datetime.datetime.now().time().strftime("%H:%M")
+   email_template_obj=sub_process.get_email_template_obj(template_name,donor_obj)
+
+   return render_template('send_email_indl_donor_compose.html', donor_obj=donor_obj,
+                          phone_log=donor_previous_phone_logs,
+                          email_log=donor_previous_email_logs,
+                          current_date=current_date, current_time=current_time, email_template_obj=email_template_obj)
+
+@app.route('/send_email_indl_donor_transmit',methods=['POST'])
+def send_email_indl_donor_transmit():
+    donor_id=request.form['donor_id']
+    contact_person=request.form['contact_person']
+    contact_date=request.form['contact_date']
+    contact_time=request.form['contact_time']
+    salutation=request.form['salutation']
+    main_body=request.form['main_body']
+    closing=request.form['closing']
+    signature=request.form['signature_block']
+    sub_process.transmit_indl_email(donor_id=donor_id,contact_person=contact_person,contact_date=contact_date,contact_time=contact_time,
+                                    salutation=salutation,main_body=main_body,closing=closing,signature=signature)
+    return redirect(url_for('index'))
 
 @app.route('/allot_volunteer')
 def allot_volunteer():

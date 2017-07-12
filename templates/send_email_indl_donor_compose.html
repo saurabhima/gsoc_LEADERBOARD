@@ -122,7 +122,7 @@
 
 <div class="container">
     <br><br>
-    <form class="well form-horizontal" action="/send_email_indl_donor_compose" method="post" id="donor_registration_form"
+    <form class="well form-horizontal" action="/send_email_indl_donor_transmit" method="post" id="donor_registration_form"
           name="donor_registration_form">
         <fieldset>
 
@@ -130,6 +130,16 @@
             <legend align="center" style="font-size: 25px"><u>Send Email to Donor</u></legend>
             <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
             <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label"><font color="#dc143c">Email Template</font></label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="email_template" placeholder="Email template" class="form-control" type="text"
+                               value="{{ email_template_obj['template_name'] }}" readonly>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">Contact Person</label>
                 <div class="col-md-4 inputGroupContainer">
@@ -161,26 +171,54 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" >
-                <label class="col-md-4 control-label">Template Name</label>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Salutation</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <select name="template_name" placeholder="Template Name" class="form-control">
-                            <option selected>Manual Composition</option>
-                            {% for templates in email_template_list %}
-                                <option>{{ templates['template_name'] }}</option>
-                            {% endfor %}
-                        </select>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="salutation" placeholder="Eg Dear,Greetings..." class="form-control" type="text" value="{{ email_template_obj['salutation'] }}">
                     </div>
                 </div>
             </div>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Main Body</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <textarea name="main_body" rows="10" cols="50" placeholder="Place the Content of the Email here. This shall be formatted later." class="form-control">{{ email_template_obj.main_body }}</textarea>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Closing</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <input name="closing" placeholder="Eg. With Warm Regards.." class="form-control" type="text" value="{{ email_template_obj.closing }}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Signature Block</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                        <textarea rows="4" cols="50" name="signature_block" placeholder="Place the Signature Block here. The name of the Volunteer will be automatically added on top with other contact info." class="form-control">{{ email_template_obj.signature_block }}</textarea>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Button -->
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning">Compose Email<span
+                    <button type="submit" class="btn btn-warning">Send Email<span
                             class="glyphicon glyphicon-send"></span></button>
                 </div>
             </div>

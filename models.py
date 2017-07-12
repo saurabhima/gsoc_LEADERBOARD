@@ -118,7 +118,7 @@ class EmailTemplate(db.Model):
     template_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
     template_name=db.Column(VARCHAR(50), nullable=False,unique=True)
     salutation=db.Column(VARCHAR(80), nullable=False)
-    main_body=db.Column(LONGBLOB, nullable=False)
+    main_body=db.Column(db.Text, nullable=False)
     closing=db.Column(VARCHAR(100), nullable=False)
     signature_block=db.Column(VARCHAR(150), nullable=False)
 

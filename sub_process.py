@@ -2,7 +2,7 @@ import config, os, pickle, datetime
 from leaderboard import *
 from models import User, Donor, DonorPhoneLog,CommittedDonation,EmailTemplate
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import pprint
 
 # User Authentication Method Using MySQL Database.
 # This method returns the login_status, user_account_type and user full name if the user is authenticated ,
@@ -17,8 +17,9 @@ def authenticate(username, password):
     if query_result is not None:
         print query_result
         query_passwd = query_result.passwd
+        query_account_status=query_result.account_status
         passwd_check = check_password_hash(query_passwd, password)
-        if passwd_check is True:
+        if passwd_check is True and query_account_status is 'Active':
             login_status = True
             user_account_type = query_result.user_type
             user_full_name = str(query_result.full_name)
@@ -477,3 +478,19 @@ def add_new_emailtemplate(template_name,salutation,main_body,closing,
 def get_email_template_list():
     email_template_list = EmailTemplate.query.all()
     return email_template_list
+
+def get_email_template_obj(template_name,donor_obj):
+    template_obj=EmailTemplate.query.filter_by(template_name=template_name).all()
+    template_package=template_obj[0]
+    if donor_obj.title is not None:
+        donor_full_name=donor_obj.title+' '+donor_obj.name
+    else:
+        donor_full_name = donor_obj.name
+    template_package.salutation=template_package.salutation+' '+donor_full_name
+    template_package.signature_block=session['logged_user_full_name']+'\n'+template_package.signature_block
+    print template_package.signature_block
+    return template_package
+
+def transmit_indl_email(donor_id,contact_person,contact_date,contact_time,salutation,
+                        main_body,closing,signature):
+    return None
