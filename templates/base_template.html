@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+Template Name: Jovaphile
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html lang="">
+<!-- To declare your language - read more here: https://www.w3.org/International/questions/qa-html-language-declarations -->
+<head>
+    <title>SphinxCapt.org</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="../static/css/layout.css" rel="stylesheet" type="text/css" media="all">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body id="top">
+<div class="wrapper row0">
+    <nav id="mainav" class="hoc clear">
+        <ul class="clear">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a class="drop" href="#">Donor Management</a>
+                <ul>
+                    <li><a href="/register_new_donor">Add New Donor</a></li>
+                    <li><a href="/donor_contact_update">Update Donor Contact</a></li>
+                    <li><a href="/donor_phone_contact">Log Donor Phone Conversation </a></li>
+                    <li><a href="/send_email_indl_donor">Send Email to Donor</a></li>
+                    <li><a href="#"><font color="#dc143c">Send Bulk Email to Donors</font></a></li>
+                    <li><a href="/commit_donation">Commit Donation</a></li>
+                </ul>
+            </li>
+            {% if session['login_status']=='True' and session['logged_user_type']=='Administrator' %}
+                <li><a class="drop" href="#">Administration</a>
+                    <ul>
+                        <li><a href="/approve_new_user">Approve User</a></li>
+                        <li><a href="#"><font color="#dc143c">Delete User</font></a></li>
+                        <li><a class="drop" href="#">Email Setup</a>
+                            <ul>
+                                <li><a href="/create_new_emailtemplate">Add Email template</a></li>
+                                <li><a href="#"><font color="#dc143c">Edit Email Template</font></a></li>
+                                <li><a href="#"><font color="#dc143c">Delete Email Template</font></a></li>
+                                <li><a href="#"><font color="#dc143c">Email Server Settings</font></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/allot_volunteer">Allot Volunteer to Donor</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+            <li><a href="/donorleaderboard">Donor Leaderboard</a></li>
+            {% if session['login_status'] == 'True' %}
+            <li>
+                <a href="#">Welcome, {{ session ['logged_user_full_name'] }} </a>
+            </li>
+            <li>
+                <a href="/logout">Log Off</a>
+            </li>
+            {% else %}
+            <li><a href="/user_login">Login</a></li>
+            <li><a href="/user_register">Register</a></li>
+            {% endif %}
+        </ul>  
+    </nav>
+</div>
+{% block content%}
+{% endblock %}
+<div class="wrapper row4">
+    <footer id="footer" class="hoc clear">
+        <div class="one_third first">
+            <h6 class="heading">Reach us the old way</h6>
+            <ul class="nospace btmspace-30 linklist contact">
+                <li><i class="fa fa-map-marker"></i>
+                    <address>
+                        Street Name &amp; Number, Town, Postcode/Zip
+                    </address>
+                </li>
+                <li><i class="fa fa-phone"></i> +00 (123) 456 7890</li>
+                <li><i class="fa fa-envelope-o"></i> help@sphinxcapt.org</li>
+            </ul>
+            <ul class="faico clear">
+                <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
+            </ul>
+        </div>
+        <div class="one_third">
+            <h6 class="heading">SphinxCAPT in News</h6>
+            <ul class="nospace linklist">
+                <li>
+                    <article>
+                        <h2 class="nospace font-x1"><a href="#">volutpat maximus vel</a></h2>
+                        <time class="font-xs block btmspace-10" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045
+                        </time>
+                        <p class="nospace">Primis in faucibus nam dictum malesuada dictum maecenas in magna arcu [&hellip;]</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <h2 class="nospace font-x1"><a href="#">et malesuada fames ante</a></h2>
+                        <time class="font-xs block btmspace-10" datetime="2045-04-05">Thursday, 5<sup>th</sup> April
+                            2045
+                        </time>
+                        <p class="nospace">Nullam tortor ligula lobortis pharetra leo vel malesuada auctor odio nunc [&hellip;]</p>
+                    </article>
+                </li>
+            </ul>
+        </div>
+        <div class="one_third">
+            <h6 class="heading">Get back on Mail</h6>
+            <p class="nospace btmspace-30">Please Provide us your Email and we will contact you right back.</p>
+            <form method="post" action="#">
+                <fieldset>
+                    <legend>Newsletter:</legend>
+                    <input class="btmspace-15" type="text" value="" placeholder="Name">
+                    <input class="btmspace-15" type="text" value="" placeholder="Email">
+                    <button type="submit" value="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+        
+    </footer>
+</div>
+<div class="wrapper row5">
+    <div id="copyright" class="hoc clear">  
+        <p class="fl_left">Copyright &copy; 2017 - All Rights Reserved - <a href="#">SphinxCAPT.org</a></p>
+        <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/"
+                                           title="Free Website Templates">OS Templates</a></p>
+    </div>
+</div>
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+<!-- JAVASCRIPTS -->
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/js/jquery.backtotop.js"></script>
+<script src="../static/js/jquery.mobilemenu.js"></script>
+</body>
+</html>
