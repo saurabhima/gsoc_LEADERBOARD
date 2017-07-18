@@ -100,7 +100,7 @@ ENV/
 .idea/dataSources/
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/workspace.xml
-client_secret.json
+
 config.pyc
 leaderboard.pyc
 models.pyc

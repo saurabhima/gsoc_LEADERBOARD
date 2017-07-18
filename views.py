@@ -208,11 +208,11 @@ def donor_contact_update_form_process():
     donor_id = request.form['donor_id']
     phone = form.donor_contact.data
     email = form.donor_email.data
-
+    org=form.donor_org.data
     if not form.validate() or not sub_process.find_donor(donor_id):
         return redirect(url_for('donor_contact_update'))
 
-    sub_process.update_donor_contact(donor_id=donor_id, phone=phone, email=email)
+    sub_process.update_donor_contact(donor_id=donor_id, phone=phone, email=email,org=org)
     return redirect(url_for('donor_contact_update'))
 
 

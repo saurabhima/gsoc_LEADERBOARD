@@ -16,8 +16,8 @@ class UserRegistrationForm(Form):
 class DonorAddForm(Form):
     donor_title = StringField(u'Donor Title', validators=[validators.required()])
     donor_name = StringField(u'Donor Name', validators=[validators.required()])
-    donor_org = StringField(u'Donor Organization', validators=[validators.required()])
-    donor_email = StringField(u'Donor Email Address', validators=[validators.required(), validators.email()])
+    donor_org = StringField(u'Donor Organization', validators=[validators.optional()])
+    donor_email = StringField(u'Donor Email Address', validators=[validators.optional(), validators.email()])
     donor_contact = StringField(u'Donor Contact No.', validators=[validators.optional()])
     contact_person = StringField(u'Contact Person', validators=[validators.required()])
     contact_date = DateField(u'Contact Date', validators=[validators.required()], format='%m/%d/%Y')
@@ -30,7 +30,7 @@ class DonorAddForm(Form):
 class DonorContactUpdateForm(Form):
     donor_contact = StringField(u'Donor Contact Number', validators=[validators.optional()])
     donor_email = StringField(u'Donor Email Address', validators=[validators.required(), validators.email()])
-
+    donor_org=StringField(u'Donor Organisation', validators=[validators.optional()])
 
 class DonationCommitForm(Form):
     commit_date = DateField(u'Commit Date', format='%m-%d-%Y', validators=[validators.required()])
