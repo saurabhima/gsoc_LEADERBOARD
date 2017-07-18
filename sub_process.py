@@ -1,8 +1,8 @@
 import config, os, pickle, datetime
 from leaderboard import *
-from models import User, Donor, DonorPhoneLog,CommittedDonation,EmailTemplate
+from models import User, Donor, DonorPhoneLog,CommittedDonation,EmailTemplate,DonorEmailLog
 from werkzeug.security import generate_password_hash, check_password_hash
-import pprint
+import email_service
 
 # User Authentication Method Using MySQL Database.
 # This method returns the login_status, user_account_type and user full name if the user is authenticated ,
@@ -295,10 +295,11 @@ def add_donor_phone_log(donor_id, contact_person, contact_date, contact_time, de
 # This method is called by views.donor_contact_update_form_process()
 # for updating contact information of the donor with the specified ID
 # in the donor_details table in the donorworkflow database
-def update_donor_contact(donor_id, phone, email):
+def update_donor_contact(donor_id, phone, email,org):
     user_details = Donor.query.filter_by(id=donor_id).first()
     user_details.phone = phone
     user_details.email = email
+    user_details.org=org
     db.session.commit()
 
 
@@ -325,18 +326,19 @@ def update_donor_contact(donor_id, phone, email):
 
 
 def donor_email_logs_byid(donor_id):
-    donor_email_log_file = config.DONOR_EMAIL_LOG_FILE
-    pickle_obj = None
-    email_logs = []
-    if os.path.exists(donor_email_log_file):
-        fh = open(donor_email_log_file, 'rb')
-        pickle_obj = pickle.load(fh)
-        obj_len = len(pickle_obj)
-        for i in range(0, obj_len):
-            if int(pickle_obj[i]['donor_id']) == int(donor_id):
-                email_logs.append(pickle_obj[i])
+    # donor_email_log_file = config.DONOR_EMAIL_LOG_FILE
+    # pickle_obj = None
+    # email_logs = []
+    # if os.path.exists(donor_email_log_file):
+    #     fh = open(donor_email_log_file, 'rb')
+    #     pickle_obj = pickle.load(fh)
+    #     obj_len = len(pickle_obj)
+    #     for i in range(0, obj_len):
+    #         if int(pickle_obj[i]['donor_id']) == int(donor_id):
+    #             email_logs.append(pickle_obj[i])
+    # return email_logs
+    email_logs = DonorEmailLog.query.filter_by(donor_id=donor_id).all()
     return email_logs
-
 
 def get_new_donor_list():
     new_donor_list = Donor.query.filter_by(donor_status='New').all()
@@ -495,17 +497,37 @@ def get_email_template_list():
     return email_template_list
 
 def get_email_template_obj(template_name,donor_obj):
-    template_obj=EmailTemplate.query.filter_by(template_name=template_name).all()
-    template_package=template_obj[0]
-    if donor_obj.title is not None:
-        donor_full_name=donor_obj.title+' '+donor_obj.name
+    if template_name!='Manual Composition':
+        template_obj=EmailTemplate.query.filter_by(template_name=template_name).all()
+        template_package=template_obj[0]
+        if donor_obj.title is not None:
+            donor_full_name=donor_obj.title+' '+donor_obj.name
+        else:
+            donor_full_name = donor_obj.name
+        template_package.salutation=template_package.salutation+' '+donor_full_name
+        template_package.signature_block=session['logged_user_full_name']+'\n'+template_package.signature_block
     else:
-        donor_full_name = donor_obj.name
-    template_package.salutation=template_package.salutation+' '+donor_full_name
-    template_package.signature_block=session['logged_user_full_name']+'\n'+template_package.signature_block
-    print template_package.signature_block
+        template_package=EmailTemplate()
+        template_package.template_name='Manual Composition'
+        template_package.salutation=''
+        template_package.main_body=''
+        template_package.closing=''
+        template_package.signature_block=''
+
     return template_package
 
 def transmit_indl_email(donor_id,contact_person,contact_date,contact_time,salutation,
                         main_body,closing,signature):
+    donor=find_donor(donor_id)
+    contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
+    contact_date=contact_date.date().strftime("%Y-%m-%d")
+    print(donor.email,contact_person,contact_date,contact_time,salutation,
+          main_body,closing,signature)
+    message_obj,mail_code,msg_body=email_service.outgoing_mail_process(donor_email=donor.email,contact_person=contact_person,contact_date=contact_date,
+                                        contact_time=contact_time,salutation=salutation,main_body=main_body,
+                                        closing=closing,signature=signature)
+
+
+    db.session.add(DonorEmailLog(contact_date=contact_date,contact_time=contact_time,contact_person=contact_person,donor_id=donor_id,main_body=main_body,full_email=msg_body,mail_code=mail_code))
+    db.session.commit()
     return None

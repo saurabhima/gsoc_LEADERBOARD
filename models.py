@@ -87,6 +87,30 @@ class DonorPhoneLog(db.Model):
     def __repr__(self):
         return '<LogID%r>' % (self.log_id)
 
+class DonorEmailLog(db.Model):
+    __tablename__ = 'donor_email_logs'
+    log_id = db.Column(INTEGER, primary_key=True, autoincrement=True)
+    contact_date = db.Column(DATE, nullable=False)
+    contact_time = db.Column(TIME, nullable=False)
+    contact_person = db.Column(VARCHAR(80), nullable=False)
+    donor_id = db.Column(INTEGER, nullable=False)
+    main_body=db.Column(LONGBLOB, nullable=False)
+    full_email = db.Column(LONGBLOB)
+    mail_code=db.Column(VARCHAR(20), nullable=False)
+
+    def __init__(self, contact_date=None, contact_time=None,
+                 contact_person=None, donor_id=None, main_body=None, full_email=None,mail_code=None):
+        self.contact_date = contact_date
+        self.contact_time = contact_time
+        self.contact_person = contact_person
+        self.donor_id = donor_id
+        self.main_body = main_body
+        self.full_email = full_email
+        self.mail_code=mail_code
+
+    def __repr__(self):
+        return '<LogID%r>' % (self.log_id)
+
 
 class CommittedDonation(db.Model):
     __tablename__ = 'committed_donation_details'
