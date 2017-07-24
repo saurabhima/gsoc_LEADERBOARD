@@ -1,145 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SphinxCAPT.org Donor LeaderBoard</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+{% extends "base_template.html" %}
 
-    <!-- Bootstrap -->
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
-    <link href="../static/css/bootstrap-datepicker3.css" rel="stylesheet">
-
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../static/js/bootstrap-datepicker.min.js"></script>
-
-
-
-</head>
-<body>
-<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Management Workflow</u></h1><br><br></div>
-{% if session['login_status']=='True' %}
-    <div class="container"><h4>Welcome {{ session['logged_user_full_name'] }}<a href="\logout">(Logoff)</a></h4></div>
-{% endif %}
-<div class="container">
-
-    <form class="well form-horizontal" action="/allot_volunteer_process" method="post" id="donor_registration_form"
-          name="donor_registration_form">
-        <fieldset>
-
-            <!-- Form Name -->
-            <legend align="center">Allot Volunteer</legend>
-            <div class="container"><h4 style="text-align: center"><u>Donor Details</u></h4></div>
-            <!-- Text input-->
-            <input name="donor_id" value="{{ donor['id'] }}" class="form-control" type="hidden">
-            <div class="form-group">
-                <label class="col-md-4 control-label">Donor Name</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="donor_name" placeholder="Donor Name" class="form-control" type="text" readonly value="{{ donor['title']+' '+ donor['name'] }}">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label">Donor Organization</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                        <input name="donor_org" placeholder="Donor Organization" class="form-control" type="text" readonly value="{{ donor['org'] }}">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Donor Email</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input name="donor_email" placeholder="Donor Email" class="form-control" type="text" readonly value="{{ donor['email'] }}">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">Donor Contact</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                        <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text" readonly value="{{ donor['phone'] }}">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label" style="color: #761c19">Keep Anonymous</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                        <input name="anonymous_select" placeholder="Anonymous" class="form-control" type="text" readonly value="{{ donor['anonymous_select'] }}">
-
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="container"><h4 style="text-align: center"><u>Contact Person Details</u></h4></div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Contact Person</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="contact_person" placeholder="Contact Person" class="form-control" type="text"
-                               readonly value="{{ donor['contact_person'] }}">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">Contact Date</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <input name="contact_date" placeholder="Contact Date" class="form-control" type="text" readonly value="{{ donor['contact_date'] }}">
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="container"><h4 style="text-align: center"><u>Volunteer Details</u></h4></div>
-             <div class="form-group">
-                <label class="col-md-4 control-label">Volunteer Name</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                        <select name="volunteer_name" placeholder="Volunteer Name" class="form-control">
-                           {% if volunteers!=None %}
-                                {% for line in volunteers %}
-                                     <option>{{ line['full_name'] }}</option>
-
-                                {% endfor %}
-                            {% endif %}
-
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label"></label>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning">Allot<span
-                            class="glyphicon glyphicon-send"></span></button>
-                </div>
-            </div>
-
-        </fieldset>
-    </form>
+{% block content %}
+<div class="wrapper row1">
+    <header class="hoc clear" id="header">
+        <h1>Allot Volunteer</h1>
+    </header>
 </div>
-</div>
+<div class="wrapper row1">
+    <div class="hoc container clear">
+        <div class="one_quarter first"><span style="visibility: hidden;">Hidden Text</span></div>
+        <div id="comments" class="one_half">
+            <h4>Donor Details</h4>
+            <form class="well form-horizontal" action="/allot_volunteer_process" method="post" id="donor_registration_form" name="donor_registration_form">
+                <fieldset>
+                    <!-- Text input-->
+                    <input name="donor_id" value="{{ donor['id'] }}" class="form-control" type="hidden">
+                    <div class="form-group">
+                        <label>Donor Name</label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="donor_name" placeholder="Donor Name" class="form-control" type="text" readonly value="{{ donor['title']+' '+ donor['name'] }}">
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label>Donor Organization</label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                            <input name="donor_org" placeholder="Donor Organization" class="form-control" type="text" readonly value="{{ donor['org'] }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Donor Email</label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="donor_email" placeholder="Donor Email" class="form-control" type="text" readonly value="{{ donor['email'] }}">
+                    </div>
 
-</body>
-</html>
+                    <div class="form-group">
+                        <label>Donor Contact</label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                            <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text" readonly value="{{ donor['phone'] }}">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #761c19">Keep Anonymous</label>
+                            <input name="anonymous_select" placeholder="Anonymous" class="form-control" type="text" readonly value="{{ donor['anonymous_select'] }}">
+
+                            </select>
+                    </div>
+                    <hr>
+                    <h4>Contact Person Details</h4>
+                    <div class="form-group">
+                        <label>Contact Person</label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="contact_person" placeholder="Contact Person" class="form-control" type="text" readonly value="{{ donor['contact_person'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contact Date</label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <input name="contact_date" placeholder="Contact Date" class="form-control" type="text" readonly value="{{ donor['contact_date'] }}">
+                    </div>
+                    <hr>
+                    <h4>Volunteer Details</h4>
+                    <div class="form-group">
+                        <label>Volunteer Name</label>
+                            <select name="volunteer_name" placeholder="Volunteer Name" class="form-control">
+                                {% if volunteers!=None %}
+                                    {% for line in volunteers %}
+                                            <option>{{ line['full_name'] }}</option>
+
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                    </div>
+                    <hr>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label></label>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-warning">Allot</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

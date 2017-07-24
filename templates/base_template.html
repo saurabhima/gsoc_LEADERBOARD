@@ -14,6 +14,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="../static/css/layout.css" rel="stylesheet" type="text/css" media="all">
     <link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="../static/css/bootstrap-datepicker3.css" rel="stylesheet">
 </head>
 <body id="top">
 <div class="wrapper row0">
@@ -64,65 +65,6 @@ Licence URI: http://www.os-templates.com/template-terms
 </div>
 {% block content%}
 {% endblock %}
-<div class="wrapper row4">
-    <footer id="footer" class="hoc clear">
-        <div class="one_third first">
-            <h6 class="heading">Reach us the old way</h6>
-            <ul class="nospace btmspace-30 linklist contact">
-                <li><i class="fa fa-map-marker"></i>
-                    <address>
-                        Street Name &amp; Number, Town, Postcode/Zip
-                    </address>
-                </li>
-                <li><i class="fa fa-phone"></i> +00 (123) 456 7890</li>
-                <li><i class="fa fa-envelope-o"></i> help@sphinxcapt.org</li>
-            </ul>
-            <ul class="faico clear">
-                <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
-            </ul>
-        </div>
-        <div class="one_third">
-            <h6 class="heading">SphinxCAPT in News</h6>
-            <ul class="nospace linklist">
-                <li>
-                    <article>
-                        <h2 class="nospace font-x1"><a href="#">volutpat maximus vel</a></h2>
-                        <time class="font-xs block btmspace-10" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045
-                        </time>
-                        <p class="nospace">Primis in faucibus nam dictum malesuada dictum maecenas in magna arcu [&hellip;]</p>
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <h2 class="nospace font-x1"><a href="#">et malesuada fames ante</a></h2>
-                        <time class="font-xs block btmspace-10" datetime="2045-04-05">Thursday, 5<sup>th</sup> April
-                            2045
-                        </time>
-                        <p class="nospace">Nullam tortor ligula lobortis pharetra leo vel malesuada auctor odio nunc [&hellip;]</p>
-                    </article>
-                </li>
-            </ul>
-        </div>
-        <div class="one_third">
-            <h6 class="heading">Get back on Mail</h6>
-            <p class="nospace btmspace-30">Please Provide us your Email and we will contact you right back.</p>
-            <form method="post" action="#">
-                <fieldset>
-                    <legend>Newsletter:</legend>
-                    <input class="btmspace-15" type="text" value="" placeholder="Name">
-                    <input class="btmspace-15" type="text" value="" placeholder="Email">
-                    <button type="submit" value="submit">Submit</button>
-                </fieldset>
-            </form>
-        </div>
-        
-    </footer>
-</div>
 <div class="wrapper row5">
     <div id="copyright" class="hoc clear">  
         <p class="fl_left">Copyright &copy; 2017 - All Rights Reserved - <a href="#">SphinxCAPT.org</a></p>
@@ -135,5 +77,9 @@ Licence URI: http://www.os-templates.com/template-terms
 <script src="../static/js/jquery-3.2.1.min.js"></script>
 <script src="../static/js/jquery.backtotop.js"></script>
 <script src="../static/js/jquery.mobilemenu.js"></script>
+<script src="../static/js/bootstrap-datepicker.min.js"></script>
+<script src="../static/js/jquery.dataTables.min.js"></script>
+{% block scripts %}
+{% endblock %}
 </body>
 </html>
