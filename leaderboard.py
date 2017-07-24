@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
+import logging
 import config
 
 app = Flask(__name__)

@@ -95,9 +95,9 @@
         <th>Contact Person</th>
         <th>Contact Date</th>
         <th>Contact Time</th>
-        <th>From</th>
-        <th>To</th>
+        <th>Tracking Code</th>
         <th>Content</th>
+
 
 
         </thead>
@@ -109,9 +109,8 @@
                     <td>{{ line['contact_person'] }}</td>
                     <td>{{ line['contact_date'] }}</td>
                     <td>{{ line['contact_time'] }}</td>
-                    <td>{{ line['from'] }}</td>
-                    <td>{{ line['to'] }}</td>
-                    <td>{{ line['content'] }}</td>
+                    <td>{{ line['mail_code'] }}</td>
+                    <td>{{ line['main_body'] }}</td>
 
                 </tr>
             {% endfor %}

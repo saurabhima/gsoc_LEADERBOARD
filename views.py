@@ -191,9 +191,17 @@ def process_add_donors():
 # Update Donor Contacts
 @app.route('/donor_contact_update')
 def donor_contact_update():
-    donor_list=sub_process.get_donor_list()
-    return render_template('donor_contact_update.html', donor_list=donor_list)
+    try:
+        if session['login_status'] == 'True' and (
+                        session['logged_user_type'] == 'Administrator' or session['logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+            donor_list = sub_process.get_donor_list()
+            return render_template('donor_contact_update.html', donor_list=donor_list)
 
+        else:
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
 
 @app.route('/donor_contact_update_process', methods=['POST'])
 def donor_contact_update_process():
@@ -219,8 +227,18 @@ def donor_contact_update_form_process():
 # Donor Phone Contact
 @app.route('/donor_phone_contact')
 def donor_phone_contact():
-    donor_list = sub_process.get_donor_list()
-    return render_template('donor_phone_contact.html', donor_list=donor_list)
+    try:
+        if session['login_status'] == 'True' and (
+                            session['logged_user_type'] == 'Administrator' or session[
+                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+            donor_list = sub_process.get_donor_list()
+            return render_template('donor_phone_contact.html', donor_list=donor_list)
+
+        else:
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
 
 
 @app.route('/donor_phone_contact_process', methods=['POST'])
@@ -255,8 +273,35 @@ def donor_phone_log_process():
 
 @app.route('/send_email_indl_donor')
 def send_email_indl_donor():
-    donor_list=sub_process.get_donor_list()
-    return render_template('send_email_indl_donor.html', donor_list=donor_list)
+    try:
+        if session['login_status'] == 'True' and (
+                            session['logged_user_type'] == 'Administrator' or session[
+                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+            donor_list = sub_process.get_donor_list()
+            return render_template('send_email_indl_donor.html', donor_list=donor_list)
+
+        else:
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
+
+@app.route('/send_bulk_email_donor')
+def send_bulk_email_donor():
+    try:
+        if session['login_status'] == 'True' and (
+                            session['logged_user_type'] == 'Administrator' or session[
+                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+            print 'You are here???'
+            donor_list = sub_process.get_donor_list()
+            return render_template('send_bulk_email_donor.html', donor_list=donor_list)
+
+        else:
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
+
 
 
 @app.route('/send_email_indl_donor_process', methods=['POST'])
@@ -322,11 +367,22 @@ def allot_volunteer_process():
 
 @app.route('/commit_donation')
 def commit_donation():
-    donor_list = sub_process.alotted_donors_byid(session['logged_user_full_name'])
-    if len(donor_list) > 0:
-        return render_template('commit_donation.html', donor_list=donor_list)
-    else:
-        return render_template('commit_donation.html')
+    try:
+        if session['login_status'] == 'True' and (
+                            session['logged_user_type'] == 'Administrator' or session[
+                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+            donor_list = sub_process.alotted_donors_byid(session['logged_user_full_name'])
+            if len(donor_list) > 0:
+                return render_template('commit_donation.html', donor_list=donor_list)
+            else:
+                return render_template('commit_donation.html')
+
+        else:
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
+
 
 
 @app.route('/commit_donation_process', methods=['POST'])

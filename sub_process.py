@@ -1,4 +1,5 @@
 import config, os, pickle, datetime
+from flask import session
 from leaderboard import *
 from models import User, Donor, DonorPhoneLog,CommittedDonation,EmailTemplate,DonorEmailLog
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,7 +20,7 @@ def authenticate(username, password):
         query_passwd = query_result.passwd
         query_account_status=query_result.account_status
         passwd_check = check_password_hash(query_passwd, password)
-        if passwd_check is True and query_account_status is 'Active':
+        if passwd_check is True and query_account_status=='Active':
             login_status = True
             user_account_type = query_result.user_type
             user_full_name = str(query_result.full_name)
