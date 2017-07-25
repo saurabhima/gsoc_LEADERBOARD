@@ -1,4 +1,5 @@
 {% extends "base_template.html" %}
+
 {% block content %}
 <div class="wrapper row1">
     <header class="hoc clear" id="header">
@@ -8,73 +9,45 @@
 <div class="wrapper row1">
     <div class="hoc container clear">
         <div class="one_quarter first"><span style="visibility: hidden;">Hidden Text</span></div>
-        <div id="comments" class="one_half">
+        <div class="one_half">
             <h4>Donor Details</h4>
-            <form class="well form-horizontal" action="/donor_contact_update_form_process" method="post"
-        id="donor_contact_update_form"
-        name="donor_contact_update_form">
-            <fieldset>
-                <!-- Text input-->
-                <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Donor Name</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input name="donor_name" placeholder="Donor Name" class="form-control" type="text" readonly
-                                    value="{{ donor_obj['title']+' '+donor_obj['name'] }}">
-                        </div>
+            <form class="well form-horizontal" action="/donor_contact_update_form_process" method="post" id="donor_contact_update_form"
+                name="donor_contact_update_form">
+                <fieldset>
+                    <!-- Text input-->
+                    <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
+                    <div class="block clear">
+                        <label>Donor Name</label>
+                        <input name="donor_name" placeholder="Donor Name" class="form-control" type="text" readonly value="{{ donor_obj['title']+' '+donor_obj['name'] }}">
                     </div>
-                </div>
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Donor Organization</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input name="donor_org" placeholder="Donor Organization" class="form-control" type="text"
-                                    value="{{ donor_obj['org'] }}">
-                        </div>
+                    <!-- Text input-->
+                    <div class="block clear">
+                        <label>Donor Organization</label>
+                        <input name="donor_org" placeholder="Donor Organization" class="form-control" type="text" value="{{ donor_obj['org'] }}">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Donor Email</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <input name="donor_email" placeholder="Donor Email" class="form-control" type="text"
-                                    value="{{ donor_obj['email'] }}">
-                        </div>
+                    <div class="block clear">
+                        <label>Donor Email</label>
+                        <input name="donor_email" placeholder="Donor Email" class="form-control" type="text" value="{{ donor_obj['email'] }}">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Donor Contact</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                            <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text"
-                                    value="{{ donor_obj['phone'] }}">
-                        </div>
+                    <div class="block clear">
+                        <label>Donor Contact</label>
+                        <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text" value="{{ donor_obj['phone'] }}">
                     </div>
-                </div>
-                <!-- Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-warning">Update Contact<span
-                                class="glyphicon glyphicon-send"></span></button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+                    <!-- Button -->
+                    <div class="block clear">
+                        <button type="submit" class="btn">Update Contact</button>
+                </fieldset>
+            </form>
+            </div>
         </div>
     </div>
-</div>
-{% endblock %}
-{% block scripts %}
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#sandbox-container .input-group.date').datepicker({});
-    });
-</script>
-{% endblock %}
+    {% endblock %}
+    
+    {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sandbox-container .input-group.date').datepicker({});
+        });
+
+    </script>
+    {% endblock %}

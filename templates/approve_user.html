@@ -9,7 +9,7 @@
 <div class="wrapper row1">
     <div class="hoc container clear">
         <div class="one_quarter first"><span style="visibility: hidden;">Hidden Text</span></div>
-        <div id="comments" class="one_half">
+        <div class="one_half">
             <h4>User Details</h4>
             <form action="/approve_new_user_process" method="post" id="user_approval_form" name="user_approval_form">
                 <fieldset>
@@ -21,7 +21,7 @@
                     <!-- Text input-->
                     <div class="block clear">
                         <label>User Email</label>
-                        <input name="user_email" placeholder="User Email" type="text" value="{{ user['email'] }}" readonly>
+                        <input class="form-control" name="user_email" placeholder="User Email" type="text" value="{{ user['email'] }}" readonly>
                     </div>
                     <div class="block clear">
                         <label class="col-md-4 control-label">User Contact</label>
@@ -38,10 +38,10 @@
                     <!-- Button -->
                     <div class="block clear">
                         <div class="one_third">
-                            <button type="submit" class="btn btn-warning" name="submit" value="Approve">Approve</button>
+                            <button type="submit" class="btn" name="submit" value="Approve">Approve</button>
                         </div>
                         <div class="one_third">
-                            <button type="submit" class="btn btn-warning" name="submit" value="Reject">Reject</button>
+                            <button type="submit" class="btn" name="submit" value="Reject">Reject</button>
                         </div>
                     </div>
                 </fieldset>

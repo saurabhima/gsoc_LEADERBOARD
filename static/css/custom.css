@@ -1,0 +1,54 @@
+ .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid;
+    border-color: #D7D7D7;
+}
+
+ .form-control[readonly]{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid;
+    border-color: #D7D7D7;
+    background-color: #D7D7D7;
+}
+
+.form-control:focus {
+    border-color: #74D3D3;
+}
+
+.form-control textarea {
+    overflow: auto;
+}
+
+.btn input[type="submit"] {
+    display: inline-block;
+    width: auto;
+    min-width: 150px;
+    margin: 0;
+    padding: 8px 5px;
+    cursor: pointer;
+}
+
+form {
+    display: block;
+    width: 100%;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+input[type="search"] {
+    min-width: 100px;
+    padding: 10px;
+    border: 1px solid;
+    border-color: #D7D7D7;
+}
+
+.dataTables_length select {
+    min-width: 50px;
+    padding: 5px;
+    border: 1px solid;
+    border-color: #D7D7D7;
+}
