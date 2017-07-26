@@ -20,7 +20,7 @@ class DonorAddForm(Form):
     donor_email = StringField(u'Donor Email Address', validators=[validators.optional(), validators.email()])
     donor_contact = StringField(u'Donor Contact No.', validators=[validators.optional()])
     contact_person = StringField(u'Contact Person', validators=[validators.required()])
-    contact_date = DateField(u'Contact Date', validators=[validators.required()], format='%m/%d/%Y')
+    contact_date = DateField(u'Contact Date', validators=[validators.required()])
     anonymous_select = SelectField(u'Anonymous', choices=[
         ('Yes', 'Yes'),
         ('No', 'No')
