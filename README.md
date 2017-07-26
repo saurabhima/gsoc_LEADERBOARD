@@ -122,7 +122,7 @@ However the function reference as well as pickle files from the previous databas
  - [x] Update Donor Contacts
  - [x] Phone Contact Logging
  - [x] Email to Individual Donor
- - [ ] Bulk Email to Donors
+ - [x] Bulk Email to Donors
  - [x] Add Email Template
  - [ ] Track Donor Communication
  - [x] Commit Donation 

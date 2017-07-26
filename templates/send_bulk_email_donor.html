@@ -49,9 +49,9 @@
                     <td>{{ line['contact_date'] }}</td>
                     <td>{{ line['donor_status'] }}</td>
                     <td>
-                        <form name="phone" action="/send_email_indl_donor_process" method="post">
-                            <button type="submit" class="btn btn-warning" name="submit"><span
-                                    class="glyphicon glyphicon-envelope"></span></button>
+                        <form name="add_donor" action="/send_bulk_email_donor_process" method="post">
+                            <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}"><span
+                                    class="glyphicon glyphicon-plus-sign"></span></button>
                         </form>
                     </td>
                 </tr>
@@ -60,6 +60,36 @@
 
         </tbody>
     </table>
+</div>
+<div class="container"><br><br></div>
+<div class="container">
+     <form class="well form-horizontal" name="send_bulk_mail" action="/send_bulk_email_donor_compose" method="post" id="send_bulk_mail"
+     >
+     <fieldset>
+
+        <div class="form-group" >
+                <label class="col-md-4 control-label">Template Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <select name="template_name" placeholder="Template Name" class="form-control">
+                            <option selected>Manual Composition</option>
+                            {% for templates in email_template_list %}
+                                <option>{{ templates['template_name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+     <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-warning" value="Compose">Compose Email<span
+                            class="glyphicon glyphicon-send"></span></button>
+                </div>
+            </div>
+     </fieldset>
+     </form>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

@@ -50,3 +50,4 @@ class DonationCommitForm(Form):
         ('Cheque', 'Cheque')
     ])
     remarks = StringField(u'Remarks', validators=[validators.optional()])
+
