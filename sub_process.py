@@ -1,4 +1,5 @@
 import config, os, pickle, datetime
+from flask import session
 from leaderboard import *
 from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList
 from werkzeug.security import generate_password_hash, check_password_hash
