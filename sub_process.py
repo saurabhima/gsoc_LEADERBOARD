@@ -561,16 +561,20 @@ def transmit_indl_email(donor_id, contact_person, contact_date, contact_time, sa
 
 
 def add_donor_bulk_email_list(donor_id):
-    existing_list_check = BulkEmailList.query.filter_by(donor_id=donor_id).first()
+    current_username = session['logged_username']
+    existing_list_check = BulkEmailList.query.filter_by(donor_id=donor_id).filter_by(username=current_username).first()
     print(existing_list_check)
+
+
     if existing_list_check is None:
-        db.session.add(BulkEmailList(donor_id=donor_id))
+        db.session.add(BulkEmailList(donor_id=donor_id,username=current_username))
         db.session.commit()
     return None
 
 
 def get_bulk_email_donor_details():
-    donor_list_query = BulkEmailList.query.all()
+    current_username= session['logged_username']
+    donor_list_query = BulkEmailList.query.filter_by(username=current_username).all()
     donor_list = []
     for donors in donor_list_query:
         donor_list.append(int(donors.donor_id))
@@ -588,6 +592,8 @@ def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, 
         else:
             donor_full_name = donors.name
         temp_salutation = salutation + ' ' + donor_full_name
+        print(donors.email, contact_person, contact_date, contact_time, salutation,
+              main_body, closing, signature)
         message_obj, mail_code, msg_body = email_service.outgoing_mail_process(donor_email=donors.email,
                                                                                contact_person=contact_person,
                                                                                contact_date=contact_date,
@@ -598,5 +604,6 @@ def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, 
         db.session.add(DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
                           donor_id=donors.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
         db.session.commit()
-        BulkEmailList.query.delete()
+        current_username = session['logged_username']
+        BulkEmailList.query.filter_by(username=current_username).delete()
     return None

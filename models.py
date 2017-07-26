@@ -160,12 +160,12 @@ class EmailTemplate(db.Model):
 class BulkEmailList(db.Model):
     __tablename__ = 'bulk_email_list'
     bulk_mail_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
-    donor_id=db.Column(INTEGER, nullable=False,unique=True)
+    donor_id=db.Column(INTEGER, nullable=False)
+    username = db.Column(VARCHAR(50),nullable=False)
 
-
-    def __init__(self,donor_id=donor_id):
+    def __init__(self,donor_id=donor_id,username=username):
         self.donor_id = donor_id
-
+        self.username= username
 
     def __repr__(self):
         return '<DonorID%r>' % (self.donor_id)
