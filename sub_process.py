@@ -1,9 +1,10 @@
 import config, os, pickle, datetime
 from flask import session
 from leaderboard import *
-from models import User, Donor, DonorPhoneLog,CommittedDonation,EmailTemplate,DonorEmailLog
+from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList
 from werkzeug.security import generate_password_hash, check_password_hash
 import email_service
+
 
 # User Authentication Method Using MySQL Database.
 # This method returns the login_status, user_account_type and user full name if the user is authenticated ,
@@ -18,9 +19,9 @@ def authenticate(username, password):
     if query_result is not None:
         print query_result
         query_passwd = query_result.passwd
-        query_account_status=query_result.account_status
+        query_account_status = query_result.account_status
         passwd_check = check_password_hash(query_passwd, password)
-        if passwd_check is True and query_account_status=='Active':
+        if passwd_check is True and query_account_status == 'Active':
             login_status = True
             user_account_type = query_result.user_type
             user_full_name = str(query_result.full_name)
@@ -237,6 +238,7 @@ def donor_phone_logs_byid(donor_id):
     phone_logs = DonorPhoneLog.query.filter_by(donor_id=donor_id).all()
     return phone_logs
 
+
 # This method return the phone conversation log with a Donor based on his donor_id
 # from the DONOR_CONTACT_LOGS pickle file.
 # The details are returned to views.donor_phone_contact_process()
@@ -259,11 +261,12 @@ def donor_phone_logs_byid(donor_id):
 # telephonic conversation with the Donor
 def add_donor_phone_log(donor_id, contact_person, contact_date, contact_time, details_shared,
                         remarks):
-    db.session.add(DonorPhoneLog(contact_date=contact_date,contact_time=contact_time,
-                                 contact_person=contact_person,donor_id=donor_id,remarks=remarks,
+    db.session.add(DonorPhoneLog(contact_date=contact_date, contact_time=contact_time,
+                                 contact_person=contact_person, donor_id=donor_id, remarks=remarks,
                                  details_shared=details_shared))
     db.session.commit()
     return None
+
 
 # This method updates the DONOR_CONTACT_LOG pickle file with the details of the latest
 # telephonic conversation with the Donor
@@ -296,11 +299,11 @@ def add_donor_phone_log(donor_id, contact_person, contact_date, contact_time, de
 # This method is called by views.donor_contact_update_form_process()
 # for updating contact information of the donor with the specified ID
 # in the donor_details table in the donorworkflow database
-def update_donor_contact(donor_id, phone, email,org):
+def update_donor_contact(donor_id, phone, email, org):
     user_details = Donor.query.filter_by(id=donor_id).first()
     user_details.phone = phone
     user_details.email = email
-    user_details.org=org
+    user_details.org = org
     db.session.commit()
 
 
@@ -341,6 +344,7 @@ def donor_email_logs_byid(donor_id):
     email_logs = DonorEmailLog.query.filter_by(donor_id=donor_id).all()
     return email_logs
 
+
 def get_new_donor_list():
     new_donor_list = Donor.query.filter_by(donor_status='New').all()
 
@@ -361,8 +365,8 @@ def get_volunteer_list():
     volunteer_list = User.query.filter_by(user_type='Volunteer').filter_by(account_status='Active').all()
     print volunteer_list
     # user_account_file = config.USER_DETAILS_PICKLE_FILE
-    #volunteer_list = []
-    #if os.path.exists(user_account_file):
+    # volunteer_list = []
+    # if os.path.exists(user_account_file):
     #    fh = open(user_account_file, 'rb')
     #    pickle_obj = pickle.load(fh)
     #    obj_len = len(pickle_obj)
@@ -451,11 +455,12 @@ def alotted_donors_byid(username):
 #     with open(donor_details_file, 'wb') as wfp:
 #         pickle.dump(donor_details, wfp)
 
-def commit_donation(donor_id,commit_date,commit_time,commit_amt,currency,
-                    payment_mode,remarks):
-    print 'Currency:'+currency
-    db.session.add(CommittedDonation(donor_id=donor_id,commit_date=commit_date,commit_time=commit_time,
-                                     commit_amt=commit_amt,currency=currency,payment_mode=payment_mode,remarks=remarks))
+def commit_donation(donor_id, commit_date, commit_time, commit_amt, currency,
+                    payment_mode, remarks):
+    print 'Currency:' + currency
+    db.session.add(CommittedDonation(donor_id=donor_id, commit_date=commit_date, commit_time=commit_time,
+                                     commit_amt=commit_amt, currency=currency, payment_mode=payment_mode,
+                                     remarks=remarks))
     donor = Donor.query.get(donor_id)
     donor.donor_status = 'Committed'
     db.session.commit()
@@ -485,10 +490,10 @@ def find_user_by_email(email):
     return User.query.get(email)
 
 
-def add_new_emailtemplate(template_name,salutation,main_body,closing,
+def add_new_emailtemplate(template_name, salutation, main_body, closing,
                           signature_block):
-    db.session.add(EmailTemplate(template_name=template_name,salutation=salutation,main_body=main_body,
-                                 closing=closing,signature_block=signature_block))
+    db.session.add(EmailTemplate(template_name=template_name, salutation=salutation, main_body=main_body,
+                                 closing=closing, signature_block=signature_block))
     db.session.commit()
     return None
 
@@ -497,38 +502,108 @@ def get_email_template_list():
     email_template_list = EmailTemplate.query.all()
     return email_template_list
 
-def get_email_template_obj(template_name,donor_obj):
-    if template_name!='Manual Composition':
-        template_obj=EmailTemplate.query.filter_by(template_name=template_name).all()
-        template_package=template_obj[0]
+
+def get_email_template_obj(template_name, donor_obj):
+    if template_name != 'Manual Composition':
+        template_obj = EmailTemplate.query.filter_by(template_name=template_name).all()
+        template_package = template_obj[0]
         if donor_obj.title is not None:
-            donor_full_name=donor_obj.title+' '+donor_obj.name
+            donor_full_name = donor_obj.title + ' ' + donor_obj.name
         else:
             donor_full_name = donor_obj.name
-        template_package.salutation=template_package.salutation+' '+donor_full_name
-        template_package.signature_block=session['logged_user_full_name']+'\n'+template_package.signature_block
+        template_package.salutation = template_package.salutation + ' ' + donor_full_name
+        template_package.signature_block = session['logged_user_full_name'] + '\n' + template_package.signature_block
     else:
-        template_package=EmailTemplate()
-        template_package.template_name='Manual Composition'
-        template_package.salutation=''
-        template_package.main_body=''
-        template_package.closing=''
-        template_package.signature_block=''
+        template_package = EmailTemplate()
+        template_package.template_name = 'Manual Composition'
+        template_package.salutation = ''
+        template_package.main_body = ''
+        template_package.closing = ''
+        template_package.signature_block = ''
 
     return template_package
 
-def transmit_indl_email(donor_id,contact_person,contact_date,contact_time,salutation,
-                        main_body,closing,signature):
-    donor=find_donor(donor_id)
+
+def get_bulk_email_template_obj(template_name):
+    if template_name != 'Manual Composition':
+        template_obj = EmailTemplate.query.filter_by(template_name=template_name).all()
+        template_package = template_obj[0]
+        template_package.signature_block = session['logged_user_full_name'] + '\n' + template_package.signature_block
+    else:
+        template_package = EmailTemplate()
+        template_package.template_name = 'Manual Composition'
+        template_package.salutation = ''
+        template_package.main_body = ''
+        template_package.closing = ''
+        template_package.signature_block = ''
+
+    return template_package
+
+
+def transmit_indl_email(donor_id, contact_person, contact_date, contact_time, salutation,
+                        main_body, closing, signature):
+    donor = find_donor(donor_id)
     contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
-    contact_date=contact_date.date().strftime("%Y-%m-%d")
-    print(donor.email,contact_person,contact_date,contact_time,salutation,
-          main_body,closing,signature)
-    message_obj,mail_code,msg_body=email_service.outgoing_mail_process(donor_email=donor.email,contact_person=contact_person,contact_date=contact_date,
-                                        contact_time=contact_time,salutation=salutation,main_body=main_body,
-                                        closing=closing,signature=signature)
+    contact_date = contact_date.date().strftime("%Y-%m-%d")
+    print(donor.email, contact_person, contact_date, contact_time, salutation,
+          main_body, closing, signature)
+    message_obj, mail_code, msg_body = email_service.outgoing_mail_process(donor_email=donor.email,
+                                                                           contact_person=contact_person,
+                                                                           contact_date=contact_date,
+                                                                           contact_time=contact_time,
+                                                                           salutation=salutation, main_body=main_body,
+                                                                           closing=closing, signature=signature)
 
-
-    db.session.add(DonorEmailLog(contact_date=contact_date,contact_time=contact_time,contact_person=contact_person,donor_id=donor_id,main_body=main_body,full_email=msg_body,mail_code=mail_code))
+    db.session.add(DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
+                                 donor_id=donor_id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
     db.session.commit()
+    return None
+
+
+def add_donor_bulk_email_list(donor_id):
+    current_username = session['logged_username']
+    existing_list_check = BulkEmailList.query.filter_by(donor_id=donor_id).filter_by(username=current_username).first()
+    print(existing_list_check)
+
+
+    if existing_list_check is None:
+        db.session.add(BulkEmailList(donor_id=donor_id,username=current_username))
+        db.session.commit()
+    return None
+
+
+def get_bulk_email_donor_details():
+    current_username= session['logged_username']
+    donor_list_query = BulkEmailList.query.filter_by(username=current_username).all()
+    donor_list = []
+    for donors in donor_list_query:
+        donor_list.append(int(donors.donor_id))
+    donor_details = Donor.query.filter(Donor.id.in_(donor_list)).all()
+    return donor_details
+
+
+def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, contact_time, salutation,
+                        main_body, closing, signature):
+    contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
+    contact_date = contact_date.date().strftime("%Y-%m-%d")
+    for donors in bulk_email_donor_details:
+        if donors.title is not None:
+            donor_full_name = donors.title + ' ' + donors.name
+        else:
+            donor_full_name = donors.name
+        temp_salutation = salutation + ' ' + donor_full_name
+        print(donors.email, contact_person, contact_date, contact_time, salutation,
+              main_body, closing, signature)
+        message_obj, mail_code, msg_body = email_service.outgoing_mail_process(donor_email=donors.email,
+                                                                               contact_person=contact_person,
+                                                                               contact_date=contact_date,
+                                                                               contact_time=contact_time,
+                                                                               salutation=temp_salutation,
+                                                                               main_body=main_body,
+                                                                               closing=closing, signature=signature)
+        db.session.add(DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
+                          donor_id=donors.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
+        db.session.commit()
+        current_username = session['logged_username']
+        BulkEmailList.query.filter_by(username=current_username).delete()
     return None
