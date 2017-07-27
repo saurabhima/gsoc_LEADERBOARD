@@ -1,74 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SphinxCAPT.org Donor LeaderBoard</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+{% extends "base_template.html" %}
 
-    <!-- Bootstrap -->
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
-    <link href="../static/css/jquery.dataTables.min.css" rel="stylesheet">
-
-    <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/jquery.dataTables.min.js"></script>
-
-
-</head>
-<body>
-<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Phone Contact</u></h1><br><br></div>
-<div class="container"><h5 style="text-align: left"><a href="\">Home</a></h5></div>
-<div class="container">
-    <table class="display" width="100%" cellspacing="0" id="donor-details-table">
-
-        <thead class="navbar-static-top" style="text-align: center">
-
-        <th>ID</th>
-        <th>Donor Name</th>
-        <th>Organisation</th>
-        <th>Phone</th>
-        <th>Contact Person</th>
-        <th>Registration Date</th>
-        <th>Status</th>
-        <th>Action</th>
-
-
-        </thead>
-        <tbody style="text-align: center">
-        {% if donor_list!=None %}
-            {% for line in donor_list %}
-                {%  if line['volunteer_name']==session['logged_user_full_name'] and line['volunteer_name']%}
-                    <tr style="background-color: #d43f3a">
-                {% else %}
-                    <tr>
-                {% endif %}
-                    <td>{{ line['id'] }}</td>
-                    <td>{{ line['title']+' '+line['name'] }}</td>
-                    <td>{{ line['org'] }}</td>
-                    <td>{{ line['phone'] }}</td>
-                    <td>{{ line['contact_person'] }}</td>
-                    <td>{{ line['contact_date'] }}</td>
-                    <td>{{ line['donor_status'] }}</td>
-                    <td>
-                        <form name="phone" action="/donor_phone_contact_process" method="post">
-                            <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}"><span
-                                    class="glyphicon glyphicon-earphone"></span></button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endif %}
-
-        </tbody>
-    </table>
+{% block content %}
+<div class="wrapper row1">
+    <header class="hoc clear" id="header">
+        <h1>Donor Phone Contact</h1>
+    </header>
 </div>
+<div class="wrapper row1">
+    <div class="hoc container clear">
+        <table class="display" width="100%" cellspacing="0" id="donor-details-table">
+            <thead class="navbar-static-top" style="text-align: center">
+                <th>ID</th>
+                <th>Donor Name</th>
+                <th>Organisation</th>
+                <th>Phone</th>
+                <th>Contact Person</th>
+                <th>Registration Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
+            <tbody style="text-align: center">
+            {% if donor_list!=None %}
+                {% for line in donor_list %}
+                    {%  if line['volunteer_name']==session['logged_user_full_name'] and line['volunteer_name']%}
+                        <tr style="background-color: #d43f3a">
+                    {% else %}
+                        <tr>
+                    {% endif %}
+                        <td>{{ line['id'] }}</td>
+                        <td>{{ line['title']+' '+line['name'] }}</td>
+                        <td>{{ line['org'] }}</td>
+                        <td>{{ line['phone'] }}</td>
+                        <td>{{ line['contact_person'] }}</td>
+                        <td>{{ line['contact_date'] }}</td>
+                        <td>{{ line['donor_status'] }}</td>
+                        <td>
+                            <form name="phone" action="/donor_phone_contact_process" method="post">
+                                <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}">
+                                    Log Contact
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+<div class="container">
+    
+</div>
+
+{% block scripts %}
 <script type="text/javascript">
     $(document).ready(function () {
         $('#donor-details-table').DataTable();
     });
 </script>
-</body>
-</html>
+{% endblock %}

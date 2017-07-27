@@ -1,119 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SphinxCAPT.org Donor Workflow</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+{% extends "base_template.html" %}
 
-    <!-- Bootstrap -->
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
-    <link href="../static/css/bootstrap-datepicker3.css" rel="stylesheet">
-
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../static/js/bootstrap-datepicker.min.js"></script>
-
-
-</head>
-<body>
-<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Workflow</u></h1><br><br></div>
-{% if session['login_status']=='True' %}
-    <h6 style="text-align: left"><font size="3">Welcome {{ session['logged_user_full_name'] }}<a
-            href="\logout">(Logoff)</a></font>
-    </h6>
-{% endif %}
-<div class="container">
-
-    <form class="well form-horizontal" action="/approve_new_user_process" method="post" id="user_approval_form"
-          name="user_approval_form">
-        <fieldset>
-
-            <!-- Form Name -->
-            <legend align="center">New User Approval</legend>
-            <div class="container"><h4 style="text-align: center"><u>User Details</u></h4></div>
-            <!-- Text input-->
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">User Full Name</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="user_full_name" placeholder="User Full Name" class="form-control" type="text"
-                               value="{{ user['full_name'] }}" readonly>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Text input-->
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">User Email</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input name="user_email" placeholder="User Email" class="form-control" type="text"
-                               value="{{ user['email'] }}" readonly>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">User Contact</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                        <input name="user_contact" placeholder="(845)555-1212" class="form-control" type="text"
-                               value="{{ user['phone'] }}" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">UserName</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="username" placeholder="Username" class="form-control" type="text"
-                               value="{{ user['username'] }}" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Account Type</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="user_type" placeholder="User Type" class="form-control" type="text"
-                               value="{{ user['user_type'] }}" readonly>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label"></label>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning" style="margin-right: 80px" name="submit"
-                            value="Approve">Approve<span
-                            class="glyphicon glyphicon-ok"></span></button>
-                    <button type="submit" class="btn btn-warning" name="submit" value="Reject">Reject<span
-                            class="glyphicon glyphicon-remove"></span></button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label"></label>
-                <div class="col-md-4">
-
-                </div>
-            </div>
-
-        </fieldset>
-    </form>
+{% block content %}
+<div class="wrapper row1">
+    <header class="hoc clear" id="header">
+        <h1>New User Approval</h1>
+    </header>
 </div>
+<div class="wrapper row1">
+    <div class="hoc container clear">
+        <div class="one_quarter first"><span style="visibility: hidden;">Hidden Text</span></div>
+        <div class="one_half">
+            <h4>User Details</h4>
+            <form action="/approve_new_user_process" method="post" id="user_approval_form" name="user_approval_form">
+                <fieldset>
+                    <div class="block clear">
+                        <label class="col-md-4 control-label">User Full Name</label>
+                        <input name="user_full_name" placeholder="User Full Name" class="form-control" type="text" value="{{ user['full_name'] }}"
+                            readonly>
+                    </div>
+                    <!-- Text input-->
+                    <div class="block clear">
+                        <label>User Email</label>
+                        <input class="form-control" name="user_email" placeholder="User Email" type="text" value="{{ user['email'] }}" readonly>
+                    </div>
+                    <div class="block clear">
+                        <label class="col-md-4 control-label">User Contact</label>
+                        <input name="user_contact" placeholder="(845)555-1212" class="form-control" type="text" value="{{ user['phone'] }}" readonly>
+                    </div>
+                    <div class="block clear">
+                        <label class="col-md-4 control-label">UserName</label>
+                        <input name="username" placeholder="Username" class="form-control" type="text" value="{{ user['username'] }}" readonly>
+                    </div>
+                    <div class="block clear">
+                        <label class="col-md-4 control-label">Account Type</label>
+                        <input name="user_type" placeholder="User Type" class="form-control" type="text" value="{{ user['user_type'] }}" readonly>
+                    </div>
+                    <!-- Button -->
+                    <div class="block clear">
+                        <div class="one_third">
+                            <button type="submit" class="btn" name="submit" value="Approve">Approve</button>
+                        </div>
+                        <div class="one_third">
+                            <button type="submit" class="btn" name="submit" value="Reject">Reject</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
-
-</body>
-</html>
+{% endblock %}
