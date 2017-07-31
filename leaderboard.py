@@ -4,14 +4,18 @@ import logging
 import config
 
 app = Flask(__name__)
-app.secret_key = 'abc1234'
-app.config['DEBUG'] = True
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@{}/{}'.format(
-config.DBUSERNAME, config.DBPASSWORD, config.DBHOSTNAME, config.DBNAME)
+app.config.update(dict(
+    SQLALCHEMY_DATABASE_URI='mysql://user:pass@hostname/dbname',
+    SECRET_KEY='abcd1234',
+    DEBUG=True,
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+))
+app.config.from_envvar('CONFIG', silent=True)
 db = SQLAlchemy(app)
 
 from views import *
+
+db.create_all()
 
 if __name__ == '__main__':
     app.run()
