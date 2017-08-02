@@ -34,7 +34,9 @@ This project was envisaged in order to provide developers and volunteers with a 
     > pip install -r requirements.txt
 ### Execution
 The Donor Management Workflow Flask application can be executed by the following command
- > python leaderboard.py
+ > CONFIG=<configuration file path> python leaderboard.py
+
+The alternative is to set your `CONFIG` environment variable using `export CONFIG=<config file path>` and executing the command. You *must* set your `SQLALCHEMY_DATABASE_URI` in the config file to use the application otherwise you will not be able to establish a database connection.
 
 The python interpreter will respond with the IP and Port on which the Flask app is running
 
@@ -42,6 +44,14 @@ Eg
 > Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
 The user can then use this web address to open the default page or index.html
+
+
+### Testing
+The application makes use of the Python packages [unittest](https://docs.python.org/2/library/unittest.html) and [pytest](https://docs.pytest.org/en/latest/) for testing. To run the test suite, make sure pytest is installed in your environment and run the following command
+> CONFIG=<your test configuration file> pytest
+
+It should execute all test cases defined under the `tests/` folder.
+
 ## Donor Leaderboard
  The Donor Leaderboard gives the details of all donors who have helped support this project through donations. These donations are used to buy Amazon Mechanical Turk Credits for the project. The Donor Leaderboard lists donors as per their donated amount. It also provides the facility to maintain anonymity of donors (if they wish to) as well as search for donors using various search criteria. In future we wish to make this leaderboard more interesting.
 ## Donor Management Workflow
