@@ -55,8 +55,9 @@ class TestDonor(unittest.TestCase):
     def test_update_nonexistent_donor(self):
         """Updating a nonexistent donor should throw an EntityNotFoundError"""
 
-        self.assertRaises(exception.EntityNotFoundError, sub_process.update_donor_contact(
-            99, "1234", "test@test2.com", "Random org"))
+        with self.assertRaises(exception.EntityNotFoundError):
+            sub_process.update_donor_contact(
+                99, "1234", "test@test2.com", "Random org")
 
     def test_update_existing_donor(self):
         sub_process.update_donor_contact(
@@ -71,3 +72,16 @@ class TestDonor(unittest.TestCase):
     def test_allotted_donors(self):
         alloted_donors = sub_process.alotted_donors_byid('Volunteer')
         assert alloted_donors[0].name == 'Donor2'
+
+    def test_register_new_donor(self):
+        sub_process.register_new_donor(
+            "Sir", "Donorus", "Orgus", "donorus@test.com", "1234", "Contactus", "2017-10-10", "Yes")
+        new_donor = self.Donor.query.filter_by(
+            email="donorus@test.com").first()
+        assert new_donor.name == "Donorus" and new_donor.donor_status == "New" and new_donor.volunteer_name is None
+
+    def test_register_new_donor_with_existing_details(self):
+        """Should raise an integrity error for colliding details"""
+        with self.assertRaises(IntegrityError):
+            sub_process.register_new_donor(
+                "Sir", "Donorus", "Orgus", "donor@test.com", "1234", "contactus", "2017-10-10", "No")

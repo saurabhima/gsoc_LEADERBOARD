@@ -84,8 +84,8 @@ class TestUser(unittest.TestCase):
         assert user.account_status == 'Active'
 
     def test_approve_nonexistent_user(self):
-        self.assertRaises(exception.EntityNotFoundError,
-                          sub_process.approve_user('test3'))
+        with self.assertRaises(exception.EntityNotFoundError):
+            sub_process.approve_user('test3')
 
     def test_reject_nonexistent_user(self):
         """Should result in a no-op when properly implemented"""
@@ -112,9 +112,11 @@ class TestUser(unittest.TestCase):
         assert new_user is not None and new_user.user_type == 'Administrator' and new_user.account_status == 'Pending'
 
     def test_conflicting_user_details(self):
-        self.assertRaises(IntegrityError, sub_process.add_user_details_db(
-            'Test', 'test@test.com', '1234', 'test', 'randompass', 'Administrator'))
+        with self.assertRaises(IntegrityError):
+            sub_process.add_user_details_db(
+                'Test', 'test@test.com', '1234', 'test', 'randompass', 'Administrator')
 
     def test_invalid_data(self):
-        self.assertRaises(DataError, sub_process.add_user_details_db(
-            'Test1', 'test@testtt.com', '1123', 'testttt', 'randompass', 'Randomprivilege'))
+        with self.assertRaises(DataError):
+            sub_process.add_user_details_db(
+                'Test1', 'test@testtt.com', '1123', 'testttt', 'randompass', 'Randomprivilege')
