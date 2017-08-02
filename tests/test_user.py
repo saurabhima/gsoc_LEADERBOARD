@@ -40,6 +40,7 @@ class TestUser(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        leaderboard.db.session.close()
         leaderboard.db.drop_all()
         leaderboard.db.create_all()
 
