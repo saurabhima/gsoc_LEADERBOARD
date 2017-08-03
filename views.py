@@ -317,7 +317,7 @@ def send_email_indl_donor_compose():
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
-    email_template_obj = sub_process.get_email_template_obj(template_name, donor_obj)
+    email_template_obj = sub_process.get_email_template_obj(template_name, donor_obj, session['logged_user_full_name'])
 
     return render_template('send_email_indl_donor_compose.html', donor_obj=donor_obj,
                            phone_log=donor_previous_phone_logs,
@@ -368,15 +368,15 @@ def send_bulk_email_donor_process():
 @app.route('/send_bulk_email_donor_compose', methods=['POST'])
 def send_bulk_email_donor_compose():
     template_name = request.form['template_name']
-    bulk_email_donor_details=sub_process.get_bulk_email_donor_details()
-    email_template_obj = sub_process.get_bulk_email_template_obj(template_name)
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username']) 
+    email_template_obj = sub_process.get_bulk_email_template_obj(template_name, session['logged_user_full_name'])
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
     return render_template('send_bulk_email_donor_compose.html', donor_list=bulk_email_donor_details,email_template_obj=email_template_obj,current_date=current_date,current_time=current_time)
 
 @app.route('/send_bulk_email_donor_transmit', methods=['POST'])
 def send_bulk_email_donor_transmit():
-    bulk_email_donor_details = sub_process.get_bulk_email_donor_details()
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username'])
     contact_person = request.form['contact_person']
     contact_date = request.form['contact_date']
     contact_time = request.form['contact_time']
@@ -386,7 +386,7 @@ def send_bulk_email_donor_transmit():
     signature = request.form['signature_block']
     sub_process.transmit_bulk_email(bulk_email_donor_details=bulk_email_donor_details,contact_person=contact_person, contact_date=contact_date,
                                     contact_time=contact_time,
-                                    salutation=salutation, main_body=main_body, closing=closing, signature=signature)
+                                    salutation=salutation, main_body=main_body, closing=closing, signature=signature, sender_username=session['logged_username'])
     return redirect(url_for('index'))
 
 @app.route('/allot_volunteer')
