@@ -176,7 +176,7 @@ def register_new_donor(title, name, org, email, donor_contact, contact_person,
     db.session.add(Donor(title=title, name=name, email=email, phone=donor_contact,
                          donor_status='New', org=org, contact_person=contact_person,
                          contact_date=contact_date, anonymous_select=anonymous_select,
-                         voluneer_name=None))
+                         volunteer_name=None))
     db.session.commit()
     return None
 

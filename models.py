@@ -49,7 +49,7 @@ class Donor(db.Model):
 
     def __init__(self, title=None, name=None, email=None, phone=None, donor_status=None,
                  org=None, contact_person=None, contact_date=None, anonymous_select=None,
-                 voluneer_name=None):
+                 volunteer_name=None):
         self.title = title
         self.name = name
         self.email = email
@@ -59,7 +59,7 @@ class Donor(db.Model):
         self.contact_date = contact_date
         self.contact_person = contact_person
         self.anonymous_select = anonymous_select
-        self.volunteer_name = voluneer_name
+        self.volunteer_name = volunteer_name
 
     def __repr__(self):
         return '<Donor%r>' % (self.name)
