@@ -1,5 +1,4 @@
 import config, os, pickle, datetime
-from flask import session
 from leaderboard import *
 from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -176,7 +175,7 @@ def register_new_donor(title, name, org, email, donor_contact, contact_person,
     db.session.add(Donor(title=title, name=name, email=email, phone=donor_contact,
                          donor_status='New', org=org, contact_person=contact_person,
                          contact_date=contact_date, anonymous_select=anonymous_select,
-                         voluneer_name=None))
+                         volunteer_name=None))
     db.session.commit()
     return None
 
@@ -503,7 +502,7 @@ def get_email_template_list():
     return email_template_list
 
 
-def get_email_template_obj(template_name, donor_obj):
+def get_email_template_obj(template_name, donor_obj, sender_name):
     if template_name != 'Manual Composition':
         template_obj = EmailTemplate.query.filter_by(template_name=template_name).all()
         template_package = template_obj[0]
@@ -512,7 +511,7 @@ def get_email_template_obj(template_name, donor_obj):
         else:
             donor_full_name = donor_obj.name
         template_package.salutation = template_package.salutation + ' ' + donor_full_name
-        template_package.signature_block = session['logged_user_full_name'] + '\n' + template_package.signature_block
+        template_package.signature_block = sender_name + '\n' + template_package.signature_block
     else:
         template_package = EmailTemplate()
         template_package.template_name = 'Manual Composition'
@@ -524,11 +523,11 @@ def get_email_template_obj(template_name, donor_obj):
     return template_package
 
 
-def get_bulk_email_template_obj(template_name):
+def get_bulk_email_template_obj(template_name, sender_name):
     if template_name != 'Manual Composition':
         template_obj = EmailTemplate.query.filter_by(template_name=template_name).all()
         template_package = template_obj[0]
-        template_package.signature_block = session['logged_user_full_name'] + '\n' + template_package.signature_block
+        template_package.signature_block = sender_name + '\n' + template_package.signature_block
     else:
         template_package = EmailTemplate()
         template_package.template_name = 'Manual Composition'
@@ -572,9 +571,8 @@ def add_donor_bulk_email_list(donor_id):
     return None
 
 
-def get_bulk_email_donor_details():
-    current_username= session['logged_username']
-    donor_list_query = BulkEmailList.query.filter_by(username=current_username).all()
+def get_bulk_email_donor_details(sender_username):
+    donor_list_query = BulkEmailList.query.filter_by(username=sender_username).all()
     donor_list = []
     for donors in donor_list_query:
         donor_list.append(int(donors.donor_id))
@@ -583,7 +581,7 @@ def get_bulk_email_donor_details():
 
 
 def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, contact_time, salutation,
-                        main_body, closing, signature):
+                        main_body, closing, signature, sender_username):
     contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
     contact_date = contact_date.date().strftime("%Y-%m-%d")
     for donors in bulk_email_donor_details:
@@ -604,6 +602,5 @@ def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, 
         db.session.add(DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
                           donor_id=donors.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
         db.session.commit()
-        current_username = session['logged_username']
-        BulkEmailList.query.filter_by(username=current_username).delete()
+        BulkEmailList.query.filter_by(username=sender_username).delete()
     return None
