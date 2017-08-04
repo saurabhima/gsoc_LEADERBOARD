@@ -16,13 +16,11 @@ from exception import EntityNotFoundError
 
 
 def authenticate(username, password):
-    print 'Authentication Module'
     login_status = False
     user_account_type = None
     user_full_name = None
     query_result = User.query.filter_by(username=username).first()
     if query_result is not None:
-        print query_result
         query_passwd = query_result.passwd
         query_account_status = query_result.account_status
         passwd_check = check_password_hash(query_passwd, password)
@@ -465,7 +463,6 @@ def alotted_donors_byid(username):
 
 def commit_donation(donor_id, commit_date, commit_time, commit_amt, currency,
                     payment_mode, remarks):
-    print 'Currency:' + currency
     db.session.add(CommittedDonation(donor_id=donor_id, commit_date=commit_date, commit_time=commit_time,
                                      commit_amt=commit_amt, currency=currency, payment_mode=payment_mode,
                                      remarks=remarks))
@@ -596,8 +593,6 @@ def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, 
         else:
             donor_full_name = donors.name
         temp_salutation = salutation + ' ' + donor_full_name
-        print(donors.email, contact_person, contact_date, contact_time, salutation,
-              main_body, closing, signature)
         message_obj, mail_code, msg_body = email_service.outgoing_mail_process(donor_email=donors.email,
                                                                                contact_person=contact_person,
                                                                                contact_date=contact_date,
