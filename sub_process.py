@@ -4,6 +4,7 @@ from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate,
 from werkzeug.security import generate_password_hash, check_password_hash
 import email_service
 
+from exception import EntityNotFoundError
 
 # User Authentication Method Using MySQL Database.
 # This method returns the login_status, user_account_type and user full name if the user is authenticated ,
@@ -136,6 +137,8 @@ def get_pending_user_list():
 # once the Administrator has approved the User Account
 def approve_user(username):
     user_details = User.query.filter_by(username=username).first()
+    if user_details is None:
+        raise EntityNotFoundError
     user_details.account_status = 'Active'
     db.session.commit()
 
@@ -162,8 +165,9 @@ def approve_user(username):
 # once the Administrator has Rejected the User Account
 def reject_user(username):
     user_details = User.query.filter_by(username=username).first()
-    db.session.delete(user_details)
-    db.session.commit()
+    if user_details:
+        db.session.delete(user_details)
+        db.session.commit()
 
 
 # This method add the records of a new donor to the donor_details table of the
@@ -300,6 +304,8 @@ def add_donor_phone_log(donor_id, contact_person, contact_date, contact_time, de
 # in the donor_details table in the donorworkflow database
 def update_donor_contact(donor_id, phone, email, org):
     user_details = Donor.query.filter_by(id=donor_id).first()
+    if user_details is None:
+        raise EntityNotFoundError
     user_details.phone = phone
     user_details.email = email
     user_details.org = org
