@@ -85,3 +85,75 @@ class TestDonor(unittest.TestCase):
         with self.assertRaises(IntegrityError):
             sub_process.register_new_donor(
                 "Sir", "Donorus", "Orgus", "donor@test.com", "1234", "contactus", "2017-10-10", "No")
+
+
+class TestDonorLog(unittest.TestCase):
+    def seed_db(self):
+        self.db.session.add(models.Donor(title="Mr", name="Donor", email="donor@test.com",
+                                         phone="1234", donor_status="New", org="Some Org",
+                                         contact_person="some person", contact_date="2017-10-10",
+                                         anonymous_select="No", volunteer_name=None))
+        self.db.session.add(models.Donor(title="Mrs", name="Donor2", email="donor2@test.com",
+                                         phone="12345", donor_status="Committed", org="Some Org",
+                                         contact_person="some other person", contact_date="2017-10-10",
+                                         anonymous_select="No", volunteer_name="Volunteer"))
+        self.db.session.add(models.Donor(title="Miss", name="Donor3", email="donor3@test.com",
+                                         phone="12346", donor_status="Allotted", org="Some Org",
+                                         contact_person="some other person", contact_date="2017-10-10",
+                                         anonymous_select="No", volunteer_name="Volunteer"))
+        self.db.session.add(models.DonorPhoneLog(contact_date="2017-09-09", contact_time="11:30",
+                                                 contact_person="Contact", donor_id=1, remarks="Remark",
+                                                 details_shared="Shared details"))
+        self.db.session.add(models.DonorPhoneLog(contact_date="2017-09-10", contact_time="11:30",
+                                                 contact_person="Contact2", donor_id=2, remarks="Remarks2",
+                                                 details_shared="Shared details2"))
+
+        self.db.session.add(models.DonorEmailLog(
+            "2017-10-10", "11:30", "Dude", 1, "Some body", "some email", "code"))
+        self.db.session.add(models.DonorEmailLog(
+            "2017-10-12", "11:31", "Dude2", 2, "Some body3", "some email4", "code5"))
+        self.db.session.commit()
+
+    def setUp(self):
+        self.db = leaderboard.db
+        self.Donor = models.Donor
+        self.DonorPhoneLog = models.DonorPhoneLog
+        self.DonorEmailLog = models.DonorEmailLog
+        self.db.session.close()
+        self.db.drop_all()
+        self.db.create_all()
+        self.seed_db()
+
+    def test_phone_log_lookup(self):
+        logs = sub_process.donor_phone_logs_byid(1)
+
+        assert len(logs) == 1 and logs[0].remarks == "Remark"
+
+    def test_nonexistent_donor_phone_lookup(self):
+        logs = sub_process.donor_phone_logs_byid(99)
+
+        assert len(logs) == 0
+
+    def test_add_phone_log(self):
+        sub_process.add_donor_phone_log(
+            1, "Person", "2017-10-10", "11:30", "Something", "Silly")
+
+        logs = self.DonorPhoneLog.query.filter_by(donor_id=1).all()
+
+        assert len(logs) == 2 and logs[1].remarks == "Silly"
+
+    def test_add_nonexistent_donor_log(self):
+
+        with self.assertRaises(exception.EntityNotFoundError):
+            sub_process.add_donor_phone_log(
+                1, "Person", "2017-10-10", "11:30", "Something", "Silly")
+
+    def test_email_log_lookup(self):
+        logs = sub_process.donor_email_logs_byid(2)
+
+        assert len(logs) == 1 and logs[0].contact_person == "Dude2"
+
+    def test_nonexistent_donor_email_lookup(self):
+        logs = sub_process.donor_email_logs_byid(99)
+
+        assert len(logs) == 0
