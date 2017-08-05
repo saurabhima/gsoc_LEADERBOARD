@@ -562,14 +562,13 @@ def transmit_indl_email(donor_id, contact_person, contact_date, contact_time, sa
     db.session.commit()
 
 
-def add_donor_bulk_email_list(donor_id):
-    current_username = session['logged_username']
+def add_donor_bulk_email_list(donor_id, sender_username):
     existing_list_check = BulkEmailList.query.filter_by(
-        donor_id=donor_id).filter_by(username=current_username).first()
+        donor_id=donor_id).filter_by(username=sender_username).first()
 
     if existing_list_check is None:
         db.session.add(BulkEmailList(
-            donor_id=donor_id, username=current_username))
+            donor_id=donor_id, username=sender_username))
         db.session.commit()
 
 
