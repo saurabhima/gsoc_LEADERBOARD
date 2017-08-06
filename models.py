@@ -159,7 +159,7 @@ class EmailTemplate(db.Model):
 
 class BulkEmailList(db.Model):
     __tablename__ = 'bulk_email_list'
-    bulk_mail_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
+    mail_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
     donor_id=db.Column(INTEGER, nullable=False)
     username = db.Column(VARCHAR(50),nullable=False)
 

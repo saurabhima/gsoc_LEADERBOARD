@@ -363,7 +363,7 @@ def send_bulk_email_donor():
 def send_bulk_email_donor_process():
     button_code=request.form['submit']
     sender = session['logged_username']
-    sub_process.add_donor_bulk_email_list(donor_id=button_code, sender)
+    sub_process.add_donor_bulk_email_list(donor_id=button_code, sender_username=sender)
     return redirect(url_for('send_bulk_email_donor'))
 
 @app.route('/send_bulk_email_donor_compose', methods=['POST'])
