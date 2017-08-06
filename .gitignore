@@ -111,3 +111,4 @@ sub_process.pyc
 views.pyc
 !/.gitignore
 .idea/
+/client_secret.json
