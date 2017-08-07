@@ -70,7 +70,7 @@ The Donor Management workflow System has the following sub modules which are acc
 The project follows the standard Flask Directory Structure. The detailed directory structure is being updated and would be posted soon.
 
 ### Database
-The project used a MySQL database to store details of Donors,Communication (Telephonic & Email), User Details as well as Accounting transactions. The Current Scheme for the databse can be founded in the ___Schema.png___ file in the repo. 
+The project used a MySQL database to store details of Donors,Communication (Telephonic & Email), User Details as well as Accounting transactions. The Current Scheme for the databse can be founded in the [___Schema.png___](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png) file in the repo. 
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
@@ -118,3 +118,4 @@ This project is sponsored by Google Summer of Code 2017 and maintained by [Saura
 
 ### Notes
 Completed Mail Merge based Bulk Mailing on 7 Aug 2017.Starting work on Receipt Generation & Accounting
+Updating of README file for new endpoints and database needed to be done.
