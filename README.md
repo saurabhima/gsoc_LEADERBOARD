@@ -122,5 +122,4 @@ This project is sponsored by Google Summer of Code 2017 and maintained by [Saura
 Completed Mail Merge based Bulk Mailing on 7 Aug 2017.:envelope: Starting work on Receipt Generation & Accounting :credit_card:
 Updating of README file for new endpoints and database needed to be done.
 
-:mega:
-### Announcements 
+:mega: ### Announcements 
