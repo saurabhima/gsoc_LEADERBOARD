@@ -649,21 +649,27 @@ def transmit_bulk_email_merge(bulk_email_donor_details, contact_person, contact_
     contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
     contact_date = contact_date.date().strftime("%Y-%m-%d")
     for donor in bulk_email_donor_details:
-        contact_person = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=contact_person)
-        salutation = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=salutation)
-        main_body = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=main_body)
-        closing = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=closing)
-        signature = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=signature)
-        # print(contact_person, salutation, main_body, closing, signature)
+
+        contact_person_temp=contact_person
+        salutation_temp=salutation
+        main_body_temp=main_body
+        closing_temp=closing
+        signature_temp=signature
+        contact_person_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=contact_person_temp)
+        salutation_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=salutation_temp)
+        main_body_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=main_body_temp)
+        closing_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=closing_temp)
+        signature_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=signature_temp)
         message_obj, mail_code, msg_body = email_service.outgoing_mail_process(donor_email=donor.email,
-                                                                               contact_person=contact_person,
+                                                                               contact_person=contact_person_temp,
                                                                                contact_date=contact_date,
                                                                                contact_time=contact_time,
-                                                                               salutation=salutation,
-                                                                               main_body=main_body,
-                                                                               closing=closing, signature=signature)
+                                                                               salutation=salutation_temp,
+                                                                               main_body=main_body_temp,
+                                                                               closing=closing_temp, signature=signature_temp)
         db.session.add(
-            DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
-                          donor_id=donor.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
+            DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person_temp,
+                          donor_id=donor.id, main_body=main_body_temp, full_email=msg_body, mail_code=mail_code))
         db.session.commit()
-        BulkEmailList.query.filter_by(username=sender_username).delete()
+    BulkEmailList.query.filter_by(username=sender_username).delete()
+    db.session.commit()
