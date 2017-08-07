@@ -6,8 +6,10 @@ from leaderboard import *
 from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList
 from werkzeug.security import generate_password_hash, check_password_hash
 import email_service
-
+import json, re
 from exception import EntityNotFoundError
+from pprint import pprint
+
 
 # User Authentication Method Using MySQL Database.
 # This method returns the login_status, user_account_type and user full name if the user is authenticated ,
@@ -515,7 +517,7 @@ def get_email_template_obj(template_name, donor_obj, sender_name):
             donor_full_name = donor_obj.name
         template_package.salutation = template_package.salutation + ' ' + donor_full_name
         template_package.signature_block = sender_name + \
-            '\n' + template_package.signature_block
+                                           '\n' + template_package.signature_block
     else:
         template_package = EmailTemplate()
         template_package.template_name = 'Manual Composition'
@@ -533,7 +535,7 @@ def get_bulk_email_template_obj(template_name, sender_name):
             template_name=template_name).all()
         template_package = template_obj[0]
         template_package.signature_block = sender_name + \
-            '\n' + template_package.signature_block
+                                           '\n' + template_package.signature_block
     else:
         template_package = EmailTemplate()
         template_package.template_name = 'Manual Composition'
@@ -599,7 +601,69 @@ def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, 
                                                                                salutation=temp_salutation,
                                                                                main_body=main_body,
                                                                                closing=closing, signature=signature)
-        db.session.add(DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
-                                     donor_id=donors.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
+        db.session.add(
+            DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
+                          donor_id=donors.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
+        db.session.commit()
+        BulkEmailList.query.filter_by(username=sender_username).delete()
+
+
+# def parse_for_merge_tags(string):
+#     merge_tag_file=config.MAIL_MERGE_TAG_FILE
+#     with open(merge_tag_file) as merge_fh:
+#         merge_tags=json.load(merge_fh)
+#         string_split=str(string).split()
+#         for word in string_split:
+#             if '$_' in word:
+#                 for line in merge_tags:
+#                     if word==line['tag']:
+#                         print('Tag Found:',line['description'])
+#                         model=line['model']
+#                         query_field=line['map']
+#                         print(model,query_field)
+def replace_merge_tags(merge_tags, donor, searchtext):
+    search_result = re.findall('([\$_]+[A-Z]+)', str(searchtext))
+    return_text = str(searchtext)
+    if len(search_result) > 0:
+        for i in range(0, len(search_result)):
+            tag = search_result[i]
+            for line in merge_tags:
+                if tag == line['tag']:
+                    mapping = line['map']
+                    for col in donor.__table__.columns:
+                        col_name = str(col).split('.')[1]
+                        if str(mapping) == str(col_name):
+                            map_result = str(getattr(donor, str(mapping)))
+                            return_text = return_text.replace(tag, map_result)
+                            break
+            return_text = return_text.replace(tag, '')
+
+    return return_text
+
+
+def transmit_bulk_email_merge(bulk_email_donor_details, contact_person, contact_date, contact_time, salutation,
+                              main_body, closing, signature, sender_username):
+    merge_tag_file = config.MAIL_MERGE_TAG_FILE
+    merge_fh = open(merge_tag_file)
+    merge_tags = json.load(merge_fh)
+    contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
+    contact_date = contact_date.date().strftime("%Y-%m-%d")
+    for donor in bulk_email_donor_details:
+        contact_person = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=contact_person)
+        salutation = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=salutation)
+        main_body = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=main_body)
+        closing = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=closing)
+        signature = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=signature)
+        # print(contact_person, salutation, main_body, closing, signature)
+        message_obj, mail_code, msg_body = email_service.outgoing_mail_process(donor_email=donor.email,
+                                                                               contact_person=contact_person,
+                                                                               contact_date=contact_date,
+                                                                               contact_time=contact_time,
+                                                                               salutation=salutation,
+                                                                               main_body=main_body,
+                                                                               closing=closing, signature=signature)
+        db.session.add(
+            DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person,
+                          donor_id=donor.id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
         db.session.commit()
         BulkEmailList.query.filter_by(username=sender_username).delete()
