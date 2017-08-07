@@ -71,7 +71,7 @@ The project follows the standard Flask Directory Structure. The detailed directo
 
 ### Database
 The project used a MySQL database to store details of Donors,Communication (Telephonic & Email), User Details as well as Accounting transactions. The Current Scheme for the databse can be founded in the [___Schema.png___](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png) file in the repo.
- [!Schema](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png)
+ ![Schema](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png)
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
