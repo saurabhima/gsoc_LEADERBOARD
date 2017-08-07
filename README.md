@@ -107,7 +107,7 @@ The project used a MySQL database to store details of Donors,Communication (Tele
  - [x] Phone Contact Logging
  - [x] Email Contact
  - [x] Bulk Emailing
- - [ ] Bulk Emailing using Mail Merge
+ - [x] Bulk Emailing using Mail Merge
  - [ ] Track Donor Communication
  - [ ] Commit Donation and Receipt
  - [ ] Accounting
