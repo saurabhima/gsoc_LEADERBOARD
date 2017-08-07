@@ -5,10 +5,10 @@ import sub_process
 import pickle
 import os
 import datetime
-
+import json
 from leaderboard import app
 from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm
-
+from pprint import pprint
 
 @app.route('/')
 def index():
@@ -362,7 +362,8 @@ def send_bulk_email_donor():
 @app.route('/send_bulk_email_donor_process', methods=['POST'])
 def send_bulk_email_donor_process():
     button_code=request.form['submit']
-    sub_process.add_donor_bulk_email_list(donor_id=button_code)
+    sender = session['logged_username']
+    sub_process.add_donor_bulk_email_list(donor_id=button_code, sender_username=sender)
     return redirect(url_for('send_bulk_email_donor'))
 
 @app.route('/send_bulk_email_donor_compose', methods=['POST'])
@@ -385,6 +386,57 @@ def send_bulk_email_donor_transmit():
     closing = request.form['closing']
     signature = request.form['signature_block']
     sub_process.transmit_bulk_email(bulk_email_donor_details=bulk_email_donor_details,contact_person=contact_person, contact_date=contact_date,
+                                    contact_time=contact_time,
+                                    salutation=salutation, main_body=main_body, closing=closing, signature=signature, sender_username=session['logged_username'])
+    return redirect(url_for('index'))
+
+@app.route('/send_bulk_email_donor_merge')
+def send_bulk_email_donor_merge():
+    try:
+        if session['login_status'] == 'True' and (
+                            session['logged_user_type'] == 'Administrator' or session[
+                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+
+            donor_list = sub_process.get_donor_list()
+            email_template_list=sub_process.get_email_template_list()
+            return render_template('send_bulk_email_merge_donor.html', donor_list=donor_list,email_template_list=email_template_list)
+
+        else:
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
+
+@app.route('/send_bulk_email_donor_merge_process', methods=['POST'])
+def send_bulk_email_donor_merge_process():
+    button_code=request.form['submit']
+    sender = session['logged_username']
+    sub_process.add_donor_bulk_email_list(donor_id=button_code, sender_username=sender)
+    return redirect(url_for('send_bulk_email_donor_merge'))
+
+@app.route('/send_bulk_email_donor_merge_compose', methods=['POST'])
+def send_bulk_email_donor_merge_composee():
+    template_name = request.form['template_name']
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username'])
+    email_template_obj = sub_process.get_bulk_email_template_obj(template_name, session['logged_user_full_name'])
+    current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
+    current_time = datetime.datetime.now().time().strftime("%H:%M")
+    mail_merge_tag_file=config.MAIL_MERGE_TAG_FILE
+    with open(mail_merge_tag_file) as merge_fh:
+        merge_tags=json.load(merge_fh)
+    return render_template('send_bulk_email_merge_donor_compose.html', donor_list=bulk_email_donor_details,email_template_obj=email_template_obj,current_date=current_date,current_time=current_time,merge_tags=merge_tags)
+
+@app.route('/send_bulk_email_donor_merge_transmit', methods=['POST'])
+def send_bulk_email_donor_merge_transmit():
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username'])
+    contact_person = request.form['contact_person']
+    contact_date = request.form['contact_date']
+    contact_time = request.form['contact_time']
+    salutation = request.form['salutation']
+    main_body = request.form['main_body']
+    closing = request.form['closing']
+    signature = request.form['signature_block']
+    sub_process.transmit_bulk_email_merge(bulk_email_donor_details=bulk_email_donor_details,contact_person=contact_person, contact_date=contact_date,
                                     contact_time=contact_time,
                                     salutation=salutation, main_body=main_body, closing=closing, signature=signature, sender_username=session['logged_username'])
     return redirect(url_for('index'))
@@ -451,7 +503,6 @@ def commit_donation_amt_process():
     commit_time = form.commit_time.data
     commit_amt = form.committed_amt.data
     currency = form.currency.data
-    print currency
     payment_mode = form.payment_mode.data
     remarks = form.remarks.data
     sub_process.commit_donation(donor_id=donor_id, commit_date=commit_date, commit_time=commit_time,

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SphinxCAPT.org Donor LeaderBoard</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Bootstrap -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery.dataTables.min.js"></script>
+
+
+</head>
+<body>
+<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Email Contact(Mail Merge)</u></h1><br><br></div>
+<div class="container"><h5 style="text-align: left"><a href="\">Home</a></h5></div>
+<div class="container">
+    <table class="display" width="100%" cellspacing="0" id="donor-details-table">
+
+        <thead class="navbar-static-top" style="text-align: center">
+
+        <th>ID</th>
+        <th>Donor Name</th>
+        <th>Organisation</th>
+        <th>Phone</th>
+        <th>Contact Person</th>
+        <th>Registration Date</th>
+        <th>Status</th>
+        <th>Action</th>
+
+
+        </thead>
+        <tbody style="text-align: center">
+        {% if donor_list!=None %}
+            {% for line in donor_list %}
+                <tr>
+                    <td>{{ line['id'] }}</td>
+                    <td>{{ line['title']+' '+line['name'] }}</td>
+                    <td>{{ line['org'] }}</td>
+                    <td>{{ line['phone'] }}</td>
+                    <td>{{ line['contact_person'] }}</td>
+                    <td>{{ line['contact_date'] }}</td>
+                    <td>{{ line['donor_status'] }}</td>
+                    <td>
+                        <form name="add_donor" action="/send_bulk_email_donor_merge_process" method="post">
+                            <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}"><span
+                                    class="glyphicon glyphicon-plus-sign"></span></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+        </tbody>
+    </table>
+</div>
+<div class="container"><br><br></div>
+<div class="container">
+     <form class="well form-horizontal" name="send_bulk_mail" action="/send_bulk_email_donor_merge_compose" method="post" id="send_bulk_mail"
+     >
+     <fieldset>
+
+        <div class="form-group" >
+                <label class="col-md-4 control-label">Template Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <select name="template_name" placeholder="Template Name" class="form-control">
+                            <option selected>Manual Composition</option>
+                            {% for templates in email_template_list %}
+                                <option>{{ templates['template_name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+     <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-warning" value="Compose">Compose Email<span
+                            class="glyphicon glyphicon-send"></span></button>
+                </div>
+            </div>
+     </fieldset>
+     </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#donor-details-table').DataTable();
+    });
+</script>
+</body>
+</html>

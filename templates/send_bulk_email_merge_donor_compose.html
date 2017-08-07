@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SphinxCAPT.org Donor Workflow</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Bootstrap -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+
+
+</head>
+<body>
+<div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Workflow</u></h1><br><br></div>
+{% if session['login_status']=='True' %}
+    <div class="container"><h4>Welcome {{ session['logged_user_full_name'] }}<a href="\logout">(Logoff)</a></h4></div>
+{% endif %}
+<div class="container">
+    <table class="table-bordered" width="100%" cellspacing="0" id="donor-details-table" style="font-size: 20px">
+
+        <thead style="text-align: center">
+
+        <th>ID</th>
+        <th>Donor Name</th>
+        <th>Organisation</th>
+        <th>Phone</th>
+        <th>Contact Person</th>
+        <th>Registration Date</th>
+        <th>Status</th>
+
+        </thead>
+
+        <tbody style="text-align: center">
+         {% if donor_list!=None %}
+            {% for line in donor_list %}
+        <tr style="text-align: center">
+            <td>{{ line['id'] }}</td>
+            <td>{{ line['title']+' '+line['name'] }}</td>
+            <td>{{ line['org'] }}</td>
+            <td>{{ line['phone'] }}</td>
+            <td>{{ line['contact_person'] }}</td>
+            <td>{{ line['contact_date'] }}</td>
+            <td>{{ line['donor_status'] }}</td>
+
+        </tr>
+         {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <br>
+    <h3 style="text-align: center"><b><u>Allowed Mail Merge Tags</u></b></h3>
+    <table class="table-bordered" width="100%" cellspacing="0" id="allowed-merge-tags" style="font-size: 20px">
+
+        <thead style="text-align: center">
+
+        <th style="text-align: center">Tag</th>
+        <th style="text-align: center">Description</th>
+        </thead>
+
+        <tbody style="text-align: center">
+         {% if merge_tags!=None %}
+            {% for line in merge_tags %}
+        <tr style="text-align: center">
+            <td>{{ line['tag'] }}</td>
+            <td>{{ line['description'] }}</td>
+
+        </tr>
+         {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+<label class="col-md-4 control-label" style="color: #d43f3a">All non-mapped Tags will be automatically omitted</label>
+</div>
+
+
+<div class="container">
+    <br><br>
+    <form class="well form-horizontal" action="/send_bulk_email_donor_merge_transmit" method="post" id="donor_registration_form"
+          name="donor_registration_form">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend align="center" style="font-size: 25px"><u>Send Bulk Email to Donor(Mail Merge)</u></legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label"><font color="#dc143c">Email Template</font></label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="email_template" placeholder="Email template" class="form-control" type="text"
+                               value="{{ email_template_obj['template_name'] }}" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Contact Person</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="contact_person" placeholder="Contact Person" class="form-control" type="text"
+                               value="{{ session['logged_user_full_name'] }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Contact Date</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <input name="contact_date" placeholder="Contact Date" class="form-control" type="text" readonly
+                               value="{{ current_date }}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Contact Time</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <input name="contact_time" placeholder="Contact Date" class="form-control" type="text" readonly
+                               value="{{ current_time }}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Salutation</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="salutation" placeholder="Eg Dear,Greetings..." class="form-control" type="text" value="{{ email_template_obj['salutation'] }}">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Main Body</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <textarea name="main_body" rows="10" cols="50" placeholder="Place the Content of the Email here. This shall be formatted later." class="form-control">{{ email_template_obj.main_body }}</textarea>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Closing</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <input name="closing" placeholder="Eg. With Warm Regards.." class="form-control" type="text" value="{{ email_template_obj.closing }}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Signature Block</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                        <textarea rows="4" cols="50" name="signature_block" placeholder="Place the Signature Block here. The name of the Volunteer will be automatically added on top with other contact info." class="form-control">{{ email_template_obj.signature_block }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-warning">Send Bulk Email<span
+                            class="glyphicon glyphicon-send"></span></button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+</div>
+</body>
+</html>

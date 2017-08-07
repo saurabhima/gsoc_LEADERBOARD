@@ -1,0 +1,68 @@
+[
+  {
+    "tag":"$_DONORID",
+    "map":"id",
+    "model":"Donor",
+    "description":"Unique ID of Donor"
+  },
+  {
+    "tag":"$_TITLE",
+    "map":"title",
+    "model":"Donor",
+    "description":"Salutation title of Donor (Eg Mr/Ms)"
+  },
+  {
+    "tag":"$_NAME",
+    "map":"name",
+    "model":"Donor",
+    "description":"Full Name of Donor"
+  },
+  {
+    "tag":"$_ORG",
+    "map":"org",
+    "model":"Donor",
+    "description":"Organisation of Donor"
+  },
+  {
+    "tag":"$_STATUS",
+    "map":"donor_status",
+    "model":"Donor",
+    "description":"Current status of Donor"
+  },
+  {
+    "tag":"$_PHONE",
+    "map":"phone",
+    "model":"Donor",
+    "description":"Telephone Number of Donor"
+  },
+  {
+    "tag":"$_EMAIL",
+    "map":"email",
+    "model":"Donor",
+    "description":"Email of Donor"
+  },
+  {
+    "tag":"$_CONTACTPERS",
+    "map":"contact_person",
+    "model":"Donor",
+    "description":"Contact Person of Donor"
+  },
+  {
+    "tag":"$_CONTACTDATE",
+    "map":"contact_date",
+    "model":"Donor",
+    "description":"First Contact Date of Donor"
+  },
+  {
+    "tag":"$_ANONYMOUS",
+    "map":"anonymous_select",
+    "model":"Donor",
+    "description":"Stay Anonymous Option of Donor"
+  },
+  {
+    "tag":"$_VOLUNTEER",
+    "map":"volunteer_name",
+    "model":"Donor",
+    "description":"Name of Volunteer assigned to Donor"
+  }
+]
