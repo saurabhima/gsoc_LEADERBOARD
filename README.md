@@ -1,5 +1,5 @@
 # **SphinxCAPT.org LEADERBOARD**
-:shipit:
+
 ### Overview
 In this project we are designing a FLASK based Web App to maintain Leaderboards for [SphinxCAPT.org](http://SphinxCAPT.org).
 The app is based on the REST design with inherent security infrastructure. This project is being maintained as part of the Google Summer of Code 2017.
@@ -106,10 +106,10 @@ The project used a MySQL database to store details of Donors,Communication (Tele
  - [x] User Registration Module
  - [x] Prospective Donor Registration
  - [x] Update Donor Contacts
- - [x] Phone Contact Logging
- - [x] Email Contact
- - [x] Bulk Emailing
- - [x] Bulk Emailing using Mail Merge
+ - [x] Phone Contact Logging :phone:
+ - [x] Email Contact :incoming_envelope:
+ - [x] Bulk Emailing :incoming_envelope:
+ - [x] Bulk Emailing using Mail Merge :incoming_envelope:
  - [ ] Track Donor Communication
  - [ ] Commit Donation and Receipt
  - [ ] Accounting
