@@ -146,7 +146,7 @@ class TestDonorLog(unittest.TestCase):
 
         with self.assertRaises(exception.EntityNotFoundError):
             sub_process.add_donor_phone_log(
-                1, "Person", "2017-10-10", "11:30", "Something", "Silly")
+                5, "Person", "2017-10-10", "11:30", "Something", "Silly")
 
     def test_email_log_lookup(self):
         logs = sub_process.donor_email_logs_byid(2)

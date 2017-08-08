@@ -267,6 +267,9 @@ def donor_phone_logs_byid(donor_id):
 # telephonic conversation with the Donor
 def add_donor_phone_log(donor_id, contact_person, contact_date, contact_time, details_shared,
                         remarks):
+    donor = Donor.query.get(donor_id)
+    if donor is None:
+        raise EntityNotFoundError
     db.session.add(DonorPhoneLog(contact_date=contact_date, contact_time=contact_time,
                                  contact_person=contact_person, donor_id=donor_id, remarks=remarks,
                                  details_shared=details_shared))
@@ -508,9 +511,10 @@ def get_email_template_list():
 
 def get_email_template_obj(template_name, donor_obj, sender_name):
     if template_name != 'Manual Composition':
-        template_obj = EmailTemplate.query.filter_by(
-            template_name=template_name).all()
-        template_package = template_obj[0]
+        template_package = EmailTemplate.query.filter_by(
+            template_name=template_name).first()
+        if template_package is None:
+            raise EntityNotFoundError
         if donor_obj.title is not None:
             donor_full_name = donor_obj.title + ' ' + donor_obj.name
         else:
@@ -531,9 +535,10 @@ def get_email_template_obj(template_name, donor_obj, sender_name):
 
 def get_bulk_email_template_obj(template_name, sender_name):
     if template_name != 'Manual Composition':
-        template_obj = EmailTemplate.query.filter_by(
-            template_name=template_name).all()
-        template_package = template_obj[0]
+        template_package = EmailTemplate.query.filter_by(
+            template_name=template_name).first()
+        if template_package is None:
+            raise EntityNotFoundError
         template_package.signature_block = sender_name + \
                                            '\n' + template_package.signature_block
     else:
