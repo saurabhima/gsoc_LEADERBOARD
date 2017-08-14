@@ -363,4 +363,4 @@ def credit_donation(donor_id, credit_date,credit_time,credited_amt,currency, pay
     donor_details=donor_details_byid(donor_id)
     db.session.add(CreditDonation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,amount=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_dispatch_mode, remarks=remarks))
     db.session.commit()
-    print 'Generate Reciept Still Pending!'
+    print 'Generate Reciept Still Pending'
