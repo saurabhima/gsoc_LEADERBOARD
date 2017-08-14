@@ -137,6 +137,37 @@ class CommittedDonation(db.Model):
     def __repr__(self):
         return '<DonationCommitID%r>' % (self.donation_commit_id)
 
+class CreditDonation(db.Model):
+    __tablename__ = 'credit_donation_details'
+    credit_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
+    donor_id=db.Column(INTEGER, nullable=False)
+    credit_date = db.Column(DATE, nullable=False)
+    credit_time = db.Column(TIME, nullable=False)
+    amount = db.Column(INTEGER, nullable=False)
+    currency= db.Column(db.Enum('USD', 'GBP', 'EUR', 'BITCOIN'), nullable=False)
+    payment_mode=db.Column(db.Enum('Paypal', 'Online Bank', 'CreditCard', 'Crypto', 'Cheque'), nullable=False)
+    credit_reference=db.Column(VARCHAR(80), nullable=False)
+    payment_date=db.Column(DATE, nullable=False)
+    receipt_disp_mode=db.Column(db.Enum('EmailandPost', 'Email', 'Post', 'DontSend'), nullable=False)
+    remarks = db.Column(LONGBLOB)
+
+
+    def __init__(self,donor_id=donor_id,credit_date=credit_date,credit_time=credit_time,amount=amount,
+                 currency=currency,payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_disp_mode,remarks=remarks):
+        self.donor_id = donor_id
+        self.credit_date = credit_date
+        self.credit_time=credit_time
+        self.amount=amount
+        self.currency=currency
+        self.payment_mode=payment_mode
+        self.credit_reference=credit_reference
+        self.payment_date=payment_date
+        self.receipt_disp_mode=receipt_disp_mode
+        self.remarks=remarks
+
+    def __repr__(self):
+        return '<DonationCreditID%r>' % (self.credit_id)
+
 class EmailTemplate(db.Model):
     __tablename__ = 'email_templates'
     template_id=db.Column(INTEGER, primary_key=True,nullable=False,autoincrement=True)
