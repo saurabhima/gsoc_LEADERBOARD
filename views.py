@@ -7,7 +7,8 @@ import os
 import datetime
 import json
 from leaderboard import app
-from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm,DonationCreditForm
+from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm, DonationCreditForm
+from decorators import user, privileged
 
 
 @app.route('/')
@@ -99,7 +100,8 @@ def user_login():
 def user_login_process():
     username = request.form['username']
     password = request.form['user_password']
-    logged_user_status, logged_user_type, user_fullname = sub_process.authenticate(username, password)
+    logged_user_status, logged_user_type, user_fullname = sub_process.authenticate(
+        username, password)
     if logged_user_status is False:
         return render_template('default_testing.html')
     else:
@@ -150,16 +152,9 @@ def approve_new_user_process():
 
 # Register New Donor to Database
 @app.route('/register_new_donor')
+@privileged
 def register_new_donor():
-    try:
-        if session['login_status'] == 'True' and (
-                        session['logged_user_type'] == 'Administrator' or session['logged_user_type'] == 'Supervisor'):
-            return render_template('register_new_donor.html')
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
+    return render_template('register_new_donor.html')
 
 
 @app.route('/process_donor_form', methods=['POST'])
@@ -187,19 +182,10 @@ def process_add_donors():
 
 # Update Donor Contacts
 @app.route('/donor_contact_update')
+@user
 def donor_contact_update():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
-            donor_list = sub_process.get_donor_list()
-            return render_template('donor_contact_update.html', donor_list=donor_list)
-
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
+    donor_list = sub_process.get_donor_list()
+    return render_template('donor_contact_update.html', donor_list=donor_list)
 
 
 @app.route('/donor_contact_update_process', methods=['POST'])
@@ -219,25 +205,17 @@ def donor_contact_update_form_process():
     if not form.validate() or not sub_process.find_donor(donor_id):
         return redirect(url_for('donor_contact_update'))
 
-    sub_process.update_donor_contact(donor_id=donor_id, phone=phone, email=email, org=org)
+    sub_process.update_donor_contact(
+        donor_id=donor_id, phone=phone, email=email, org=org)
     return redirect(url_for('donor_contact_update'))
 
 
 # Donor Phone Contact
 @app.route('/donor_phone_contact')
+@user
 def donor_phone_contact():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
-            donor_list = sub_process.get_donor_list()
-            return render_template('donor_phone_contact.html', donor_list=donor_list)
-
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
+    donor_list = sub_process.get_donor_list()
+    return render_template('donor_phone_contact.html', donor_list=donor_list)
 
 
 @app.route('/donor_phone_contact_process', methods=['POST'])
@@ -270,19 +248,10 @@ def donor_phone_log_process():
 
 
 @app.route('/send_email_indl_donor')
+@user
 def send_email_indl_donor():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
-            donor_list = sub_process.get_donor_list()
-            return render_template('send_email_indl_donor.html', donor_list=donor_list)
-
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
+    donor_list = sub_process.get_donor_list()
+    return render_template('send_email_indl_donor.html', donor_list=donor_list)
 
 
 @app.route('/send_email_indl_donor_process', methods=['POST'])
@@ -310,7 +279,8 @@ def send_email_indl_donor_compose():
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
-    email_template_obj = sub_process.get_email_template_obj(template_name, donor_obj, session['logged_user_full_name'])
+    email_template_obj = sub_process.get_email_template_obj(
+        template_name, donor_obj, session['logged_user_full_name'])
 
     return render_template('send_email_indl_donor_compose.html', donor_obj=donor_obj,
                            phone_log=donor_previous_phone_logs,
@@ -335,42 +305,37 @@ def send_email_indl_donor_transmit():
 
 
 @app.route('/send_bulk_email_donor')
+@user
 def send_bulk_email_donor():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
-
-            donor_list = sub_process.get_donor_list()
-            email_template_list=sub_process.get_email_template_list()
-            return render_template('send_bulk_email_donor.html', donor_list=donor_list,email_template_list=email_template_list)
-
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
+    email_template_list = sub_process.get_email_template_list()
+    return render_template('send_bulk_email_donor.html', donor_list=donor_list, email_template_list=email_template_list)
 
 
 @app.route('/send_bulk_email_donor_process', methods=['POST'])
 def send_bulk_email_donor_process():
-    button_code=request.form['submit']
+    button_code = request.form['submit']
     sender = session['logged_username']
-    sub_process.add_donor_bulk_email_list(donor_id=button_code, sender_username=sender)
+    sub_process.add_donor_bulk_email_list(
+        donor_id=button_code, sender_username=sender)
     return redirect(url_for('send_bulk_email_donor'))
+
 
 @app.route('/send_bulk_email_donor_compose', methods=['POST'])
 def send_bulk_email_donor_compose():
     template_name = request.form['template_name']
-    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username']) 
-    email_template_obj = sub_process.get_bulk_email_template_obj(template_name, session['logged_user_full_name'])
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(
+        session['logged_username'])
+    email_template_obj = sub_process.get_bulk_email_template_obj(
+        template_name, session['logged_user_full_name'])
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
-    return render_template('send_bulk_email_donor_compose.html', donor_list=bulk_email_donor_details,email_template_obj=email_template_obj,current_date=current_date,current_time=current_time)
+    return render_template('send_bulk_email_donor_compose.html', donor_list=bulk_email_donor_details, email_template_obj=email_template_obj, current_date=current_date, current_time=current_time)
+
 
 @app.route('/send_bulk_email_donor_transmit', methods=['POST'])
 def send_bulk_email_donor_transmit():
-    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username'])
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(
+        session['logged_username'])
     contact_person = request.form['contact_person']
     contact_date = request.form['contact_date']
     contact_time = request.form['contact_time']
@@ -378,50 +343,48 @@ def send_bulk_email_donor_transmit():
     main_body = request.form['main_body']
     closing = request.form['closing']
     signature = request.form['signature_block']
-    sub_process.transmit_bulk_email(bulk_email_donor_details=bulk_email_donor_details,contact_person=contact_person, contact_date=contact_date,
+    sub_process.transmit_bulk_email(bulk_email_donor_details=bulk_email_donor_details, contact_person=contact_person, contact_date=contact_date,
                                     contact_time=contact_time,
                                     salutation=salutation, main_body=main_body, closing=closing, signature=signature, sender_username=session['logged_username'])
     return redirect(url_for('index'))
 
+
 @app.route('/send_bulk_email_donor_merge')
+@user
 def send_bulk_email_donor_merge():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+    donor_list = sub_process.get_donor_list()
+    email_template_list = sub_process.get_email_template_list()
+    return render_template('send_bulk_email_merge_donor.html', donor_list=donor_list, email_template_list=email_template_list)
 
-            donor_list = sub_process.get_donor_list()
-            email_template_list=sub_process.get_email_template_list()
-            return render_template('send_bulk_email_merge_donor.html', donor_list=donor_list,email_template_list=email_template_list)
-
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
 
 @app.route('/send_bulk_email_donor_merge_process', methods=['POST'])
 def send_bulk_email_donor_merge_process():
-    button_code=request.form['submit']
+    button_code = request.form['submit']
     sender = session['logged_username']
-    sub_process.add_donor_bulk_email_list(donor_id=button_code, sender_username=sender)
+    sub_process.add_donor_bulk_email_list(
+        donor_id=button_code, sender_username=sender)
     return redirect(url_for('send_bulk_email_donor_merge'))
+
 
 @app.route('/send_bulk_email_donor_merge_compose', methods=['POST'])
 def send_bulk_email_donor_merge_composee():
     template_name = request.form['template_name']
-    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username'])
-    email_template_obj = sub_process.get_bulk_email_template_obj(template_name, session['logged_user_full_name'])
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(
+        session['logged_username'])
+    email_template_obj = sub_process.get_bulk_email_template_obj(
+        template_name, session['logged_user_full_name'])
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
-    mail_merge_tag_file=config.MAIL_MERGE_TAG_FILE
+    mail_merge_tag_file = config.MAIL_MERGE_TAG_FILE
     with open(mail_merge_tag_file) as merge_fh:
-        merge_tags=json.load(merge_fh)
-    return render_template('send_bulk_email_merge_donor_compose.html', donor_list=bulk_email_donor_details,email_template_obj=email_template_obj,current_date=current_date,current_time=current_time,merge_tags=merge_tags)
+        merge_tags = json.load(merge_fh)
+    return render_template('send_bulk_email_merge_donor_compose.html', donor_list=bulk_email_donor_details, email_template_obj=email_template_obj, current_date=current_date, current_time=current_time, merge_tags=merge_tags)
+
 
 @app.route('/send_bulk_email_donor_merge_transmit', methods=['POST'])
 def send_bulk_email_donor_merge_transmit():
-    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(session['logged_username'])
+    bulk_email_donor_details = sub_process.get_bulk_email_donor_details(
+        session['logged_username'])
     contact_person = request.form['contact_person']
     contact_date = request.form['contact_date']
     contact_time = request.form['contact_time']
@@ -429,10 +392,11 @@ def send_bulk_email_donor_merge_transmit():
     main_body = request.form['main_body']
     closing = request.form['closing']
     signature = request.form['signature_block']
-    sub_process.transmit_bulk_email_merge(bulk_email_donor_details=bulk_email_donor_details,contact_person=contact_person, contact_date=contact_date,
-                                    contact_time=contact_time,
-                                    salutation=salutation, main_body=main_body, closing=closing, signature=signature, sender_username=session['logged_username'])
+    sub_process.transmit_bulk_email_merge(bulk_email_donor_details=bulk_email_donor_details, contact_person=contact_person, contact_date=contact_date,
+                                          contact_time=contact_time,
+                                          salutation=salutation, main_body=main_body, closing=closing, signature=signature, sender_username=session['logged_username'])
     return redirect(url_for('index'))
+
 
 @app.route('/allot_volunteer')
 def allot_volunteer():
@@ -453,22 +417,14 @@ def allot_volunteer_process():
 
 
 @app.route('/commit_donation')
+@user
 def commit_donation():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
-            donor_list = sub_process.alotted_donors_byid(session['logged_user_full_name'])
-            if len(donor_list) > 0:
-                return render_template('commit_donation.html', donor_list=donor_list)
-            else:
-                return render_template('commit_donation.html')
-
-        else:
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
+    donor_list = sub_process.alotted_donors_byid(
+        session['logged_user_full_name'])
+    if len(donor_list) > 0:
+        return render_template('commit_donation.html', donor_list=donor_list)
+    else:
+        return render_template('commit_donation.html')
 
 
 @app.route('/commit_donation_process', methods=['POST'])
@@ -502,25 +458,16 @@ def commit_donation_amt_process():
                                 commit_amt=commit_amt, currency=currency, payment_mode=payment_mode, remarks=remarks)
     return redirect(url_for('index'))
 
+
 @app.route('/credit_donation')
+@user
 def credit_donation():
-    try:
-        if session['login_status'] == 'True' and (
-                            session['logged_user_type'] == 'Administrator' or session[
-                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
-            commit_donor_list = sub_process.committed_donors_byid()
+    commit_donor_list = sub_process.committed_donors_byid()
+    if len(commit_donor_list) > 0:
+        return render_template('credit_donation.html', donor_list=commit_donor_list)
+    else:
+        return render_template('credit_donation.html')
 
-            if len(commit_donor_list) > 0:
-                return render_template('credit_donation.html', donor_list=commit_donor_list)
-            else:
-                return render_template('credit_donation.html')
-
-        else:
-
-            return render_template('invalid_login.html')
-    except:
-
-        return render_template('invalid_login.html')
 
 @app.route('/credit_donation_process', methods=['POST'])
 def credit_donation_process():
@@ -528,12 +475,14 @@ def credit_donation_process():
     donor_obj = sub_process.donor_details_byid(donor_id)
     donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
     donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
-    donor_commit_details=sub_process.donor_commit_details_byid(donor_id=donor_id)
+    donor_commit_details = sub_process.donor_commit_details_byid(
+        donor_id=donor_id)
     current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
     current_time = datetime.datetime.now().time().strftime("%H:%M")
     return render_template('credit_donation_mode_amt.html', donor_obj=donor_obj, phone_log=donor_previous_phone_logs,
                            email_log=donor_previous_email_logs,
-                           current_date=current_date, current_time=current_time,donor_commit_details=donor_commit_details)
+                           current_date=current_date, current_time=current_time, donor_commit_details=donor_commit_details)
+
 
 @app.route('/credit_donation_amt_process', methods=['POST'])
 def credit_donation_amt_process():
@@ -548,11 +497,12 @@ def credit_donation_amt_process():
     credited_amt = form.credited_amt.data
     currency = form.currency.data
     payment_mode = form.payment_mode.data
-    credit_reference=form.credit_reference.data
-    payment_date=form.payment_date.data
-    receipt_dispatch_mode=form.receipt_dispatch_mode.data
+    credit_reference = form.credit_reference.data
+    payment_date = form.payment_date.data
+    receipt_dispatch_mode = form.receipt_dispatch_mode.data
     remarks = form.remarks.data
-    sub_process.credit_donation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,credited_amt=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_dispatch_mode=receipt_dispatch_mode, remarks=remarks)
+    sub_process.credit_donation(donor_id=donor_id, credit_date=credit_date, credit_time=credit_time, credited_amt=credited_amt, currency=currency,
+                                payment_mode=payment_mode, credit_reference=credit_reference, payment_date=payment_date, receipt_dispatch_mode=receipt_dispatch_mode, remarks=remarks)
     return redirect(url_for('index'))
 
 
