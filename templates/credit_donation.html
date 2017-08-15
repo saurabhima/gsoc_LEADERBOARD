@@ -1,0 +1,58 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="wrapper row1">
+    <header class="hoc clear" id="header">
+        <h1>Credit Donation</h1>
+    </header>
+</div>
+<div class="wrapper row1">
+    <div class="hoc container clear">
+        <table class="display" width="100%" cellspacing="0" id="donor-details-table">
+            <thead class="navbar-static-top" style="text-align: center">
+                <th>ID</th>
+                <th>Donor Name</th>
+                <th>Organisation</th>
+                <th>Phone</th>
+                <th>Contact Person</th>
+                <th>Registration Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
+            <tbody style="text-align: center">
+            {% if donor_list!=None %}
+                {% for line in donor_list %}
+                    {%  if line['volunteer_name']==session['logged_user_full_name'] and line['volunteer_name']%}
+                        <tr style="background-color: #d43f3a">
+                    {% else %}
+                        <tr>
+                    {% endif %}
+                        <td>{{ line['id'] }}</td>
+                        <td>{{ line['title']+' '+line['name'] }}</td>
+                        <td>{{ line['org'] }}</td>
+                        <td>{{ line['phone'] }}</td>
+                        <td>{{ line['contact_person'] }}</td>
+                        <td>{{ line['contact_date'] }}</td>
+                        <td>{{ line['donor_status'] }}</td>
+                        <td>
+                            <form name="phone" action="/credit_donation_process" method="post">
+                                <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}">Credit Donation</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#donor-details-table').DataTable();
+    });
+</script>
+{% endblock %}

@@ -7,8 +7,8 @@ import os
 import datetime
 import json
 from leaderboard import app
-from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm
-from pprint import pprint
+from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm,DonationCreditForm
+
 
 @app.route('/')
 def index():
@@ -28,7 +28,7 @@ def donor_leaderboard():
     if os.path.exists(donor_details_file):
         fh = open(donor_details_file, 'rb')
         pickle_obj = pickle.load(fh)
-        print(pickle_obj)
+
     return render_template('donor_leaderboard.html', donor_list=pickle_obj)
 
 
@@ -97,12 +97,9 @@ def user_login():
 
 @app.route('/user_login_process', methods=['POST'])
 def user_login_process():
-    print 'user login process module'
     username = request.form['username']
     password = request.form['user_password']
-    print (username, password)
     logged_user_status, logged_user_type, user_fullname = sub_process.authenticate(username, password)
-    print (logged_user_type, logged_user_status, user_fullname)
     if logged_user_status is False:
         return render_template('default_testing.html')
     else:
@@ -140,15 +137,12 @@ def approve_new_user():
 
 @app.route('/approve_new_user_process', methods=['POST'])
 def approve_new_user_process():
-    print 'user approval process module'
     username = request.form['username']
     if request.form['submit'] == 'Approve':
         sub_process.approve_user(username)
-        print 'User Approved'
         return redirect(url_for('approve_new_user'))
     else:
         sub_process.reject_user(username)
-        print 'User Rejected'
         return redirect(url_for('approve_new_user'))
 
 
@@ -265,7 +259,6 @@ def donor_phone_log_process():
     contact_person = request.form['contact_person']
     donor_id = request.form['donor_id']
     contact_date = request.form['contact_date']
-    print contact_date
     contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
     contact_time = request.form['contact_time']
     details_shared = request.form['details_shared']
@@ -507,6 +500,59 @@ def commit_donation_amt_process():
     remarks = form.remarks.data
     sub_process.commit_donation(donor_id=donor_id, commit_date=commit_date, commit_time=commit_time,
                                 commit_amt=commit_amt, currency=currency, payment_mode=payment_mode, remarks=remarks)
+    return redirect(url_for('index'))
+
+@app.route('/credit_donation')
+def credit_donation():
+    try:
+        if session['login_status'] == 'True' and (
+                            session['logged_user_type'] == 'Administrator' or session[
+                        'logged_user_type'] == 'Supervisor' or session['logged_user_type'] == 'Volunteer'):
+            commit_donor_list = sub_process.committed_donors_byid()
+
+            if len(commit_donor_list) > 0:
+                return render_template('credit_donation.html', donor_list=commit_donor_list)
+            else:
+                return render_template('credit_donation.html')
+
+        else:
+
+            return render_template('invalid_login.html')
+    except:
+
+        return render_template('invalid_login.html')
+
+@app.route('/credit_donation_process', methods=['POST'])
+def credit_donation_process():
+    donor_id = request.form['submit']
+    donor_obj = sub_process.donor_details_byid(donor_id)
+    donor_previous_phone_logs = sub_process.donor_phone_logs_byid(donor_id)
+    donor_previous_email_logs = sub_process.donor_email_logs_byid(donor_id)
+    donor_commit_details=sub_process.donor_commit_details_byid(donor_id=donor_id)
+    current_date = datetime.datetime.now().date().strftime("%m-%d-%Y")
+    current_time = datetime.datetime.now().time().strftime("%H:%M")
+    return render_template('credit_donation_mode_amt.html', donor_obj=donor_obj, phone_log=donor_previous_phone_logs,
+                           email_log=donor_previous_email_logs,
+                           current_date=current_date, current_time=current_time,donor_commit_details=donor_commit_details)
+
+@app.route('/credit_donation_amt_process', methods=['POST'])
+def credit_donation_amt_process():
+    form = DonationCreditForm(request.form)
+    donor_id = request.form['donor_id']
+    if not form.validate() or not sub_process.find_donor(donor_id):
+        print(form.errors)
+        return redirect(url_for('credit_donation'))
+    credit_date = form.credit_date.data
+    credit_date = credit_date.strftime("%Y-%m-%d")
+    credit_time = form.credit_time.data
+    credited_amt = form.credited_amt.data
+    currency = form.currency.data
+    payment_mode = form.payment_mode.data
+    credit_reference=form.credit_reference.data
+    payment_date=form.payment_date.data
+    receipt_dispatch_mode=form.receipt_dispatch_mode.data
+    remarks = form.remarks.data
+    sub_process.credit_donation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,credited_amt=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_dispatch_mode=receipt_dispatch_mode, remarks=remarks)
     return redirect(url_for('index'))
 
 

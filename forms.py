@@ -51,3 +51,30 @@ class DonationCommitForm(Form):
     ])
     remarks = StringField(u'Remarks', validators=[validators.optional()])
 
+class DonationCreditForm(Form):
+    contact_person=StringField(u'Contact Person', validators=[validators.required()])
+    credit_date = DateField(u'Credit Date', format='%m-%d-%Y', validators=[validators.required()])
+    credit_time = StringField(u'Credit Time', validators=[validators.required()])
+    credited_amt = IntegerField(u'Credited Amount', validators=[validators.required(), validators.NumberRange(min=1)])
+    currency = SelectField(u'Currency', validators=[validators.required()], choices=[
+        ('USD', 'US Dollar'),
+        ('EUR', 'Euro'),
+        ('GBP', 'British Pound'),
+        ('BITCOIN', 'Bitcoin')
+    ])
+    payment_mode = SelectField(u'Payment Mode', validators=[validators.required()], choices=[
+        ('Online Bank', 'Bank Transfer'),
+        ('Paypal', 'Paypal'),
+        ('Crypto', 'Crypto Currency'),
+        ('CreditCard', 'Credit Card'),
+        ('Cheque', 'Cheque')
+    ])
+    payment_date=DateField(u'Date of Payment', validators=[validators.required()])
+    credit_reference=StringField(u'Credit Reference', validators=[validators.required()])
+    receipt_dispatch_mode=SelectField(u'Mode of Receipt Dispatch', validators=[validators.required()], choices=[
+        ('EmailandPost', 'Email and Post'),
+        ('Email', 'Email'),
+        ('Post', 'Post'),
+        ('DontSend', 'Do Not Send Receipt')
+    ])
+    remarks = StringField(u'Remarks', validators=[validators.optional()])
