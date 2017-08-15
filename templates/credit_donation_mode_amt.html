@@ -1,0 +1,80 @@
+{% extends "log_template.html" %} {% block panel %}
+
+    <div class="wrapper row2">
+    <div class="hoc container clear">
+        <h4>Credit Donation Amount</h4>
+        <form class="well form-horizontal" action="/credit_donation_amt_process" method="post" id="donor_registration_form" name="donor_registration_form">
+            <fieldset>
+                <input name="donor_id" value="{{ donor_obj['id'] }}" class="form-control" type="hidden">
+                <!-- Text input-->
+                <div class="block clear">
+                    <label>Contact Person</label>
+                    <input name="contact_person" placeholder="Contact Person" class="form-control" type="text" value="{{ session['logged_user_full_name'] }}">
+                </div>
+
+                <div class="block clear">
+                    <label>Current Date</label>
+                    <input name="credit_date" placeholder="Contact Date" class="form-control" type="text" readonly value="{{ current_date }}">
+                </div>
+                <div class="block clear">
+                    <label>Current Time</label>
+                    <input name="credit_time" placeholder="Contact Date" class="form-control" type="text" readonly value="{{ current_time }}">
+                </div>
+                <div class="block clear">
+                    <label>Credited Amount</label>
+                    <input name="credited_amt" placeholder="Credited Amount" class="form-control" type="text">
+                </div>
+                <div class="block clear">
+                    <label>Currency</label>
+                    <select name="currency" placeholder="Currency" class="form-control">
+                        <option selected value="USD">US Dollar</option>
+                        <option value="EUR">Euro</option>
+                        <option value="GBP">British Pound</option>
+                        <option value="BITCOIN">Bitcoin</option>
+                    </select>
+                </div>
+                <div class="block clear">
+                    <label>Payment Mode</label>
+                    <select name="payment_mode" placeholder="Mode of Payment" class="form-control">
+                    <option selected value="Online Bank">Bank Transfer</option>
+                    <option value="Paypal">Paypal</option>
+                    <option value="Crypto">Crypto Currency</option>
+                    <option value="CreditCard">Credit Card</option>
+                    <option value="Cheque">Cheque</option>
+                        </select>
+                </div>
+                <div class="block clear">
+                    <label>Date of Payment</label>
+                    <input name="payment_date" placeholder="Date of Payment" class="form-control datepicker" type="date">
+                    <!-- Button -->
+                </div>
+                <div class="block clear">
+                    <label>Credit Reference Number</label>
+                    <input name="credit_reference" placeholder="Credit Reference Number (Given by Bank/Paypal etc)" class="form-control" type="text">
+                </div>
+                <div class="block clear">
+                    <label>Mode of Receipt Dispatch</label>
+                    <select name="receipt_dispatch_mode" placeholder="Mode of Receipt Dispatch" class="form-control">
+                    <option selected value="Email">Email</option>
+                    <option value="Post">Post</option>
+                    <option value="EmailandPost">Email and Post</option>
+                    <option value="DontSend">Do Not Send Receipt</option>
+
+                        </select>
+                </div>
+                <div class="block clear">
+                    <label>Remarks</label>
+                    <textarea name="remarks" id="remarks" rows="6" placeholder="Remarks" class="form-control"></textarea>
+                </div>
+                <!-- Button -->
+                <div class="block clear">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn">Credit Donation & Generate Receipt<span class="glyphicon glyphicon-send"></span></button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}
