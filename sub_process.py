@@ -1,14 +1,12 @@
-import config
-import os
-import pickle
-import datetime
+
 from leaderboard import *
 from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList,CreditDonation
 from werkzeug.security import generate_password_hash, check_password_hash
 import email_service
 import json, re
+import generate_receipt
 from exception import EntityNotFoundError
-from pprint import pprint
+
 
 
 # User Authentication Method Using MySQL Database.
@@ -359,8 +357,9 @@ def transmit_bulk_email_merge(bulk_email_donor_details, contact_person, contact_
     BulkEmailList.query.filter_by(username=sender_username).delete()
     db.session.commit()
 
-def credit_donation(donor_id, credit_date,credit_time,credited_amt,currency, payment_mode,credit_reference,payment_date,receipt_dispatch_mode, remarks):
+def credit_donation(filename,receipt_number,donor_id, credit_date,credit_time,credited_amt,currency, payment_mode,credit_reference,payment_date,receipt_dispatch_mode, remarks,contact_person):
     donor_details=donor_details_byid(donor_id)
-    db.session.add(CreditDonation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,amount=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_dispatch_mode, remarks=remarks))
+
+    db.session.add(CreditDonation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,amount=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_dispatch_mode, remarks=remarks,filename=filename,receipt_number=receipt_number))
     db.session.commit()
-    print 'Generate Reciept Still Pending!'
+    generate_receipt.create_pdf(filename=filename,receipt_number=receipt_number,title=donor_details.title,name=donor_details.name,org=donor_details.org,contact_person=contact_person, credit_date=credit_date,credit_time=credit_time,amount=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_dispatch_mode)

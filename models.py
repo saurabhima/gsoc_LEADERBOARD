@@ -150,9 +150,9 @@ class CreditDonation(db.Model):
     payment_date=db.Column(DATE, nullable=False)
     receipt_disp_mode=db.Column(db.Enum('EmailandPost', 'Email', 'Post', 'DontSend'), nullable=False)
     remarks = db.Column(LONGBLOB)
-
-
-    def __init__(self,donor_id=donor_id,credit_date=credit_date,credit_time=credit_time,amount=amount,
+    filename=db.Column(VARCHAR(50))
+    receipt_number=db.Column(VARCHAR(50))
+    def __init__(self,filename=filename,receipt_number=receipt_number,donor_id=donor_id,credit_date=credit_date,credit_time=credit_time,amount=amount,
                  currency=currency,payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_disp_mode,remarks=remarks):
         self.donor_id = donor_id
         self.credit_date = credit_date
@@ -164,7 +164,8 @@ class CreditDonation(db.Model):
         self.payment_date=payment_date
         self.receipt_disp_mode=receipt_disp_mode
         self.remarks=remarks
-
+        self.filename=filename
+        self.receipt_number=receipt_number
     def __repr__(self):
         return '<DonationCreditID%r>' % (self.credit_id)
 

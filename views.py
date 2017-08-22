@@ -542,6 +542,7 @@ def credit_donation_amt_process():
     if not form.validate() or not sub_process.find_donor(donor_id):
         print(form.errors)
         return redirect(url_for('credit_donation'))
+    contact_person=form.contact_person.data
     credit_date = form.credit_date.data
     credit_date = credit_date.strftime("%Y-%m-%d")
     credit_time = form.credit_time.data
@@ -552,7 +553,11 @@ def credit_donation_amt_process():
     payment_date=form.payment_date.data
     receipt_dispatch_mode=form.receipt_dispatch_mode.data
     remarks = form.remarks.data
-    sub_process.credit_donation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,credited_amt=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_dispatch_mode=receipt_dispatch_mode, remarks=remarks)
+    credit_date_change=str(credit_date).replace('-','')
+    credit_time_change=str(credit_time).replace(':','')
+    filename=str(donor_id)+credit_date_change+credit_time_change+'.pdf'
+    receipt_number = 'SPNXCAP' + str(donor_id)+credit_date_change+credit_time_change
+    sub_process.credit_donation(filename=filename,receipt_number=receipt_number,donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,credited_amt=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_dispatch_mode=receipt_dispatch_mode, remarks=remarks,contact_person=contact_person)
     return redirect(url_for('index'))
 
 
