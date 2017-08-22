@@ -51,10 +51,16 @@ def create_pdf(filename,receipt_number,title,name,org,contact_person,credit_date
     thankstring="Received with thanks {} {} from {} via {} as donation ".format(amount,currency,full_name,payment_mode)
     can.drawString(50, 460, thankstring)
     can.drawString(50, 445, "towards fund raising for Project SphinxCapt(www.Sphinxcapt.org).")
-    can.setFillColorRGB(255,0,255)
+    can.setFillColorRGB(0,0,255)
     can.drawString(50, 400, "On behalf of SphinxCapt we thank you for your support and commitment towards the project.")
     can.setFillColorRGB(0,0,0)
     can.drawString(50, 360, contact_person)
     can.setFont('Helvetica', 10)
+    if receipt_disp_mode=='EmailandPost':
+        receipt_disp_mode='Email and Post'
+    elif receipt_disp_mode=='DontSend':
+        receipt_disp_mode = 'Do Not Send Receipt'
+    can.drawString(50, 320, "You have chosen the Receipt Dispatch Mode as {}. ".format(receipt_disp_mode))
+    can.drawString(50, 300, "In case your preferred dispatch mode is Post we shall shortly dispatch the Receipt to you.")
     can.drawCentredString(width/2,20, headerfooter)
     can.save()
