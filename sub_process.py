@@ -1,15 +1,13 @@
-import config
-import os
-import pickle
-import datetime
 from leaderboard import *
-from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList,CreditDonation
+from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList, \
+    CreditDonation
 from werkzeug.security import generate_password_hash, check_password_hash
 import email_service
 import json, re
+import generate_receipt
 from exception import EntityNotFoundError
-from pprint import pprint
-
+import datetime
+import upload_receipt_gdrive
 
 # User Authentication Method Using MySQL Database.
 # This method returns the login_status, user_account_type and user full name if the user is authenticated ,
@@ -29,7 +27,6 @@ def authenticate(username, password):
             user_account_type = query_result.user_type
             user_full_name = str(query_result.full_name)
     return (login_status, user_account_type, user_full_name)
-
 
 
 def write_user_log(str):
@@ -84,13 +81,11 @@ def register_new_donor(title, name, org, email, donor_contact, contact_person,
     db.session.commit()
 
 
-
 # This method returns the details of a donor by searching the details of the user
 # in the donor_details table of the donorworkflow database
 def donor_details_byid(donor_id):
     donor_details = Donor.query.filter_by(id=donor_id).first()
     return donor_details
-
 
 
 # This method return the phone conversation log with a Donor based on hid donor_id from the donor_contact_logs
@@ -100,7 +95,6 @@ def donor_details_byid(donor_id):
 def donor_phone_logs_byid(donor_id):
     phone_logs = DonorPhoneLog.query.filter_by(donor_id=donor_id).all()
     return phone_logs
-
 
 
 # This method updates the donor_phone_logs table in the donorworkflow database with the details of the latest
@@ -124,6 +118,7 @@ def update_donor_contact(donor_id, phone, email, org):
     user_details.email = email
     user_details.org = org
     db.session.commit()
+
 
 def donor_email_logs_byid(donor_id):
     email_logs = DonorEmailLog.query.filter_by(donor_id=donor_id).all()
@@ -153,8 +148,9 @@ def alotted_donors_byid(username):
     allotted_donor_list = Donor.query.filter_by(volunteer_name=username).all()
     return allotted_donor_list
 
+
 def committed_donors_byid():
-    committed_donor_list=Donor.query.filter_by(donor_status='Committed').all()
+    committed_donor_list = Donor.query.filter_by(donor_status='Committed').all()
     return committed_donor_list
 
 
@@ -166,9 +162,12 @@ def commit_donation(donor_id, commit_date, commit_time, commit_amt, currency,
     donor = Donor.query.get(donor_id)
     donor.donor_status = 'Committed'
     db.session.commit()
+
+
 def donor_commit_details_byid(donor_id):
-    commitment_details=CommittedDonation.query.filter_by(donor_id=donor_id).first()
+    commitment_details = CommittedDonation.query.filter_by(donor_id=donor_id).first()
     return commitment_details
+
 
 def add_user_details_db(name, email, user_contact, username, password, user_type):
     hashed_passwd = generate_password_hash(password)
@@ -305,7 +304,6 @@ def transmit_bulk_email(bulk_email_donor_details, contact_person, contact_date, 
         BulkEmailList.query.filter_by(username=sender_username).delete()
 
 
-
 def replace_merge_tags(merge_tags, donor, searchtext):
     search_result = re.findall('([\$_]+[A-Z]+)', str(searchtext))
     return_text = str(searchtext)
@@ -334,12 +332,11 @@ def transmit_bulk_email_merge(bulk_email_donor_details, contact_person, contact_
     contact_date = datetime.datetime.strptime(contact_date, '%m-%d-%Y')
     contact_date = contact_date.date().strftime("%Y-%m-%d")
     for donor in bulk_email_donor_details:
-
-        contact_person_temp=contact_person
-        salutation_temp=salutation
-        main_body_temp=main_body
-        closing_temp=closing
-        signature_temp=signature
+        contact_person_temp = contact_person
+        salutation_temp = salutation
+        main_body_temp = main_body
+        closing_temp = closing
+        signature_temp = signature
         contact_person_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=contact_person_temp)
         salutation_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=salutation_temp)
         main_body_temp = replace_merge_tags(merge_tags=merge_tags, donor=donor, searchtext=main_body_temp)
@@ -351,7 +348,8 @@ def transmit_bulk_email_merge(bulk_email_donor_details, contact_person, contact_
                                                                                contact_time=contact_time,
                                                                                salutation=salutation_temp,
                                                                                main_body=main_body_temp,
-                                                                               closing=closing_temp, signature=signature_temp)
+                                                                               closing=closing_temp,
+                                                                               signature=signature_temp)
         db.session.add(
             DonorEmailLog(contact_date=contact_date, contact_time=contact_time, contact_person=contact_person_temp,
                           donor_id=donor.id, main_body=main_body_temp, full_email=msg_body, mail_code=mail_code))
@@ -359,8 +357,33 @@ def transmit_bulk_email_merge(bulk_email_donor_details, contact_person, contact_
     BulkEmailList.query.filter_by(username=sender_username).delete()
     db.session.commit()
 
-def credit_donation(donor_id, credit_date,credit_time,credited_amt,currency, payment_mode,credit_reference,payment_date,receipt_dispatch_mode, remarks):
-    donor_details=donor_details_byid(donor_id)
-    db.session.add(CreditDonation(donor_id=donor_id, credit_date=credit_date,credit_time=credit_time,amount=credited_amt,currency=currency, payment_mode=payment_mode,credit_reference=credit_reference,payment_date=payment_date,receipt_disp_mode=receipt_dispatch_mode, remarks=remarks))
+
+def credit_donation(filename, receipt_number, donor_id, credit_date, credit_time, credited_amt, currency, payment_mode,
+                    credit_reference, payment_date, receipt_dispatch_mode, remarks, contact_person):
+    donor_details = donor_details_byid(donor_id)
+
+    db.session.add(
+        CreditDonation(donor_id=donor_id, credit_date=credit_date, credit_time=credit_time, amount=credited_amt,
+                       currency=currency, payment_mode=payment_mode, credit_reference=credit_reference,
+                       payment_date=payment_date, receipt_disp_mode=receipt_dispatch_mode, remarks=remarks,
+                       filename=filename, receipt_number=receipt_number))
     db.session.commit()
-    print 'Generate Reciept Still Pending!'
+    generate_receipt.create_pdf(filename=filename, receipt_number=receipt_number, title=donor_details.title,
+                                name=donor_details.name, org=donor_details.org, contact_person=contact_person,
+                                credit_date=credit_date, credit_time=credit_time, amount=credited_amt,
+                                currency=currency, payment_mode=payment_mode, credit_reference=credit_reference,
+                                payment_date=payment_date, receipt_disp_mode=receipt_dispatch_mode)
+    if receipt_dispatch_mode == 'Email' or receipt_dispatch_mode == 'EmailandPost':
+        file_share_link=upload_receipt_gdrive.upload_receipt_gdrive(filename=filename)
+        message_obj, mail_code, msg_body=email_service.send_receipt_to_donor(donor_obj=donor_details, contact_person=contact_person, contact_date=credit_date, contact_time=credit_time, link=file_share_link)
+        main_body='Please accept our heartiest gratitude and thanks for contributing to the ' \
+                  'SphinxCapt Project with your generous donation.As per our records you have ' \
+                  'opted to receive the Donation Receipt through Email and we are happy to ' \
+                  'provide you the same for your records.Please feel free to contact us about ' \
+                  'any queries related to your donation or progress of the project. Also we ' \
+                  'would proudly display your name in our Donor Leaderboard if you have NOT ' \
+                  'opted for Anonymous Donation.'
+        db.session.add(
+            DonorEmailLog(contact_date=credit_date, contact_time=credit_time, contact_person=contact_person,
+                          donor_id=donor_id, main_body=main_body, full_email=msg_body, mail_code=mail_code))
+        db.session.commit()
