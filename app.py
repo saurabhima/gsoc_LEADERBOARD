@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import logging
 import config
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.config.update(dict(
     SQLALCHEMY_DATABASE_URI='mysql://user:pass@hostname/dbname',
     SECRET_KEY='abcd1234',
