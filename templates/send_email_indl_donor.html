@@ -35,7 +35,7 @@
                         <td>{{ line['contact_date'] }}</td>
                         <td>{{ line['donor_status'] }}</td>
                         <td>
-                            <form name="phone" action="/send_email_indl_donor_process" method="post">
+                            <form name="phone" action="send_email_indl_donor_process" method="post">
                                 <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}">Send Email</button>
                             </form>
                         </td>
