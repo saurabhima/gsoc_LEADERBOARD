@@ -1,7 +1,7 @@
 from sqlalchemy.dialects.mysql import INTEGER, VARCHAR, DOUBLE, DATE, TIME, LONGBLOB, ENUM
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
-from leaderboard import db
+from app import db
 
 Base = declarative_base()
 
