@@ -107,13 +107,16 @@ The project is divided into various sub modules as per Flask convention. The det
 The project used a MySQL database to store details of Donors,Communication (Telephonic & Email), User Details as well as Accounting transactions. The Current Scheme for the databse can be founded in the [___Schema.png___](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png) file in the repo.
  ![Schema](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png)
 ### SQLAlchemy Models
-The project uses a large number of _SQLAlchemy Models_ to connect to the application database. The details of these models are given below.
+The project uses a large number of ___SQLAlchemy Models___ to connect to the application database. The details of these models are given below.
 * __User__ - Contains model description of registered users of the application. This model connects to the _workflow_users_ table of the database.
 * __Donor__ - Contains model description of Donors who have been registered in the application and connects to the _donor_details_ table.
 * __DonorPhoneLog__ - Contains model description of Telephone Logs entered by Volunteers with Donors and connects to the _donor_phone_logs_ table.
 * __DonorEmailLog__ - Contains model description of Email Logs entered by Volunteers with Donors and connects to the _donor_email_logs_ table.
 * __CommittedDonation__ - Contains model description of committed donation details which have been given to the volunteer by the donors. This model connects to the _committed_donation_details_ table.
-*
+* __CreditDonation__ - Contains model description of credited donation details which have been transferred  to the project accounts by the donors. This model connects to the _credit_donation_details_ table.
+* __EmailTemplate__ - Contains model description of Email templates which have been created by administrators to be used to send emails to donors.This model connects to the _email_templates_ table.
+* __BulkEmailList__ - Contains model description of Bulk Email List which contains details of donors who are addresses in the bulk email module.This model connects to the _bulk_email_list_ table.
+
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
