@@ -68,7 +68,7 @@ The Donor Management workflow System has the following sub modules which are acc
         * **Main Body** - The Bare Content of the Email
         * **Closing** - Eg With Warm Regards
         * **Signature** - Signature of the logged user
-    * **Allot Volunteer to Donor** - Allows Administrator to allot a dedicated Volunteer to every prospective donor who is responsible for 1contacting the donor and persuading him/her to donate money for the project. The volunteer would generally act as a __Single Point of Contact__ to the donor.
+    * **Allot Volunteer to Donor** - Allows Administrator to allot a dedicated Volunteer to every prospective donor who is responsible for 1contacting the donor and persuading him/her to donate money for the project. The volunteer would generally act as a ___Single Point of Contact___ to the donor.
 
 * **Donor Leader Board** - This module is visible by default and allows everyone to track the various donors who have credited confirmed donations to the project . Only certain details of the donor are visible. In case the donor wished to remain anonymous, this facility could be added while committing the donation amount.
 
@@ -106,6 +106,14 @@ The project is divided into various sub modules as per Flask convention. The det
 ### Database
 The project used a MySQL database to store details of Donors,Communication (Telephonic & Email), User Details as well as Accounting transactions. The Current Scheme for the databse can be founded in the [___Schema.png___](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png) file in the repo.
  ![Schema](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png)
+### SQLAlchemy Models
+The project uses a large number of _SQLAlchemy Models_ to connect to the application database. The details of these models are given below.
+* __User__ - Contains model description of registered users of the application. This model connects to the _workflow_users_ table of the database.
+* __Donor__ - Contains model description of Donors who have been registered in the application and connects to the _donor_details_ table.
+* __DonorPhoneLog__ - Contains model description of Telephone Logs entered by Volunteers with Donors and connects to the _donor_phone_logs_ table.
+* __DonorEmailLog__ - Contains model description of Email Logs entered by Volunteers with Donors and connects to the _donor_email_logs_ table.
+* __CommittedDonation__ - Contains model description of committed donation details which have been given to the volunteer by the donors. This model connects to the _committed_donation_details_ table.
+*
 ### Flask Endpoint Description
   This section provides an overview of all the endpoints available to users in the Donor Management Workflow
   * __/__ - This module will launch index.html and give the default view of the application
