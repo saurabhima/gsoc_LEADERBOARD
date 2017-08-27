@@ -34,8 +34,13 @@ This project was envisaged in order to provide developers and volunteers with a 
 * **Package Install** - The required Python packages can be installed using the following commands
     > pip install -r requirements.txt
 ### Execution
+In order to connect the MySQL database the user must provide the config file containing details of __SQLALCHEMY_DATABASE_URI__. An example config file is given below
+> SQLALCHEMY_DATABASE_URI='mysql://username:password@localhost/databasename'
+
 The Donor Management Workflow Flask application can be executed by the following command
- > python leaderboard.py
+ > CONFIG=databaseconfigfile python leaderboard.py
+
+The __databaseconfigfile__ file contains the __SQLALCHEMY_DATABASE_URI__ as mentioned above.
 
 The python interpreter will respond with the IP and Port on which the Flask app is running
 
@@ -56,7 +61,14 @@ The Donor Management workflow System has the following sub modules which are acc
 * **Administration**
     * **User Registration Sub Module** - Allows new users to register for various roles subject to approval by a administrator account.This module is accessible by default.
     * **User Login** - Allows registered and approved users to login.
-    * **Delete User** - Allows Administrator to Suspend or Delete an existing user account.
+    * **Approve User** - Allows Administrator to approve a new user for a specific role. Without explicit approval from an Administrator a new user cannot Login or perform any functions.
+    * **Delete User** - Allows Administrator to Suspend or Delete an existing user account.(Currently under development)
+    * **Email Setup** - Allows Administrator to Add/Delete or Modify Email Templates which would be used by Volunteers to send Emails to Donors.These templates provide the bare structure on which the volunteers can build their mail and thus gives a standard interface to volunteers for quick email. These Email Templates are divided into the following parts
+        * **Salutation** - Eg Dear Mr XXX
+        * **Main Body** - The bare content of the Email
+        * **Closing** - Eg With Warm Regards
+        * **Signature** - Signature of the logged user
+        
 
 * **Donor Leader Board** - This module is visible by default and allows everyone to track the various donors who have committed and freezed the donation to the project. Only certian details of the donor are visible. In case the donor wished to remain anonymous, this facility could be added while commiting the donation amount.
 
@@ -111,7 +123,7 @@ The project used a MySQL database to store details of Donors,Communication (Tele
  - [x] Bulk Emailing :incoming_envelope:
  - [x] Bulk Emailing using Mail Merge :incoming_envelope:
  - [ ] Track Donor Communication
- - [ ] Commit Donation and Receipt
+ - [x] Commit Donation and Receipt
  - [ ] Accounting
  - [ ] Logging
 
