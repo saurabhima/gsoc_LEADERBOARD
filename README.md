@@ -152,7 +152,8 @@ The project used a MySQL database to store details of Donors,Communication (Tele
 This project is sponsored by Google Summer of Code 2017 and maintained by [Saurabh Singh](mailto:saurabhima@gmail.com) under the mentorship of James Salsman and Tom Hartung with support from the whole CMU Sphinx Team.
 
 ### Notes
-Completed  Receipt Generation & Accounting :credit_card: 
+Completed  Receipt Generation & Accounting :credit_card:
+ 
 Updating of README file for new endpoints and database needed to be done.
 
 ### Announcements 
