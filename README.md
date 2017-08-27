@@ -65,20 +65,20 @@ The Donor Management workflow System has the following sub modules which are acc
     * **Delete User** - Allows Administrator to Suspend or Delete an existing user account.(Currently under development)
     * **Email Setup** - Allows Administrator to Add/Delete or Modify Email Templates which would be used by Volunteers to send Emails to Donors.These templates provide the bare structure on which the volunteers can build their mail and thus gives a standard interface to volunteers for quick email. These Email Templates are divided into the following parts
         * **Salutation** - Eg Dear Mr XXX
-        * **Main Body** - The bare content of the Email
+        * **Main Body** - The Bare Content of the Email
         * **Closing** - Eg With Warm Regards
         * **Signature** - Signature of the logged user
-        
+    * **Allot Volunteer to Donor** - Allows Administrator to allot a dedicated Volunteer to every prospective donor who is responsible for 1contacting the donor and persuading him/her to donate money for the project. The volunteer would generally act as a __Single Point of Contact__ to the donor.
 
-* **Donor Leader Board** - This module is visible by default and allows everyone to track the various donors who have committed and freezed the donation to the project. Only certian details of the donor are visible. In case the donor wished to remain anonymous, this facility could be added while commiting the donation amount.
+* **Donor Leader Board** - This module is visible by default and allows everyone to track the various donors who have credited confirmed donations to the project . Only certain details of the donor are visible. In case the donor wished to remain anonymous, this facility could be added while committing the donation amount.
 
 * **Donor Management** - This sub modules allows the various authorized users to perform the following roles
-    * Add Prospective Donors
-    * Update Donor Contact
-    * Donor Phone Contact Logging
-    * Donor Mailing
-    * Donation Commit and Reciept
-    * Accounts
+    * __Add Prospective Donors__ - This module allows all users to add credentials of a new prospective user into the Workflow Application. 
+    * __Update Donor Contact__ - This module allows all users to modify contact information (including Phone and Email) of Donors who's details already exist in the Application. 
+    * __Donor Phone Contact Logging__ - This module allows all users to Log details of telephonic conversation with Donors. Details of previous Phone and Email Conversations are available to the Volunteer for reference. 
+    * __Donor Mailing (Including Single Mail,Bulk Email and Bulk Email with Mail Merge)__ - This module allows all users to send Emails to Donors using either a ___Saved Template___ or by using ___Manual Composition___ option. Once the volunteer selects a template they are provided with a semi-filled structure of the Email which can be modified before sending. Details pertaining the donor and the volunteer are automatically entered by the application in the respective fields 
+    * __Donation Commit__ - This module allows Volunteers to enter details of donations which have been committed by a donor. These details include the committed amount as well as the mode of transfer of the donation. These details are used by the Supervisors to track such users in order to facilitate easy transfer of the donation to the project account.  
+    * __Donation Credit and Receipt Generation__ - This module allows all users to enter details of donation amount which has been credited to the project account by committed donors. Once the details are entered in the application it allows automatic generation of ___Receipt___ in form of a PDF file which is automatically sent to the Donor on his email and in case if the Donor wishes it is also sent to him by Post.
 ### Directory Structure
 The project follows the standard Flask Directory Structure. The detailed directory structure is being updated and would be posted soon.
 
