@@ -11,7 +11,7 @@
                 <!-- Text input-->
                 <div class="block clear">
                     <label>Contact Person</label>
-                    <input name="contact_person" placeholder="Contact Person" class="form-control" type="text" value="{{ session['logged_user_full_name'] }}">
+                    <input name="contact_person" placeholder="Contact Person" class="form-control" type="text" value="{{ session['logged_user_full_name'] }}" data-validation="length" data-validation-length="min4">
                 </div>
                 <div class="block clear">
                     <label>Contact Date</label>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="block clear">
                     <label>Remarks</label>
-                    <textarea name="remarks" id="remarks" rows="6" placeholder="Remarks" class="form-control"></textarea>
+                    <textarea name="remarks" id="remarks" rows="6" placeholder="Remarks" class="form-control" data-validation="length" data-validation-length="min10"></textarea>
                 </div>
                 <!-- Button -->
                 <div class="block clear">
@@ -35,6 +35,13 @@
                 </div>
             </fieldset>
     </form>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  $.validate({
+    lang: 'en'
+  });
+</script>
 </div>
 </div>
 {% endblock %}

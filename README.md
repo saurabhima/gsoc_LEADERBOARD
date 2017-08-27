@@ -164,9 +164,12 @@ The project uses a large number of ___SQLAlchemy Models___ to connect to the app
  - [x] Commit Donation and Receipt
  - [ ] Accounting
  - [ ] Logging
-
+ - [x] Data Validation (Using [JQuery Form Validator](http://www.formvalidator.net))
+### Additional Files
+This project contains certain additional files which are used to perform various functions which are described below.
+* __mail_merge_tags.json__ - This JSON file contains details of Mail Merge tags which will be parsed while sending bulk emails using merging technique. All tags which are not mentioned in this file are discarded during processing.
 ### About the Author
-This project is sponsored by Google Summer of Code 2017 and maintained by [Saurabh Singh](mailto:saurabhima@gmail.com) under the mentorship of James Salsman and Tom Hartung with support from the whole CMU Sphinx Team.
+This project is sponsored by Google Summer of Code 2017 and maintained by [Saurabh Singh](mailto:saurabhima@gmail.com) under the mentorship of [James Salsman](https://www.linkedin.com/in/jsalsman) and Tom Hartung with support from the whole CMU Sphinx Team.
 
 ### Notes
 Completed  Receipt Generation & Accounting :credit_card:

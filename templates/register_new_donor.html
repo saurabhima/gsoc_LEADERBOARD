@@ -20,7 +20,7 @@
                 </div>
                 <div class="block clear">
                     <label>Donor Name</label>
-                    <input name="donor_name" placeholder="Donor Name" class="form-control" type="text">
+                    <input name="donor_name" placeholder="Donor Name" class="form-control" type="text" data-validation="length alphanumeric" data-validation-length="min4">
                 </div>
 
                 <!-- Text input-->
@@ -30,12 +30,12 @@
                 </div>
                 <div class="block clear">
                     <label>Donor Email</label>
-                    <input name="donor_email" placeholder="Donor Email" class="form-control" type="text">
+                    <input name="donor_email" placeholder="Donor Email" class="form-control" type="text" data-validation="email">
                 </div>
 
                 <div class="block clear">
                     <label>Donor Contact</label>
-                    <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text">
+                    <input name="donor_contact" placeholder="(845)555-1212" class="form-control" type="text" data-validation="number length"  data-validation-length="min10">
                 </div>
                 <div class="block clear">
                     <label style="color: #761c19">Keep Anonymous</label>
@@ -48,11 +48,11 @@
                 <h4>Contact Person Details</h4>
                 <div class="block clear">
                     <label>Contact Person</label>
-                    <input name="contact_person" placeholder="Contact Person" class="form-control" type="text" value="{{ session['logged_user_full_name'] }}">
+                    <input name="contact_person" placeholder="Contact Person" class="form-control" type="text" value="{{ session['logged_user_full_name'] }}" data-validation="length" data-validation-length="min4">
                 </div>
                 <div class="block clear">
                     <label>Contact Date</label>
-                    <input name="contact_date" placeholder="Contact Date" class="form-control datepicker" type="date">
+                    <input name="contact_date" placeholder="Contact Date" class="form-control datepicker" type="date" data-validation="required">
                     <!-- Button -->
                 </div>
                 <div class="block clear">
@@ -60,6 +60,13 @@
                 </div>
             </fieldset>
         </form>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  $.validate({
+    lang: 'es'
+  });
+</script>
         </div>
     </div>
 </div>
