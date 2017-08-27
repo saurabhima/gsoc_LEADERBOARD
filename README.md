@@ -81,7 +81,16 @@ The Donor Management workflow System has the following sub modules which are acc
     * __Donation Credit and Receipt Generation__ - This module allows all users to enter details of donation amount which has been credited to the project account by committed donors. Once the details are entered in the application it allows automatic generation of ___Receipt___ in form of a PDF file which is automatically sent to the Donor on his email and in case if the Donor wishes it is also sent to him by Post.
 ### Directory Structure
 The project follows the standard Flask Directory Structure. The detailed directory structure is being updated and would be posted soon.
-
+* __root__
+    * __static__
+        * ___css___ - Contains CSS files used by HTML files in ___templates___ folder
+        * ___fonts___ - Contains Fonts files used by HTML files in ___templates___ folder
+        * ___images___ - Contains images  used by HTML files in ___templates___ folder
+        * ___js___ - Contains Javascript files used by HTML files in ___templates___ folder
+    * __templates__ - Contains HTML templates used by Flask for various Endpoints.
+    * __tests__ - Contains Unit Test modules for testing the application
+  
+        
 ### Database
 The project used a MySQL database to store details of Donors,Communication (Telephonic & Email), User Details as well as Accounting transactions. The Current Scheme for the databse can be founded in the [___Schema.png___](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png) file in the repo.
  ![Schema](https://github.com/saurabhima/gsoc_LEADERBOARD/blob/master/Schema.png)
