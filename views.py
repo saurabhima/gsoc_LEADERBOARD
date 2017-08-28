@@ -6,7 +6,7 @@ import pickle
 import os
 import datetime
 import json
-from leaderboard import app
+from app import app
 from forms import UserRegistrationForm, DonorContactUpdateForm, DonorAddForm, DonationCommitForm,DonationCreditForm
 
 

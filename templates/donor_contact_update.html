@@ -31,7 +31,7 @@
                         <td>{{ line['contact_date'] }}</td>
                         <td>{{ line['donor_status'] }}</td>
                         <td>
-                            <form name="phone" action="/donor_contact_update_process" method="post">
+                            <form name="phone" action="donor_contact_update_process" method="post">
                                 <button type="submit" class="btn btn-warning" name="submit" value="{{ line['id'] }}">
                                     Update
                             </form>

@@ -1,4 +1,4 @@
-from leaderboard import *
+from app import *
 from models import User, Donor, DonorPhoneLog, CommittedDonation, EmailTemplate, DonorEmailLog, BulkEmailList, \
     CreditDonation
 from werkzeug.security import generate_password_hash, check_password_hash

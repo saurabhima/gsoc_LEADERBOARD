@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <title>SphinxCAPT.org Donor Workflow</title>
     <meta charset="utf-8">
+    <base href="/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Bootstrap -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/bootstrap-theme.min.css" rel="stylesheet">
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
 
 
 </head>
 <body>
 <div class="container"><h1 style="text-align: center"><u>SphinxCAPT.org Donor Workflow</u></h1><br><br></div>
 {% if session['login_status']=='True' %}
-    <div class="container"><h4>Welcome {{ session['logged_user_full_name'] }}<a href="\logout">(Logoff)</a></h4></div>
+    <div class="container"><h4>Welcome {{ session['logged_user_full_name'] }}<a href="logout">(Logoff)</a></h4></div>
 {% endif %}
 <div class="container">
     <table class="table-bordered" width="100%" cellspacing="0" id="donor-details-table" style="font-size: 20px">
@@ -83,7 +84,7 @@
 
 <div class="container">
     <br><br>
-    <form class="well form-horizontal" action="/send_bulk_email_donor_merge_transmit" method="post" id="donor_registration_form"
+    <form class="well form-horizontal" action="send_bulk_email_donor_merge_transmit" method="post" id="donor_registration_form"
           name="donor_registration_form">
         <fieldset>
 
