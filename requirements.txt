@@ -4,7 +4,7 @@ backports.functools-lru-cache==1.4
 click==6.7
 configparser==3.5.0
 enum34==1.1.6
-Flask==0.12.2
+Flask==1.0
 Flask-MySQLdb==0.2.0
 Flask-SQLAlchemy==2.2
 Flask-WTF==0.14.2
