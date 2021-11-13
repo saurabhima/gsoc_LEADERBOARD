@@ -22,7 +22,7 @@ oauth2client==4.1.1
 olefile==0.44
 pep8==1.7.0
 Pillow==8.3.2
-py==1.4.34
+py==1.10.0
 pyasn1==0.2.3
 pyasn1-modules==0.0.9
 PyDrive==1.3.1
